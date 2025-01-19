@@ -1,0 +1,28 @@
+@use "../abstracts/" as *;
+
+.glass-container {
+    background: rgba(237, 135, 33, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 30px rgba(237, 135, 33, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px; // Rounded edges
+    padding: 20px;
+    width: 300px;
+    height: 150px;
+  
+    // Optional: Center content inside the container
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  }
+
+  .message-header{
+    color: $color-2;
+  }
+
+  .message-sub-header{
+    color: $color-3;
+  }
+  
