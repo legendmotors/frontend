@@ -57,8 +57,8 @@ export default function FlatFilter3({
                         { value: "dongfeng", label: "Dongfeng" },
                         { value: "ford", label: "Ford" },
                       ]}
-                      placeholder="Make"
-                      isMulti={true}
+                      placeholder="Brand"
+
                       onChange={(values) => allProps.setMake(values)}
                     />
                   </div>
@@ -72,12 +72,12 @@ export default function FlatFilter3({
                         { value: "almera", label: "Almera" },
                         { value: "carnival", label: "Carnival" },
                       ]}
-                      placeholder="Model"
+                      placeholder="Model Name"
                       onChange={(value) => allProps.setModel(value)}
                     />
                   </div>
                 </div>
-                <div className="form-group-1">
+                {/* <div className="form-group-1">
                   <div className="group-select">
                     <DropdownSelect
                       options={[
@@ -89,16 +89,36 @@ export default function FlatFilter3({
                       onChange={(value) => allProps.setDoor(value)}
                     />
                   </div>
+                </div> */}
+                <div className="form-group-1">
+                  <div className="group-select">
+                    <DropdownSelect
+                      options={[
+                        { value: "2021", label: "2021" },
+                        { value: "2022", label: "2022" },
+                        { value: "2023", label: "2023" },
+                        { value: "2024", label: "2024" },
+                        { value: "2025", label: "2025" },
+                      ]}
+                      placeholder="Built Year"
+                      onChange={(value) => allProps.setDoor(value)}
+                    />
+                  </div>
                 </div>
                 <div className="form-group-1">
                   <div className="group-select">
                     <DropdownSelect
                       options={[
-                        { value: "convertible", label: "Convertible" },
+                        { value: "sedan", label: "Sedan" },
+                        { value: "suv", label: "SUV" },
+                        { value: "hatchback", label: "Hatchback" },
                         { value: "coupe", label: "Coupe" },
-                        { value: "crossover", label: "Crossover" },
+                        { value: "truck", label: "Truck" },
+                        { value: "van", label: "Van" },
+                        { value: "wagon", label: "Wagon" },
+                        { value: "convertible", label: "Convertible" },
                       ]}
-                      placeholder="Body"
+                      placeholder="Body Type"
                       onChange={(value) => allProps.setBody(value)}
                     />
                   </div>
@@ -135,88 +155,6 @@ export default function FlatFilter3({
             <div className="wd-find-select wd-search-form" ref={advanceSearch}>
               <div className="box1 grid-4">
                 <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      options={[
-                        { value: "diesel", label: "Diesel" },
-                        { value: "petrol", label: "Petrol" },
-                      ]}
-                      placeholder="Fuel Type"
-                      onChange={(value) => allProps.setFuel(value)}
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      options={[
-                        { value: "automatic", label: "Automatic" },
-                        { value: "manual", label: "Manual" },
-                      ]}
-                      placeholder="Transmission"
-                      onChange={(value) => allProps.setTransmission(value)}
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      options={[
-                        { value: "london", label: "London" },
-                        { value: "new_york", label: "New York" },
-                        { value: "paris", label: "Paris" },
-                      ]}
-                      placeholder="Location"
-                      onChange={(value) => allProps.setLocation(value)}
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <DropdownSelect
-                    options={[
-                      { value: "2_cylinder", label: "2 Cylinder" },
-                      { value: "3_cylinder", label: "3 Cylinder" },
-                      { value: "4_cylinder", label: "4 Cylinder" },
-                    ]}
-                    placeholder="Cylinder"
-                    onChange={(value) => allProps.setCylinder(value)}
-                  />
-                </div>
-              </div>
-              <div className="box1 grid-4">
-                <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      options={[
-                        { value: "black", label: "Black" },
-                        { value: "white", label: "White" },
-                        { value: "blue", label: "Blue" },
-                        { value: "red", label: "Red" },
-                      ]}
-                      placeholder="Color"
-                      onChange={(value) => allProps.setColor(value)}
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <div className="widget widget-price">
-                    <div className="caption flex-two">
-                      <div>
-                        <span className="fw-6">
-                          KM: {allProps.km[0]} km - {allProps.km[1]} km
-                        </span>
-                      </div>
-                    </div>
-                    <Pricing
-                      MIN={45000}
-                      MAX={115000}
-                      priceRange={allProps.km}
-                      setPriceRange={allProps.setKM}
-                    />
-                  </div>
-                  {/* /.widget_price */}
-                </div>
-                <div className="form-group wg-box3">
                   <div className="widget widget-price">
                     <div className="caption flex-two">
                       <div>
@@ -235,186 +173,102 @@ export default function FlatFilter3({
                   {/* /.widget_price */}
                 </div>
                 <div className="form-group wg-box3">
-                  <div className="widget widget-price">
-                    <div className="caption flex-two">
-                      <div>
-                        <span className="fw-6">
-                          Year: {allProps.year[0]} - {allProps.year[1]}
-                        </span>
-                      </div>
-                    </div>
-                    <Pricing
-                      MIN={2015}
-                      MAX={2025}
-                      priceRange={allProps.year}
-                      setPriceRange={allProps.setYear}
+                  <div className="group-select">
+                    <DropdownSelect
+                      options={[
+                        { value: "petrol", label: "Petrol" },
+                        { value: "diesel", label: "Diesel" },
+                        { value: "electric", label: "Electric" },
+                        { value: "hybrid", label: "Hybrid" },
+                        { value: "plug-in-hybrid", label: "Plug-in Hybrid" },
+                      ]}
+                      placeholder="Fuel Type"
+                      onChange={(value) => allProps.setFuel(value)}
                     />
                   </div>
-                  {/* /.widget_price */}
+                </div>
+                <div className="form-group wg-box3">
+                  <div className="group-select">
+                    <DropdownSelect
+                      options={[
+                        { value: "automatic", label: "Automatic" },
+                        { value: "manual", label: "Manual" },
+                        { value: "cvt", label: "CVT (Continuously Variable Transmission)" },
+                      ]}
+                      placeholder="Transmission"
+                      onChange={(value) => allProps.setTransmission(value)}
+                    />
+                  </div>
+                </div>
+                <div className="form-group wg-box3">
+                  <div className="group-select">
+                    <DropdownSelect
+                      options={[
+                        { value: "black", label: "Black" },
+                        { value: "white", label: "White" },
+                        { value: "blue", label: "Blue" },
+                        { value: "red", label: "Red" },
+                      ]}
+                      placeholder="Color"
+                      isMulti={true}
+                      onChange={(value) => allProps.setColor(value)}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="box1 grid-4">
+                {/* Number of doors filter */}
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      selectedValue={allProps.make}
-                      onChange={allProps.setMake}
                       options={[
-                        { value: "any_make", label: "Any Make" },
-                        { value: "audi", label: "Audi" },
-                        { value: "dongfeng", label: "Dongfeng" },
-                        { value: "bmw", label: "BMW" },
-                      ]}
-                      placeholder="Make"
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      selectedValue={allProps.model}
-                      onChange={allProps.setModel}
-                      options={[
-                        { value: "any_model", label: "Any Model" },
-                        { value: "a4", label: "A4" },
-                        { value: "almera", label: "Almera" },
-                        { value: "carnival", label: "Carnival" },
-                      ]}
-                      placeholder="Model"
-                    />
-                  </div>
-                </div>
-                <div className="form-group wg-box3">
-                  <div className="group-select">
-                    <DropdownSelect
-                      selectedValue={allProps.door}
-                      onChange={allProps.setDoor}
-                      options={[
-                        { value: "any_door", label: "Any Door" },
                         { value: "2_door", label: "2 Door" },
                         { value: "3_door", label: "3 Door" },
                         { value: "4_door", label: "4 Door" },
+                        { value: "5_door", label: "5 Door" },
                       ]}
-                      placeholder="Door"
+                      placeholder="Number of Doors"
+                      onChange={(value) => allProps.setDoors(value)}
                     />
                   </div>
                 </div>
+
+                {/* Engine size/type filter */}
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      selectedValue={allProps.body}
-                      onChange={allProps.setBody}
                       options={[
-                        { value: "any_body", label: "Any Body" },
-                        { value: "convertible", label: "Convertible" },
-                        { value: "coupe", label: "Coupe" },
-                        { value: "crossover", label: "Crossover" },
+                        { value: "1.0L", label: "1.0L" },
+                        { value: "1.5L", label: "1.5L" },
+                        { value: "2.0L", label: "2.0L" },
+                        { value: "3.0L", label: "3.0L" },
+                        { value: "v6", label: "V6" },
+                        { value: "v8", label: "V8" },
+                        { value: "electric", label: "Electric" },
                       ]}
-                      placeholder="Body"
+                      placeholder="Engine Size/Type"
+                      onChange={(value) => allProps.setEngine(value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Drivetrain filter */}
+                <div className="form-group wg-box3">
+                  <div className="group-select">
+                    <DropdownSelect
+                      options={[
+                        { value: "awd", label: "All-Wheel Drive (AWD)" },
+                        { value: "fwd", label: "Front-Wheel Drive (FWD)" },
+                        { value: "rwd", label: "Rear-Wheel Drive (RWD)" },
+                      ]}
+                      placeholder="Drivetrain"
+                      onChange={(value) => allProps.setDrivetrain(value)}
                     />
                   </div>
                 </div>
               </div>
-              <div className="boder-wg" />
+
               <div className="features-wrap">
-                <h5>Features</h5>
-                <div className="box2 grid-5">
-                  <div className="form-group wg-box4">
-                    <div className="title fs-16 fw-5 lh-20 text-color-2">
-                      Request Price Label
-                    </div>
-                    <div className="tf-amenities bg-white">
-                      {featureOptions.slice(0, 3).map((feature, index) => (
-                        <label className="flex-three" key={index}>
-                          <input
-                            readOnly
-                            checked={allProps.features.includes(feature)}
-                            type="checkbox"
-                            onClick={() => allProps.setFeatures(feature)}
-                          />
-                          <span className="btn-checkbox" />
-                          <span className="text-color-2 font-2">{feature}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="form-group wg-box4">
-                    <div className="title fs-16 fw-5 lh-20 text-color-2">
-                      Entertainment
-                    </div>
-                    <div className="tf-amenities bg-white">
-                      {featureOptions.slice(3, 6).map((feature, index) => (
-                        <label className="flex-three" key={index}>
-                          <input
-                            readOnly
-                            checked={allProps.features.includes(feature)}
-                            type="checkbox"
-                            onClick={() => allProps.setFeatures(feature)}
-                          />
-                          <span className="btn-checkbox" />
-                          <span className="text-color-2 font-2">{feature}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="form-group wg-box4">
-                    <div className="title fs-16 fw-5 lh-20 text-color-2">
-                      Safety
-                    </div>
-                    <div className="tf-amenities bg-white">
-                      {featureOptions.slice(6, 9).map((feature, index) => (
-                        <label className="flex-three" key={index}>
-                          <input
-                            readOnly
-                            checked={allProps.features.includes(feature)}
-                            type="checkbox"
-                            onClick={() => allProps.setFeatures(feature)}
-                          />
-                          <span className="btn-checkbox" />
-                          <span className="text-color-2 font-2">{feature}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="form-group wg-box4">
-                    <div className="title fs-16 fw-5 lh-20 text-color-2">
-                      Interior
-                    </div>
-                    <div className="tf-amenities bg-white">
-                      {featureOptions.slice(9, 12).map((feature, index) => (
-                        <label className="flex-three" key={index}>
-                          <input
-                            readOnly
-                            checked={allProps.features.includes(feature)}
-                            type="checkbox"
-                            onClick={() => allProps.setFeatures(feature)}
-                          />
-                          <span className="btn-checkbox" />
-                          <span className="text-color-2 font-2">{feature}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="form-group wg-box4">
-                    <div className="title fs-16 fw-5 lh-20 text-color-2">
-                      Exterior
-                    </div>
-                    <div className="tf-amenities bg-white">
-                      {featureOptions.slice(12, 15).map((feature, index) => (
-                        <label className="flex-three" key={index}>
-                          <input
-                            readOnly
-                            checked={allProps.features.includes(feature)}
-                            type="checkbox"
-                            onClick={() => allProps.setFeatures(feature)}
-                          />
-                          <span className="btn-checkbox" />
-                          <span className="text-color-2 font-2">{feature}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
                 <a
                   className="tf-btn-arrow wow fadeInUpSmall clear-filter mb-2"
                   onClick={clearFilter}

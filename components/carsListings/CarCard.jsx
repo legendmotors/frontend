@@ -98,22 +98,7 @@ const CarCard = ({ car }) => {
           </Link>
         </h5>
         <div className="icon-box flex flex-wrap">
-          <div className="icons flex-three">
-            <i className="icon-autodeal-km1" />
-            <span>{car.km.toLocaleString()} kms</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-diesel" />
-            <span>{car.fuelType}</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-automatic" />
-            <span>{car.transmission}</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-km1" />
-            <span>{car.km.toLocaleString()} kms</span>
-          </div>
+         
           <div className="icons flex-three">
             <i className="icon-autodeal-diesel" />
             <span>{car.fuelType}</span>
