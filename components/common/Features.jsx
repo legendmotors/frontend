@@ -1,6 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import LocalizedLink from "../translation/LocalizedLink";
 
 export default function Features() {
   return (
@@ -15,16 +16,14 @@ export default function Features() {
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Why Choose Legend Motors
+                  Why Choose Auto Decar
                 </h2>
                 <p
                   className="text-color-1 wow fadeInUpSmall"
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Our experienced team excels in car sales with many years of
-                  successfully navigating the market, delivering informed
-                  decisions and optimal results.
+                  Our dedicated team offers a wide selection of brand-new and certified vehicles, ensuring a seamless car-buying experience with trusted support.
                 </p>
               </div>
             </div>
@@ -36,8 +35,8 @@ export default function Features() {
         <div className="container">
           <div className="row section-icon-list z-2 relative">
             <div className="col-lg-12">
-              <div className="tf-sw-mobile4">
-                <div className=" grid-sw-4">
+              <div className="swiper-container overflow-visible tf-sw-mobile4">
+                <div className="swiper-wrapper grid-sw-4">
                   <div className="swiper-slide">
                     <div className="tf-icon-box style-1">
                       <div className="icon">
@@ -60,17 +59,16 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Browse inventory</a>
+                          <a href="#">Browse Our Cars</a>
                         </h3>
                         <p>
-                          Find the ideal car for you and browse our affordable
-                          inventory.
+                          Explore our extensive inventory of the latest models and certified pre-owned vehicles to find the perfect fit for your lifestyle.
                         </p>
                         <div className="meta style">
-                          <a href="#" className="btn-button">
-                            <span>Search inventory</span>
+                          <LocalizedLink href="/listing-grid" className=" btn-button">
+                            <span>Explore Inventory →</span>
                             <i className="icon-autodeal-next" />
-                          </a>
+                          </LocalizedLink>
                         </div>
                       </div>
                     </div>
@@ -101,22 +99,56 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Get An Offer</a>
+                          <a href="#">Latest Arrivals</a>
                         </h3>
                         <p>
-                          What's your car worth? Get the best value for your
-                          vehicle.
+                          Stay ahead with the newest car models added to our collection. Be the first to explore the latest features and technologies.
+                        </p>
+                        <div className="meta style">
+                          <LocalizedLink href="/listing-grid" className="btn-button">
+                            <span>View New Arrivals </span>
+                            <i className="icon-autodeal-next" />
+                          </LocalizedLink>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="swiper-slide">
+                    <div className="tf-icon-box style-1">
+                      <div className="icon">
+                        <svg
+                          width={60}
+                          height={60}
+                          viewBox="0 0 60 60"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10.2187 11.3438L10.9688 11.4375C10.5938 11.9062 10.4062 12.5625 10.5 13.2188L11.0625 22.3125C11.1563 23.1562 11.625 23.9062 12.2813 24.2812V25.7812C12.2813 27.0938 13.3125 28.125 14.625 28.125H18.5625C19.875 28.125 20.9062 27.0938 20.9062 25.7812V24.6562H36.6562V25.7812C36.6562 27.0938 37.6875 28.125 39 28.125H42.9375C44.25 28.125 45.2812 27.0938 45.2812 25.7812V24.0938C45.8438 23.625 46.2188 23.0625 46.2188 22.3125L46.7812 13.2188C46.875 12.5625 46.5938 12 46.3125 11.4375L47.1562 11.3438C48.6562 11.1562 49.875 9.84375 49.7812 8.15625C49.5937 6.75 48.375 5.71875 46.9687 5.625H44.625C43.875 5.625 43.125 5.90625 42.5625 6.46875C41.9062 4.96875 41.0625 3.5625 40.3125 2.34375C39.4688 0.9375 37.875 0 36.2812 0H21.1875C19.5 0 18 0.84375 17.0625 2.34375C16.125 3.84375 15.4688 5.0625 14.8125 6.46875C14.3438 5.90625 13.5938 5.625 12.8438 5.625L10.5 5.71875C8.90625 5.71875 7.6875 7.03125 7.6875 8.53125C7.6875 9.9375 8.8125 11.25 10.2187 11.3438ZM14.7188 10.5H42.6562C42.9375 10.875 43.2188 11.1562 43.5 11.4375C39.9375 12.0938 37.6875 13.875 36.375 15.5625C35.7187 16.4062 34.7812 16.7812 33.8437 16.7812H23.4375C22.5 16.7812 21.5625 16.3125 20.9062 15.5625C19.5937 13.9688 17.3438 12.0938 13.7812 11.4375C14.1562 11.1562 14.4375 10.7812 14.7188 10.5ZM43.7812 22.875H13.5938C13.2188 22.875 12.8438 22.5938 12.8438 22.2188L12.5625 17.5312C12.8438 17.5312 16.5938 19.7812 19.3125 16.5C20.3438 17.7188 21.5625 18.6562 23.4375 18.6562H33.9375C35.7188 18.6562 36.9375 17.8125 38.0625 16.5C39.375 18.0938 41.625 18.75 43.5938 18L44.7188 17.5312L44.4375 22.2188C44.5312 22.5938 44.1562 22.875 43.7812 22.875ZM18 15.1875C16.125 17.7188 13.125 15.6562 12.4688 15.5625L12.375 13.125C14.9062 13.2188 16.6875 14.1563 18 15.1875ZM45 13.125L44.9062 15.5625C44.25 15.6562 41.25 17.7188 39.375 15.1875C40.6875 14.1563 42.4688 13.2188 45 13.125ZM19.125 25.875C19.125 26.1562 18.8437 26.4375 18.5625 26.4375H14.625C14.3438 26.4375 14.0625 26.1562 14.0625 25.875V24.75H19.0312V25.875H19.125ZM43.0312 26.3438H39.0938C38.8125 26.3438 38.5312 26.0625 38.5312 25.7812V24.6562H43.5V25.7812C43.5 26.1562 43.3125 26.3438 43.0312 26.3438ZM44.625 7.5H46.9687C47.5312 7.5 48 7.875 48 8.34375C48 8.4375 48.0938 9.375 47.0625 9.46875L44.625 9.75C43.5 8.625 43.7812 8.4375 43.7812 8.34375C43.5938 7.875 44.0625 7.5 44.625 7.5ZM18.6562 3.28125C19.125 2.4375 20.1563 1.875 21.1875 1.875H36.2812C37.3125 1.875 38.25 2.4375 38.8125 3.28125C40.875 6.75 40.7812 6.84375 41.625 8.71875H15.8438C16.6875 6.75 16.5 6.75 18.6562 3.28125ZM10.5 7.5H12.8438C13.9688 7.40625 13.6875 8.625 13.7812 8.71875C13.5 9.1875 13.2188 9.5625 12.8438 9.84375L10.4063 9.5625C9.84375 9.46875 9.375 9.09375 9.375 8.53125C9.5625 8.4375 9.5625 7.59375 10.5 7.5Z"
+                            fill="CurrentColor"
+                          />
+                          <path
+                            d="M58.6875 26.4374C56.9062 23.9062 53.25 23.9999 51.5625 26.2499L39 39.5624C38.1562 37.7812 36.375 36.5624 34.4062 36.5624H23.25C22.2188 36.5624 21.2812 36.3749 20.3438 35.9062C15.6563 33.6562 10.0312 34.3124 6 37.6874L0.84375 41.9999C0.46875 42.2812 0.375 42.9374 0.75 43.3124C1.03125 43.6874 1.6875 43.7812 2.0625 43.4062L7.21875 39.0937C10.6875 36.1874 15.5625 35.6249 19.5938 37.5937C20.7188 38.1562 22.0312 38.4374 23.3438 38.4374H34.5C36.1875 38.4374 37.7812 39.7499 37.7812 41.7187C37.7812 43.4999 36.4688 44.9062 34.6875 44.9062H22.5938C22.125 44.9062 21.6562 45.2812 21.6562 45.8437C21.6562 46.4062 22.0312 46.7812 22.5938 46.7812H34.5C37.125 46.7812 39.375 44.7187 39.375 41.8124L52.9688 27.4687C54 26.0624 56.1562 26.0624 57.1875 27.5624C57.8438 28.4999 57.8438 29.8124 57.0938 30.7499L46.4062 44.8124C39.1875 54.3749 26.8125 57.1874 16.2187 53.9062C13.3125 52.9687 8.71875 53.6249 6 55.2187L0.9375 58.3124C0.46875 58.5937 0.375 59.1562 0.65625 59.5312C0.84375 59.9999 1.40625 60.0937 1.875 59.8124L7.125 56.7187C9.375 55.3124 13.4062 54.8437 15.8438 55.5937C27.0938 59.0624 40.2188 56.0624 48 45.8437L58.6875 31.7812C59.8125 30.1874 59.8125 28.0312 58.6875 26.4374Z"
+                            fill="CurrentColor"
+                          />
+                        </svg>
+                      </div>
+                      <div className="content">
+                        <h3>
+                          <a href="#">Special Offers</a>
+                        </h3>
+                        <p>
+                          Get access to exclusive deals and discounts on our wide range of vehicles.
                         </p>
                         <div className="meta style">
                           <a href="#" className="btn-button">
-                            <span>Get trade-in Value</span>
+                            <span>Apply Now</span>
                             <i className="icon-autodeal-next" />
                           </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
                   <div className="swiper-slide">
                     <div className="tf-icon-box style-1">
                       <div className="icon">
@@ -143,15 +175,14 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Expert Service</a>
+                          <a href="#">Contact Us</a>
                         </h3>
                         <p>
-                          Expert technicians will keep your vehicle in top
-                          running condition.
+                          Have questions or need assistance? Our experts are here to guide you through every step of your car-buying journey.
                         </p>
                         <div className="meta style">
                           <a href="#" className="btn-button">
-                            <span>Schedule Service</span>
+                            <span>Get in Touch</span>
                             <i className="icon-autodeal-next" />
                           </a>
                         </div>
@@ -336,7 +367,7 @@ export default function Features() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
     </>
   );
 }

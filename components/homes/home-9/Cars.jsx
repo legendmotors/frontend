@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import CarCard from "@/components/carsListings/CarCard";
 import { formatPriceAED } from "@/utility/formatedPriceAED";
+import LocalizedLink from "@/components/translation/LocalizedLink";
 const priceRanges = [
   {
     title: `${formatPriceAED(50000)} - ${formatPriceAED(80000)}`,
@@ -83,15 +84,15 @@ export default function Cars({title}) {
               >
                {title}
               </h2>
-              <Link
-                href={`/blog-grid`}
+              <LocalizedLink
+                href={`/listing-grid`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
                 View all
                 <i className="icon-autodeal-btn-right" />
-              </Link>
+              </LocalizedLink>
             </div>
           </div>
           <div className="col-lg-12">

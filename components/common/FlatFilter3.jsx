@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import DropdownSelect from "./DropDownSelect";
 import Pricing from "./Pricing";
 import { featureOptions } from "@/data/filterOptions";
+import LocalizedLink from "../translation/LocalizedLink";
 
 export default function FlatFilter3({
   tabStyle = "style2",
@@ -146,10 +147,10 @@ export default function FlatFilter3({
                 </a>
               </div>
               <div className="button-search sc-btn-top">
-                <a className="sc-button" href="#">
+                <LocalizedLink className="sc-button" href="/listing-grid">
                   <span>Find cars</span>
                   <i className="far fa-search text-color-1" />
-                </a>
+                </LocalizedLink>
               </div>
             </div>
             <div className="wd-find-select wd-search-form" ref={advanceSearch}>
