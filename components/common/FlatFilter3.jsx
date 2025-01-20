@@ -147,7 +147,7 @@ export default function FlatFilter3({
                 </a>
               </div>
               <div className="button-search sc-btn-top">
-                <LocalizedLink className="sc-button" href="/listing-grid">
+                <LocalizedLink className="sc-button" href="/listing-g">
                   <span>Find cars</span>
                   <i className="far fa-search text-color-1" />
                 </LocalizedLink>

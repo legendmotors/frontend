@@ -18,13 +18,12 @@ export default function page() {
               <div className="content relative z-2">
                 <div className="heading">
                   <h1 className="text-color-1">
-                    Buying and selling cars has <br />
-                    never been easier!
+                    Find Your Perfect New Car<br />
+                    with Advanced Filtering!
                   </h1>
                   <p className="text-color-1 fs-18 fw-4 lh-22 font">
-                    Leading online car buying and selling platform. helps users
-                    buy <br />
-                    cars that are right for them
+                    Explore our powerful new car filtering tool to discover models <br />
+                    that match your preferences and budget effortlessly.
                   </p>
                 </div>
               </div>
