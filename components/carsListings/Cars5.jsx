@@ -182,7 +182,7 @@ export default function Cars5() {
         <div className="content-left wg-dream sidebar-left-listing listing-list-car-wrap">
           <div className="category-filter flex justify-space align-center mb-30 flex-wrap gap-20">
             <div className="box-1">
-              <h2 className="heading-listing">Used cars for sale</h2>
+              <h2 className="heading-listing">Cars</h2>
             </div>
             <div className="box-2 flex flex-wrap gap-8">
               <ListGridToggler isGrid={isGrid} setIsGrid={setIsGrid} />

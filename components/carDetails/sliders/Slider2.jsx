@@ -105,7 +105,7 @@ export default function Slider2() {
               />
             </a>
             <div className="specs-features-wrap flex-three">
-              <a className="specs-features">
+              {/* <a className="specs-features">
                 <div className="icon">
                   <svg
                     width={18}
@@ -124,7 +124,7 @@ export default function Slider2() {
                   </svg>
                 </div>
                 <span className="fw-5 font text-color-2 lh-16">Video</span>
-              </a>
+              </a> */}
               <a className="specs-features" onClick={() => openLightbox(i)}>
                 <div className="icon">
                   {" "}

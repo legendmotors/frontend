@@ -21,7 +21,7 @@ export default function Recommended() {
               <a href="#">{elm.title}</a>
             </h6>
             <p className="fs-14 fw-7 text-color-2 font-1">
-              ${elm.price.toLocaleString()}
+            AED {elm.price.toLocaleString()}
             </p>
           </div>
         </div>
