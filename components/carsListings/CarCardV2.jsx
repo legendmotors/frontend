@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatPriceAED } from "@/utility/formatedPriceAED";
+import LocalizedLink from "../translation/LocalizedLink";
 
 export default function CarCardV2({ elm }) {
   return (
@@ -97,22 +98,7 @@ export default function CarCardV2({ elm }) {
           <Link href={`/listing-detail-v3/${elm.id}`}>{elm.title}</Link>
         </h5>
         <div className="icon-box flex flex-wrap">
-          <div className="icons flex-three">
-            <i className="icon-autodeal-km1" />
-            <span>{elm.km.toLocaleString()} kms</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-diesel" />
-            <span>{elm.fuelType}</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-automatic" />
-            <span>{elm.transmission}</span>
-          </div>
-          <div className="icons flex-three">
-            <i className="icon-autodeal-km1" />
-            <span>{elm.km.toLocaleString()} kms</span>
-          </div>
+         
           <div className="icons flex-three">
             <i className="icon-autodeal-diesel" />
             <span>{elm.fuelType}</span>
@@ -127,9 +113,9 @@ export default function CarCardV2({ elm }) {
         </div>
         <div className="days-box flex justify-space align-center">
          
-          <Link href={`/listing-detail-v3/${elm.id}`} className="view-car">
+          <LocalizedLink href={`/listing-detail-v3/${elm.id}`} className="view-car">
             View car
-          </Link>
+          </LocalizedLink>
         </div>
       </div>
     </div>
