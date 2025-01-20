@@ -119,24 +119,7 @@ const [state, dispatch] = useReducer(reducer, initialState);
                         <FlatFilter3 clearFilter={clearFilter} allProps={allProps} />
                       </div>
                     </div>
-                    <div className="wrap-icon flex align-center link-style-3 justify-center">
-                      <div className="icon-box text-color-1 font">
-                        <span className="icon-autodeal-suv" />
-                        <a href="#">SUV</a>
-                      </div>
-                      <div className="icon-box text-color-1 font">
-                        <span className="icon-autodeal-coupe" />
-                        <a href="#">Coupe</a>
-                      </div>
-                      <div className="icon-box text-color-1 font">
-                        <span className="icon-autodeal-hatchback" />
-                        <a href="#">Hatchback</a>
-                      </div>
-                      <div className="icon-box text-color-1 font">
-                        <span className="icon-autodeal-hybrid" />
-                        <a href="#">Hybrid</a>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>

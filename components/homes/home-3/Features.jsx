@@ -145,7 +145,7 @@ export default function Features() {
                       <a href="#">Pre-Owned vehicles</a>
                     </h5>
                     <p>
-                      AutoDecar has a great selection of pre-owned vehicles.
+                      Legend Motors has a great selection of pre-owned vehicles.
                     </p>
                   </div>
                 </div>
@@ -185,7 +185,7 @@ export default function Features() {
                       <a href="#">Certified pre-owned vehicles</a>
                     </h5>
                     <p>
-                      AutoDecar Demo has a great selection of certified
+                      Legend Motors Demo has a great selection of certified
                       pre-owned vehicles.
                     </p>
                   </div>

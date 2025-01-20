@@ -154,11 +154,11 @@ export default function Footer1() {
                 <Link href={`/`}>
                   <Image
                     className="lazyload"
-                    data-src="/assets/images/logo/legend-motors-logo.png"
+                    data-src="/assets/images/logo/footer-logo.png"
                     alt="img"
                     width={225}
                     height={40}
-                    src="/assets/images/logo/legend-motors-logo.png"
+                    src="/assets/images/logo/footer-logo.png"
                   />
                 </Link>
               </div>

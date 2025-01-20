@@ -186,7 +186,7 @@ export default function BlogDetails({ blogItem }) {
                   <div className="tags flex-three">
                     <p className="text-color-2 fw-5 font">Tags :</p>
                     <div className="flex fs-13 fw-6 link-style-1">
-                      <a href="#">AutoDecar</a>
+                      <a href="#">Legend Motors</a>
                       <a href="#">BMW</a>
                     </div>
                   </div>

@@ -20,7 +20,7 @@ export default function Banner2() {
                 data-wow-duration="1000ms"
               >
                 Are you looking for your dream car? Or want to sell your old car
-                for the best price? AutoDecar is the place for you!
+                for the best price? Legend Motors is the place for you!
               </p>
               <div
                 className="btn-wrap wow fadeInUpSmall"

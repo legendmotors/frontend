@@ -18,7 +18,7 @@ export default function Features() {
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Why Choose Auto Decar
+                  Why Choose Legend Motors
                 </h2>
                 <p
                   className="mt-18 wow fadeInUpSmall"

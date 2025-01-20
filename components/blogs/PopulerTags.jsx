@@ -1,5 +1,5 @@
 const tags = [
-  { href: "#", text: "AutoDecar" },
+  { href: "#", text: "Legend Motors" },
   { href: "#", text: "BMW" },
   { href: "#", text: "Design" },
   { href: "#", text: "Themesflat" },

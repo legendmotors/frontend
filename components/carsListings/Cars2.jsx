@@ -172,6 +172,43 @@ export default function Cars2() {
     }
     dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
   }, [filtered, sortingOption]);
+
+  useEffect(() => {
+    let filteredCars = [...allCars];
+  
+    // Apply filters in sequence to restrict available options
+    if (make !== "Any Make") {
+      filteredCars = filteredCars.filter((car) => car.make === make);
+    }
+  
+    if (model !== "Any Model") {
+      filteredCars = filteredCars.filter((car) => car.model === model);
+    }
+  
+    if (body !== "Any Body") {
+      filteredCars = filteredCars.filter((car) => car.body === body);
+    }
+  
+    if (fuel !== "Any Fuel") {
+      filteredCars = filteredCars.filter((car) => car.fuelType === fuel);
+    }
+  
+    if (transmission !== "Any Transmission") {
+      filteredCars = filteredCars.filter((car) => car.transmission === transmission);
+    }
+  
+    // Update available filter options dynamically
+    const updatedMakes = [...new Set(filteredCars.map((car) => car.make))];
+    const updatedModels = [...new Set(filteredCars.map((car) => car.model))];
+    const updatedBodies = [...new Set(filteredCars.map((car) => car.body))];
+    const updatedFuels = [...new Set(filteredCars.map((car) => car.fuelType))];
+  
+    dispatch({ type: "SET_FILTERED", payload: filteredCars });
+    dispatch({ type: "SET_AVAILABLE_MAKES", payload: updatedMakes });
+    dispatch({ type: "SET_AVAILABLE_MODELS", payload: updatedModels });
+    dispatch({ type: "SET_AVAILABLE_BODIES", payload: updatedBodies });
+    dispatch({ type: "SET_AVAILABLE_FUELS", payload: updatedFuels });
+  }, [make, model, body, fuel, transmission]);
   return (
     <>
       <div className="flat-filter-search mt--3">

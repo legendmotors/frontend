@@ -1,26 +1,26 @@
 export const toggleItems = [
   {
-    title: "What is AutoDecar.com?",
+    title: "What is Legend Motors.com?",
     content:
       "Once your account is set up and you've familiarized yourself with the platform, you are ready to start using our services. Whether it's accessing specific features, making transactions, or utilizing our tools, you'll find everything you need at your fingertips.",
   },
   {
-    title: "How do I access AutoDecar.com?",
+    title: "How do I access Legend Motors.com?",
     content:
       "Once your account is set up and you've familiarized yourself with the platform, you are ready to start using our services. Whether it's accessing specific features, making transactions, or utilizing our tools, you'll find everything you need at your fingertips.",
   },
   {
-    title: "How is AutoDecar content organized?",
+    title: "How is Legend Motors content organized?",
     content:
       "Once your account is set up and you've familiarized yourself with the platform, you are ready to start using our services. Whether it's accessing specific features, making transactions, or utilizing our tools, you'll find everything you need at your fingertips.",
   },
   {
-    title: "What kind of topics can be found on AutoDecar.com?",
+    title: "What kind of topics can be found on Legend Motors.com?",
     content:
       "Once your account is set up and you've familiarized yourself with the platform, you are ready to start using our services. Whether it's accessing specific features, making transactions, or utilizing our tools, you'll find everything you need at your fingertips.",
   },
   {
-    title: "How frequently is AutoDecar updated?",
+    title: "How frequently is Legend Motors updated?",
     content:
       "Once your account is set up and you've familiarized yourself with the platform, you are ready to start using our services. Whether it's accessing specific features, making transactions, or utilizing our tools, you'll find everything you need at your fingertips.",
   },

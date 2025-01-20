@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 const priceRanges = [
-  { title: "Auto Decar used cars", isActive: true, range: null },
+  { title: "Legend Motors used cars", isActive: true, range: null },
   {
     title: "$50.000 - $70.000",
     isActive: false,

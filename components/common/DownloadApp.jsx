@@ -23,7 +23,7 @@ export default function DownloadApp({ parentClass = "tf-section-banner" }) {
                 </h2>
                 <p className="text-color-1">
                   Whether you're buying, selling, or simply researching cars,
-                  AutoDecar is the app for you.
+                  Legend Motors is the app for you.
                 </p>
                 <div className="flex gap-8">
                   <a href="#">
