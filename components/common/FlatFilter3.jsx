@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DropdownSelect from "./DropDownSelect";
 import Pricing from "./Pricing";
 import { featureOptions } from "@/data/filterOptions";
 import LocalizedLink from "../translation/LocalizedLink";
+import { carData } from "@/data/carData";
 
 export default function FlatFilter3({
   tabStyle = "style2",
@@ -41,6 +42,56 @@ export default function FlatFilter3({
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const [filters, setFilters] = useState({
+    make: null,
+    model: null,
+    year: null,
+    bodyType: null,
+    price: [50000, 300000],
+    fuel: null,
+    transmission: null,
+    color: null,
+    doors: null,
+    engine: null,
+    drivetrain: null,
+  });
+
+  // Function to update state and recalculate filter options
+  const updateFilters = (key, value) => {
+    const updatedFilters = { ...filters, [key]: value };
+
+    // Filtering logic based on selected options
+    let filteredData = { ...carData };
+
+    // Apply constraints based on selected filters
+    Object.keys(updatedFilters).forEach((filterKey) => {
+      if (updatedFilters[filterKey]) {
+        filteredData.makes = Object.keys(carData.makes).reduce((acc, make) => {
+          const makeData = carData.makes[make];
+
+          // Check if the current filter value is available in this make
+          if (
+            (!updatedFilters.make || make === updatedFilters.make) &&
+            (!updatedFilters.model || makeData.models.includes(updatedFilters.model)) &&
+            (!updatedFilters.year || makeData.years.includes(updatedFilters.year)) &&
+            (!updatedFilters.bodyType || makeData.bodyTypes.includes(updatedFilters.bodyType)) &&
+            (!updatedFilters.fuel || makeData.fuelTypes.includes(updatedFilters.fuel)) &&
+            (!updatedFilters.transmission || makeData.transmission.includes(updatedFilters.transmission)) &&
+            (!updatedFilters.color || makeData.colors.includes(updatedFilters.color)) &&
+            (!updatedFilters.doors || makeData.doors.includes(updatedFilters.doors)) &&
+            (!updatedFilters.engine || makeData.engines.includes(updatedFilters.engine)) &&
+            (!updatedFilters.drivetrain || makeData.drivetrain.includes(updatedFilters.drivetrain))
+          ) {
+            acc[make] = makeData;
+          }
+          return acc;
+        }, {});
+      }
+    });
+
+    setFilters(updatedFilters);
+  };
   return (
     <div className={`content-tab ${tabStyle}`}>
       <div className="content-inner tab-content">
@@ -51,30 +102,24 @@ export default function FlatFilter3({
                 <div className="form-group-1">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "infinity", label: "Infinity" },
-                        { value: "audi", label: "Audi" },
-                        { value: "bmw", label: "BMW" },
-                        { value: "dongfeng", label: "Dongfeng" },
-                        { value: "ford", label: "Ford" },
-                      ]}
+                      options={Object.keys(carData.makes).map((make) => ({
+                        value: make,
+                        label: make.toUpperCase(),
+                      }))}
                       placeholder="Brand"
-
-                      onChange={(values) => allProps.setMake(values)}
+                      onChange={(value) => updateFilters("make", value)}
                     />
                   </div>
                 </div>
                 <div className="form-group-1">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "sedanx50", label: "Sedanx50" },
-                        { value: "a4", label: "A4" },
-                        { value: "almera", label: "Almera" },
-                        { value: "carnival", label: "Carnival" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].models : []).map((model) => ({
+                        value: model,
+                        label: model,
+                      }))}
                       placeholder="Model Name"
-                      onChange={(value) => allProps.setModel(value)}
+                      onChange={(value) => updateFilters("model", value)}
                     />
                   </div>
                 </div>
@@ -93,34 +138,27 @@ export default function FlatFilter3({
                 </div> */}
                 <div className="form-group-1">
                   <div className="group-select">
+
                     <DropdownSelect
-                      options={[
-                        { value: "2021", label: "2021" },
-                        { value: "2022", label: "2022" },
-                        { value: "2023", label: "2023" },
-                        { value: "2024", label: "2024" },
-                        { value: "2025", label: "2025" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].years : []).map((year) => ({
+                        value: year,
+                        label: year,
+                      }))}
                       placeholder="Built Year"
-                      onChange={(value) => allProps.setDoor(value)}
+                      onChange={(value) => updateFilters("year", value)}
                     />
                   </div>
                 </div>
                 <div className="form-group-1">
                   <div className="group-select">
+
                     <DropdownSelect
-                      options={[
-                        { value: "sedan", label: "Sedan" },
-                        { value: "suv", label: "SUV" },
-                        { value: "hatchback", label: "Hatchback" },
-                        { value: "coupe", label: "Coupe" },
-                        { value: "truck", label: "Truck" },
-                        { value: "van", label: "Van" },
-                        { value: "wagon", label: "Wagon" },
-                        { value: "convertible", label: "Convertible" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].bodyTypes : []).map((body) => ({
+                        value: body,
+                        label: body,
+                      }))}
                       placeholder="Body Type"
-                      onChange={(value) => allProps.setBody(value)}
+                      onChange={(value) => updateFilters("bodyType", value)}
                     />
                   </div>
                 </div>
@@ -165,10 +203,10 @@ export default function FlatFilter3({
                       </div>
                     </div>
                     <Pricing
-                      MIN={45000}
-                      MAX={115000}
-                      priceRange={allProps.price}
-                      setPriceRange={allProps.setPrice}
+                      MIN={filters.make ? carData.makes[filters.make].priceRange[0] : 50000}
+                      MAX={filters.make ? carData.makes[filters.make].priceRange[1] : 300000}
+                      priceRange={filters.price}
+                      setPriceRange={(value) => updateFilters("price", value)}
                     />
                   </div>
                   {/* /.widget_price */}
@@ -176,43 +214,37 @@ export default function FlatFilter3({
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "petrol", label: "Petrol" },
-                        { value: "diesel", label: "Diesel" },
-                        { value: "electric", label: "Electric" },
-                        { value: "hybrid", label: "Hybrid" },
-                        { value: "plug-in-hybrid", label: "Plug-in Hybrid" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].fuelTypes : []).map((fuel) => ({
+                        value: fuel,
+                        label: fuel,
+                      }))}
                       placeholder="Fuel Type"
-                      onChange={(value) => allProps.setFuel(value)}
+                      onChange={(value) => updateFilters("fuel", value)}
                     />
                   </div>
                 </div>
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "automatic", label: "Automatic" },
-                        { value: "manual", label: "Manual" },
-                        { value: "cvt", label: "CVT (Continuously Variable Transmission)" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].transmission : []).map((trans) => ({
+                        value: trans,
+                        label: trans,
+                      }))}
                       placeholder="Transmission"
-                      onChange={(value) => allProps.setTransmission(value)}
+                      onChange={(value) => updateFilters("transmission", value)}
                     />
                   </div>
                 </div>
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "black", label: "Black" },
-                        { value: "white", label: "White" },
-                        { value: "blue", label: "Blue" },
-                        { value: "red", label: "Red" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].colors : []).map((color) => ({
+                        value: color,
+                        label: color,
+                      }))}
                       placeholder="Color"
                       isMulti={true}
-                      onChange={(value) => allProps.setColor(value)}
+                      onChange={(value) => updateFilters("color", value)}
                     />
                   </div>
                 </div>
@@ -222,14 +254,12 @@ export default function FlatFilter3({
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "2_door", label: "2 Door" },
-                        { value: "3_door", label: "3 Door" },
-                        { value: "4_door", label: "4 Door" },
-                        { value: "5_door", label: "5 Door" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].doors : []).map((door) => ({
+                        value: door,
+                        label: door,
+                      }))}
                       placeholder="Number of Doors"
-                      onChange={(value) => allProps.setDoors(value)}
+                      onChange={(value) => updateFilters("doors", value)}
                     />
                   </div>
                 </div>
@@ -238,17 +268,12 @@ export default function FlatFilter3({
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "1.0L", label: "1.0L" },
-                        { value: "1.5L", label: "1.5L" },
-                        { value: "2.0L", label: "2.0L" },
-                        { value: "3.0L", label: "3.0L" },
-                        { value: "v6", label: "V6" },
-                        { value: "v8", label: "V8" },
-                        { value: "electric", label: "Electric" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].engines : []).map((engine) => ({
+                        value: engine,
+                        label: engine,
+                      }))}
                       placeholder="Engine Size/Type"
-                      onChange={(value) => allProps.setEngine(value)}
+                      onChange={(value) => updateFilters("engine", value)}
                     />
                   </div>
                 </div>
@@ -257,13 +282,12 @@ export default function FlatFilter3({
                 <div className="form-group wg-box3">
                   <div className="group-select">
                     <DropdownSelect
-                      options={[
-                        { value: "awd", label: "All-Wheel Drive (AWD)" },
-                        { value: "fwd", label: "Front-Wheel Drive (FWD)" },
-                        { value: "rwd", label: "Rear-Wheel Drive (RWD)" },
-                      ]}
+                      options={(filters.make ? carData.makes[filters.make].drivetrain : []).map((drive) => ({
+                        value: drive,
+                        label: drive,
+                      }))}
                       placeholder="Drivetrain"
-                      onChange={(value) => allProps.setDrivetrain(value)}
+                      onChange={(value) => updateFilters("drivetrain", value)}
                     />
                   </div>
                 </div>
