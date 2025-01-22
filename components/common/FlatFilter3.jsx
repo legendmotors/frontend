@@ -61,37 +61,31 @@ export default function FlatFilter3({
   const updateFilters = (key, value) => {
     const updatedFilters = { ...filters, [key]: value };
 
-    // Filtering logic based on selected options
-    let filteredData = { ...carData };
+    let filteredMakes = Object.keys(carData.makes).reduce((acc, make) => {
+      const makeData = carData.makes[make];
 
-    // Apply constraints based on selected filters
-    Object.keys(updatedFilters).forEach((filterKey) => {
-      if (updatedFilters[filterKey]) {
-        filteredData.makes = Object.keys(carData.makes).reduce((acc, make) => {
-          const makeData = carData.makes[make];
-
-          // Check if the current filter value is available in this make
-          if (
-            (!updatedFilters.make || make === updatedFilters.make) &&
-            (!updatedFilters.model || makeData.models.includes(updatedFilters.model)) &&
-            (!updatedFilters.year || makeData.years.includes(updatedFilters.year)) &&
-            (!updatedFilters.bodyType || makeData.bodyTypes.includes(updatedFilters.bodyType)) &&
-            (!updatedFilters.fuel || makeData.fuelTypes.includes(updatedFilters.fuel)) &&
-            (!updatedFilters.transmission || makeData.transmission.includes(updatedFilters.transmission)) &&
-            (!updatedFilters.color || makeData.colors.includes(updatedFilters.color)) &&
-            (!updatedFilters.doors || makeData.doors.includes(updatedFilters.doors)) &&
-            (!updatedFilters.engine || makeData.engines.includes(updatedFilters.engine)) &&
-            (!updatedFilters.drivetrain || makeData.drivetrain.includes(updatedFilters.drivetrain))
-          ) {
-            acc[make] = makeData;
-          }
-          return acc;
-        }, {});
+      // Check all filters dynamically
+      if (
+        (!updatedFilters.make || make === updatedFilters.make) &&
+        (!updatedFilters.model || makeData.models.includes(updatedFilters.model)) &&
+        (!updatedFilters.year || makeData.years.includes(updatedFilters.year)) &&
+        (!updatedFilters.bodyType || makeData.bodyTypes.includes(updatedFilters.bodyType)) &&
+        (!updatedFilters.fuel || makeData.fuelTypes.includes(updatedFilters.fuel)) &&
+        (!updatedFilters.transmission || makeData.transmission.includes(updatedFilters.transmission)) &&
+        (!updatedFilters.color || makeData.colors.includes(updatedFilters.color)) &&
+        (!updatedFilters.doors || makeData.doors.includes(updatedFilters.doors)) &&
+        (!updatedFilters.engine || makeData.engines.includes(updatedFilters.engine)) &&
+        (!updatedFilters.drivetrain || makeData.drivetrain.includes(updatedFilters.drivetrain))
+      ) {
+        acc[make] = makeData;
       }
-    });
+      return acc;
+    }, {});
 
     setFilters(updatedFilters);
+    setFilteredData(filteredMakes);
   };
+
   return (
     <div className={`content-tab ${tabStyle}`}>
       <div className="content-inner tab-content">
