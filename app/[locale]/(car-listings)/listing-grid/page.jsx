@@ -1,4 +1,5 @@
 import Cars2 from "@/components/carsListings/Cars2";
+import Cars3 from "@/components/carsListings/Cars3";
 import Footer1 from "@/components/footers/Footer1";
 import Header2 from "@/components/headers/Header2";
 import React from "react";
@@ -31,7 +32,7 @@ export default function page() {
           </div>
         </div>
       </section>
-      <Cars2 />
+      <Cars3 />
       <Footer1 />
     </>
   );

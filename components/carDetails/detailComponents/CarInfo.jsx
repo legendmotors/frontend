@@ -1,37 +1,31 @@
 import { allCars } from "@/data/cars";
 import React from "react";
 
-export default function CarInfo({ carItem = allCars[0] }) {
+export default function CarInfo({ carItem = allCars[0], currency, convertedPrice }) {
   return (
     <>
       <div className="icon-box flex flex-wrap">
         <div className="icons flex-three">
-          <i className="icon-autodeal-km1" />
-          <span>{carItem.km.toLocaleString()} kms</span>
+          <i className="fa fa-cogs" />
+          <span className="ms-2">Petrol</span>
         </div>
         <div className="icons flex-three">
-          <i className="icon-autodeal-diesel" />
-          <span>{carItem.fuelType}</span>
+          <i className="fa fa-gas-pump" />
+          <span className="ms-2">Manual</span>
         </div>
         <div className="icons flex-three">
-          <i className="icon-autodeal-automatic" />
-          <span>{carItem.transmission}</span>
+          <i className="fa fa-tachometer-alt" />
+          <span className="ms-2">V8</span>
         </div>
         <div className="icons flex-three">
-          <i className="icon-autodeal-owner" />
-          <span>1st owner</span>
+          <i className="fa fa-flag" />
+          <span className="ms-2">Oman Spec</span>
         </div>
       </div>
       <div className="money text-color-3 font">
-        ${carItem.price.toLocaleString()}
+        {currency} {convertedPrice}
       </div>
-      <div className="price-wrap">
-        <p className="fs-12 lh-16 text-color-2">
-          Monthly installment payment:
-          <span className="fs-14 fw-5 font">$4,000</span>
-        </p>
-        <p className="fs-12 lh-16">New car price: $100.000</p>
-      </div>
+
       <ul className="action-icon flex flex-wrap">
         <li>
           <a href="#" className="icon">

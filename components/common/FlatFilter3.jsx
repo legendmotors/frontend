@@ -87,7 +87,7 @@ export default function FlatFilter3({
   };
 
   return (
-    <div className={`content-tab ${tabStyle}`}>
+    <div className={`content-tab ${tabStyle} `}>
       <div className="content-inner tab-content">
         <div className="form-sl">
           <form onSubmit={(e) => e.preventDefault()}>

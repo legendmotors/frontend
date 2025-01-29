@@ -1,20 +1,32 @@
+/* Define the font for text content (Effra_Std_Rg.ttf) */
 @font-face {
-  font-family: 'autodeal';
-  src: url('fonts/autodeal.eot?eblay1');
-  src: url('fonts/Effra_Std_Rg.ttf') format('truetype'),
-    /* url('fonts/autodeal.eot?eblay1#iefix') format('embedded-opentype'), */
-  ;
-  /* url('fonts/autodeal.woff?eblay1') format('woff'),
-    url('fonts/autodeal.svg?eblay1#autodeal') format('svg'); */
+  font-family: 'text-font';
+  src: url('fonts/Effra_Std_Rg.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
+/* Define the font for icons (autodeal) */
+@font-face {
+  font-family: 'icon-font';
+  src: url('fonts/autodeal.eot?eblay1#iefix') format('embedded-opentype'),
+       url('fonts/autodeal.woff?eblay1') format('woff'),
+       url('fonts/autodeal.svg?eblay1#autodeal') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+/* Apply the 'text-font' for general text content, including buttons */
+body, button, input, textarea {
+  font-family: 'text-font', sans-serif !important; /* Default font for text and buttons */
+}
+
+/* Apply the 'icon-font' for icon classes */
 [class^="icon-autodeal-"],
 [class*=" icon-autodeal-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'autodeal' !important;
+  font-family: 'icon-font' !important; /* Ensure icons use the correct font */
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -22,10 +34,21 @@
   text-transform: none;
   line-height: 1;
 
-  /* Better Font Rendering =========== */
+  /* Better Font Rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Apply the correct icon font to the before pseudo-element */
+[class^="icon-autodeal-"]:before,
+[class*=" icon-autodeal-"]:before {
+  font-family: 'icon-font' !important; /* Ensures icons use the correct icon font */
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+}
+
 
 .icon-autodeal-account:before {
   content: "\e900";

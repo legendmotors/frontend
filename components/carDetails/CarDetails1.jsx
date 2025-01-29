@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import Slider1 from "./sliders/Slider1";
 import Image from "next/image";
 import Description from "./detailComponents/Description";
@@ -11,49 +12,90 @@ import ProfileInfo from "./detailComponents/ProfileInfo";
 import Recommended from "./detailComponents/Recommended";
 import Features from "./detailComponents/Features";
 import SidebarToggleButton from "./SidebarToggleButton";
+import Cookies from "js-cookie";
 export default function CarDetails1({ carItem }) {
+  const formRef = useRef();
+  const [success, setSuccess] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleShowMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+  };
+
+  const sendMail = (e) => {
+    e.preventDefault();
+    emailjs
+      .sendForm("service_noj8796", "template_fs3xchn", formRef.current, {
+        publicKey: "iG4SCmR-YtJagQ4gV",
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setSuccess(true);
+          handleShowMessage();
+
+          formRef.current.reset();
+        } else {
+          setSuccess(false);
+          handleShowMessage();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
+    const [exchangeRate, setExchangeRate] = useState(1);
+  
+    // Function to fetch exchange rate whenever currency changes
+    const fetchExchangeRate = async (newCurrency) => {
+      if (newCurrency !== "AED") {
+        try {
+          const res = await fetch(`/api/currency?to=${newCurrency}`);
+          const data = await res.json();
+          if (data.rates && data.rates[newCurrency]) {
+            setExchangeRate(data.rates[newCurrency]);
+          }
+        } catch (error) {
+          setExchangeRate(1); // Default to 1 if API fails
+        }
+      } else {
+        setExchangeRate(1); // If AED, no conversion needed
+      }
+    };
+  
+    // Effect to listen for currency changes
+    useEffect(() => {
+      const interval = setInterval(() => {
+        const savedCurrency = Cookies.get("NEXT_CURRENCY") || "AED";
+        if (savedCurrency !== currency) {
+          setCurrency(savedCurrency);
+          fetchExchangeRate(savedCurrency);
+        }
+      }, 2000); // Check every 2 seconds for changes
+  
+      return () => clearInterval(interval);
+    }, [currency]);
+  
+    // Calculate the converted price
+    const convertedPrice = Math.round(74896 * exchangeRate);
+
+
   return (
     <>
       <section className="tf-section3 listing-detail style-1">
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
+
               <div className="listing-detail-wrap">
                 <Slider1 />
                 <div className="row">
                   <div className="col-lg-12">
-                    <nav
-                      id="navbar-example2"
-                      className="navbar tab-listing-scroll"
-                    >
-                      <ul className="nav nav-pills">
-                        <li className="nav-item">
-                          <a className="nav-link" href="#scrollspyHeading1">
-                            Overview
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="#scrollspyHeading2">
-                            Specs &amp; features
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="#scrollspyHeading3">
-                            Recommended cars
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="#scrollspyHeading4">
-                            Loan calculator
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" href="#scrollspyHeading5">
-                            New car reviews
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                    
                     <div
                       data-bs-spy="scroll"
                       data-bs-target="#navbar-example2"
@@ -92,50 +134,7 @@ export default function CarDetails1({ carItem }) {
                         </div>
                         <Features />
                       </div>
-                      <div className="listing-line" />
-                      <div
-                        className="listing-calculator loan-calculator-form"
-                        id="scrollspyHeading4"
-                      >
-                        <div className="box-title">
-                          <h2 className="title-ct">Auto Loan Calculator</h2>
-                          <p>
-                            Use our calculator to estimate your monthly car
-                            payments.
-                          </p>
-                        </div>
-                        <LoanCalculator />
-                      </div>
-                      <div className="listing-line" />
-                      <div className="listing-location" id="scrollspyHeading3">
-                        <div className="box-title">
-                          <h2 className="title-ct">Location</h2>
-                          <div className="list-icon-pf gap-8 flex-three">
-                            <i className="far fa-map" />
-                            <p className="font-1">
-                              2972 Westheimer Rd. Santa Ana, Illinois 85486
-                            </p>
-                          </div>
-                        </div>
-                        <iframe
-                          className="map-content"
-                          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7302.453092836291!2d90.47477022812872!3d23.77494577893369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1627293157601!5m2!1svi!2s"
-                          allowFullScreen=""
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="listing-line" />
-                      <div
-                        className="listing-reviews flat-property-detail"
-                        id="scrollspyHeading5"
-                      >
-                        <div className="box-title">
-                          <h2 className="title-ct">
-                            Car User Reviews &amp; Rating
-                          </h2>
-                        </div>
-                        <CarReview />
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -147,26 +146,89 @@ export default function CarDetails1({ carItem }) {
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
                     <h2 className="title">{carItem.title}</h2>
-                    <CarInfo carItem={carItem} />
+                    <CarInfo carItem={carItem} currency={currency} convertedPrice={convertedPrice} />
                   </div>
                 </div>
-                <div className="widget-listing mb-30">
-                  <ProfileInfo />
+                <div className="widget-listing mb-30 box-sd">
+                  <div id="comments" className="comments">
+                    <div className="respond-comment">
+                    <h3 className=" mb-2">Enquire Now</h3>
+                      <form
+                        onSubmit={sendMail}
+                        ref={formRef}
+                        id="loan-calculator"
+                        className="comment-form form-submit"
+                        acceptCharset="utf-8"
+                      >
+                        <div className="">
+                          <fieldset className="email-wrap style-text">
+                            <label className="font-1 fs-14 fw-5">Name</label>
+                            <input
+                              type="text"
+                              className="tb-my-input"
+                              name="name"
+                              placeholder="Your name"
+                              required
+                            />
+                          </fieldset>
+                          <fieldset className="email-wrap style-text">
+                            <label className="font-1 fs-14 fw-5">
+                              Phone Numbers
+                            </label>
+                            <input
+                              type="tel"
+                              className="tb-my-input"
+                              name="tel"
+                              placeholder="Phone Numbers"
+                              required
+                            />
+                          </fieldset>
+                          <fieldset className="phone-wrap style-text">
+                            <label className="font-1 fs-14 fw-5">
+                              Email address
+                            </label>
+                            <input
+                              type="email"
+                              className="tb-my-input"
+                              name="email"
+                              placeholder="Your email"
+                              required
+                            />
+                          </fieldset>
+                        </div>
+
+
+                        <div
+                          className={`tfSubscribeMsg  footer-sub-element ${showMessage ? "active" : ""
+                            }`}
+                        >
+                          {success ? (
+                            <p style={{ color: "rgb(52, 168, 83)" }}>
+                              Message has been sent successfully
+                            </p>
+                          ) : (
+                            <p style={{ color: "red" }}>Something went wrong</p>
+                          )}
+                        </div>
+                        <div className="button-boxs">
+                          <button className="sc-button" name="submit" type="submit">
+                            <span>Send</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
                 </div>
-                <div className="list-icon-pf gap-8 flex-three mb-40">
-                  <i className="far fa-flag" />
-                  <p className="font-1">Report this listing</p>
-                </div>
-                <div className="widget-listing">
+                <div className="widget-listing box-sd">
                   <div className="listing-header mb-30">
-                    <h3>Recommended Used Cars</h3>
-                    <p>Showing 26 more cars you might like</p>
+                    <h3>Recommended Cars</h3>
                   </div>
                   <Recommended />
                   <a href="#" className="fs-16 fw-5 font text-color-3 lh-22">
-                    View more reviews <i className="icon-autodeal-view-more" />
+                    View more  <i className="icon-autodeal-view-more" />
                   </a>
                 </div>
+
               </div>
             </div>
           </div>

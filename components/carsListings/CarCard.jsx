@@ -1,9 +1,47 @@
-import { formatPriceAED } from "@/utility/formatedPriceAED";
+"use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import LocalizedLink from "../translation/LocalizedLink";
+import Cookies from "js-cookie";
 
 const CarCard = ({ car }) => {
+  const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
+  const [exchangeRate, setExchangeRate] = useState(1);
+
+  // Function to fetch exchange rate whenever currency changes
+  const fetchExchangeRate = async (newCurrency) => {
+    if (newCurrency !== "AED") {
+      try {
+        const res = await fetch(`/api/currency?to=${newCurrency}`);
+        const data = await res.json();
+        if (data.rates && data.rates[newCurrency]) {
+          setExchangeRate(data.rates[newCurrency]);
+        }
+      } catch (error) {
+        setExchangeRate(1); // Default to 1 if API fails
+      }
+    } else {
+      setExchangeRate(1); // If AED, no conversion needed
+    }
+  };
+
+  // Effect to listen for currency changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const savedCurrency = Cookies.get("NEXT_CURRENCY") || "AED";
+      if (savedCurrency !== currency) {
+        setCurrency(savedCurrency);
+        fetchExchangeRate(savedCurrency);
+      }
+    }, 2000); // Check every 2 seconds for changes
+
+    return () => clearInterval(interval);
+  }, [currency]);
+
+  // Calculate the converted price
+  const convertedPrice = Math.round(car.price * exchangeRate);
+
   return (
     <div key={car.id} className="box-car-list hv-one">
       <div className="image-group relative">
@@ -33,51 +71,7 @@ const CarCard = ({ car }) => {
           </ul>
           <div className="year flag-tag">{car.year}</div>
         </div>
-        <ul className="change-heart flex">
-          {/* <li className="box-icon w-32">
-            <a
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasBottom"
-              aria-controls="offcanvasBottom"
-              className="icon"
-            >
-              <svg
-                width={18}
-                height={18}
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.25 16.5L1.5 12.75M1.5 12.75L5.25 9M1.5 12.75H12.75M12.75 1.5L16.5 5.25M16.5 5.25L12.75 9M16.5 5.25H5.25"
-                  stroke="CurrentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </li> */}
-          <li className="box-icon w-32">
-            <Link href={`/my-favorite`} className="icon">
-              <svg
-                width={18}
-                height={16}
-                viewBox="0 0 18 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.5 4.875C16.5 2.80417 14.7508 1.125 12.5933 1.125C10.9808 1.125 9.59583 2.06333 9 3.4025C8.40417 2.06333 7.01917 1.125 5.40583 1.125C3.25 1.125 1.5 2.80417 1.5 4.875C1.5 10.8917 9 14.875 9 14.875C9 14.875 16.5 10.8917 16.5 4.875Z"
-                  stroke="CurrentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </li>
-        </ul>
+
         <div className="img-style">
           <Image
             className="lazyload"
@@ -88,6 +82,7 @@ const CarCard = ({ car }) => {
           />
         </div>
       </div>
+
       <div className="content">
         <div className="text-address">
           <p className="text-color-3 font">{car.type}</p>
@@ -98,18 +93,27 @@ const CarCard = ({ car }) => {
           </Link>
         </h5>
         <div className="icon-box flex flex-wrap">
-         
           <div className="icons flex-three">
-            <i className="icon-autodeal-diesel" />
+            <i className="fa fa-cogs" />
             <span>{car.fuelType}</span>
           </div>
           <div className="icons flex-three">
-            <i className="icon-autodeal-automatic" />
-            <span>{car.transmission}</span>
+            <i className="fa fa-gas-pump" />
+            <span>Manual</span>
+          </div>
+          <div className="icons flex-three">
+            <i className="fa fa-tachometer-alt" />
+            <span>V8</span>
+          </div>
+          <div className="icons flex-three">
+            <i className="fa fa-flag" />
+            <span>Oman Spec</span>
           </div>
         </div>
+
+        {/* Display Converted Price in Selected Currency */}
         <div className="money fs-20 fw-5 lh-25 text-color-3 d-flex justify-content-between align-items-center">
-          {formatPriceAED(car.price)}
+          {currency} {convertedPrice}
           <LocalizedLink
             href={`/listing-detail-v2/${car.id}`}
             className="view-car"
@@ -117,7 +121,6 @@ const CarCard = ({ car }) => {
             View car
           </LocalizedLink>
         </div>
-
       </div>
     </div>
   );

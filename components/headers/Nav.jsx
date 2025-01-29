@@ -7,12 +7,12 @@ import LocalizedLink from "../translation/LocalizedLink";
 
 // Example data for each tab
 const popularBrands = [
-  { name: "Toyota", image: "assets/images/brands/toyota.png", LocalizedLink: "/brands/toyota" },
-  { name: "Land Rover", image: "assets/images/brands/landrover.png", LocalizedLink: "/brands/toyota" },
-  { name: "Toyota", image: "assets/images/brands/toyota.png", LocalizedLink: "/brands/toyota" },
-  { name: "Land Rover", image: "assets/images/brands/landrover.png", LocalizedLink: "/brands/toyota" },
-  { name: "Toyota", image: "assets/images/brands/toyota.png", LocalizedLink: "/brands/toyota" },
-  { name: "Land Rover", image: "assets/images/brands/landrover.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BENZ.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BMW.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BYD.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/Changan.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/CHERY.png", LocalizedLink: "/brands/toyota" },
+  { name: " ", image: "/assets/images/brands/GAC.png", LocalizedLink: "/brands/toyota" },
 ];
 
 const popularModels = [
@@ -168,7 +168,7 @@ export default function Nav() {
                     <div key={index} className="megamenu">
                       <Image
                         className={`lazyload ${activeTab === "popularBrands" || activeTab === "popularBodyTypes"
-                          ? "object-fit-contain"
+                          ? "object-fit-contain p-3"
                           : "rounded object-fit-cover"
                           }`}
                         data-src={item.image}

@@ -1,4 +1,4 @@
-import CarDetails2 from "@/components/carDetails/CarDetails2";
+import CarDetails1 from "@/components/carDetails/CarDetails1";
 import Footer1 from "@/components/footers/Footer1";
 import Header2 from "@/components/headers/Header2";
 import React from "react";
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { allCars } from "@/data/cars";
 export const metadata = {
   title:
-    "Car Details 02 || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+    "Car Details 01 || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
   description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
 };
 export default function page({ params }) {
@@ -22,14 +22,14 @@ export default function page({ params }) {
                   <Link className="home fw-6 text-color-3" href={`/`}>
                     Home
                   </Link>
-                  <span>Cars</span>
+                  <span>2018 BMV X1 xDrive 20d xline</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <CarDetails2 carItem={carItem} />
+      <CarDetails1 carItem={carItem} />
       <Footer1 />
     </>
   );

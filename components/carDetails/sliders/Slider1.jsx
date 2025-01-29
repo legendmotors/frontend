@@ -1,15 +1,55 @@
 "use client";
-import React, { useEffect } from "react";
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
+import React, { useEffect, useState, useRef } from "react";
+import { EffectFade, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import Image from "next/image";
+
 export default function Slider1() {
+  const exteriorImages = [
+    "https://autodealnextjs.vercel.app/assets/images/section/slider-listing1.jpg",
+    "https://autodealnextjs.vercel.app/assets/images/car-list/car4.jpg",
+    "https://images.pexels.com/photos/1335077/pexels-photo-1335077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/1638459/pexels-photo-1638459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/977003/pexels-photo-977003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  ];
+
+  const interiorImages = [
+    "https://images.pexels.com/photos/1104768/pexels-photo-1104768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/326259/pexels-photo-326259.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/1104764/pexels-photo-1104764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState("exterior");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const swiperRef = useRef(null);
+
+  // Get images based on selected category
+  const images = selectedCategory === "exterior" ? exteriorImages : interiorImages;
+
+  useEffect(() => {
+    // Reset Swiper to first slide on category switch
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(0, 0);
+      setCurrentIndex(0);
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    // Initialize Lightbox when component mounts
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: "#my-gallery",
+      children: ".image",
+      pswpModule: () => import("photoswipe"),
+    });
+    lightbox.init();
+
+    return () => {
+      lightbox.destroy();
+    };
+  }, []);
+
   const swiperOptions = {
-    autoplay: {
-      delay: 6000,
-      disableOnInteraction: false,
-    },
     slidesPerView: 1,
     speed: 500,
     effect: "fade",
@@ -20,71 +60,82 @@ export default function Slider1() {
       nextEl: ".snbn1",
       prevEl: ".snbp1",
     },
+    loop: false, // Disable loop to control transitions manually
+    onSlideChange: (swiper) => {
+      setCurrentIndex(swiper.realIndex);
+
+      // When last Exterior slide is reached, clicking Next should switch to Interior
+      if (selectedCategory === "exterior" && swiper.realIndex === exteriorImages.length - 1) {
+        setTimeout(() => {
+          setSelectedCategory("interior");
+        }, 500); // Delay ensures smooth transition
+      }
+
+      // When first Interior slide is reached, clicking Back should switch to Exterior
+      if (selectedCategory === "interior" && swiper.realIndex === 0) {
+        setTimeout(() => {
+          setSelectedCategory("exterior");
+        }, 500);
+      }
+    },
   };
-  const images = [
-    "/assets/images/section/slider-listing1.jpg",
-    "/assets/images/section/slider-listing1.jpg",
-  ];
-  useEffect(() => {
-    const lightbox = new PhotoSwipeLightbox({
-      gallery: "#my-gallery",
-      children: ".image",
-      pswpModule: () => import("photoswipe"),
-    });
-    lightbox.init();
-    return () => {
-      lightbox.destroy();
-    };
-  }, []);
 
   return (
-    <Swiper
-      {...swiperOptions}
-      modules={[Navigation, Pagination, Autoplay, EffectFade]}
-      className="swiper mainslider slider home mb-40"
-      id="my-gallery"
-    >
-      {images.map((elm, i) => (
-        <SwiperSlide key={i} className="swiper-slide">
-          <div className="image-list-details">
-            <a
-              href={elm}
-              data-pswp-width="1245"
-              data-pswp-height="701"
-              target="_blank"
-              className="image"
+    <div>
+      {/* Category Selector Buttons */}
+      <nav id="navbar-example2" className="navbar tab-listing-scroll">
+        <ul className="nav nav-pills">
+          <li className="nav-item">
+            <button
+              className={`nav-link ${selectedCategory === "exterior" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("exterior")}
             >
-              <Image
-                className="lazyload"
-                alt="image"
-                src={elm}
-                width={1245}
-                height={701}
-              />
-            </a>
-            <div className="specs-features-wrap flex-three">
-              <a className="specs-features">
-                <div className="icon">
-                  <svg
-                    width={18}
-                    height={14}
-                    viewBox="0 0 18 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.125 5.75L16.0583 1.81667C16.1457 1.72937 16.2571 1.66993 16.3782 1.64586C16.4994 1.62179 16.625 1.63417 16.7391 1.68143C16.8532 1.72869 16.9508 1.80871 17.0195 1.91139C17.0882 2.01407 17.1249 2.1348 17.125 2.25833V11.7417C17.1249 11.8652 17.0882 11.9859 17.0195 12.0886C16.9508 12.1913 16.8532 12.2713 16.7391 12.3186C16.625 12.3658 16.4994 12.3782 16.3782 12.3541C16.2571 12.3301 16.1457 12.2706 16.0583 12.1833L12.125 8.25M2.75 12.625H10.25C10.7473 12.625 11.2242 12.4275 11.5758 12.0758C11.9275 11.7242 12.125 11.2473 12.125 10.75V3.25C12.125 2.75272 11.9275 2.27581 11.5758 1.92417C11.2242 1.57254 10.7473 1.375 10.25 1.375H2.75C2.25272 1.375 1.77581 1.57254 1.42417 1.92417C1.07254 2.27581 0.875 2.75272 0.875 3.25V10.75C0.875 11.2473 1.07254 11.7242 1.42417 12.0758C1.77581 12.4275 2.25272 12.625 2.75 12.625Z"
-                      stroke="CurrentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <span className="fw-5 font text-color-2 lh-16">Video</span>
-              </a>
+              Exterior
+            </button>
+          </li>
+          <li className="nav-item">
+            <button
+              className={`nav-link ${selectedCategory === "interior" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("interior")}
+            >
+              Interior
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Swiper Slider */}
+      <Swiper
+        key={selectedCategory} // 🔥 Force re-render on category switch
+        {...swiperOptions}
+        modules={[Navigation, Pagination, EffectFade]}
+        className="swiper mainslider slider home mb-40"
+        id="my-gallery"
+        onSwiper={(swiper) => (swiperRef.current = swiper)} // Store swiper instance
+      >
+        {images.map((elm, i) => (
+          <SwiperSlide key={i} className="swiper-slide">
+            <div className="image-list-details">
               <a
-                className="specs-features image"
+                href={elm}
+                data-pswp-width="1245"
+                data-pswp-height="701"
+                className="image"
+              >
+                <Image
+                  className="lazyload"
+                  alt="image"
+                  src={elm}
+                  width={1245}
+                  height={701}
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                />
+              </a>
+
+              {/* Lightbox Icon for Fullscreen View */}
+              <div className="specs-features-wrap flex-three">
+              <a
+                className="specs-features image d-flex"
                 href={elm}
                 data-pswp-width="1245"
                 data-pswp-height="701"
@@ -108,13 +159,13 @@ export default function Slider1() {
                 </div>
                 <span className="fw-5 font text-color-2 lh-16">All image</span>
               </a>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-      ))}
-
-      <div className="swiper-button-next style-3 snbn1" />
-      <div className="swiper-button-prev style-3 snbp1" />
-    </Swiper>
+          </SwiperSlide>
+        ))}
+        <div className="swiper-button-next style-3 snbn1" />
+        <div className="swiper-button-prev style-3 snbp1" />
+      </Swiper>
+    </div>
   );
 }

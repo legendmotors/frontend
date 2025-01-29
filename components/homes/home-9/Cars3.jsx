@@ -6,21 +6,9 @@ import { carListings2 } from "@/data/cars";
 import { formatPriceAED } from "@/utility/formatedPriceAED";
 import CarCardV2 from "@/components/carsListings/CarCardV2";
 const priceRanges = [
-  {
-    title: `${formatPriceAED(50000)} - ${formatPriceAED(80000)}`,
-    isActive: false,
-    range: { min: 50000, max: 80000 },
-  },
-  {
-    title: `${formatPriceAED(50000)} - ${formatPriceAED(80000)}`,
-    isActive: false,
-    range: { min: 50000, max: 80000 },
-  },
-  {
-    title: `${formatPriceAED(80000)} - ${formatPriceAED(100000)}`,
-    isActive: false,
-    range: { min: 80000, max: 100000 },
-  },
+  { title: `AED 50 - 80K`, isActive: false, range: { min: 50000, max: 80000 } },
+  { title: `AED 80 - 130K`, isActive: false, range: { min: 80000, max: 130000 } },
+  { title: `AED 130 - 180K`, isActive: false, range: { min: 130000, max: 180000 } },
 ];
 export default function Cars3() {
   const [filtered, setFiltered] = useState(carListings2);
@@ -83,7 +71,7 @@ export default function Cars3() {
                 <div className="content-inner tab-content">
                   <div className="list-car-grid-2">
                     {filtered.slice(0, 4).map((elm, i) => (
-                      <CarCardV2 elm={elm}/>
+                      <CarCardV2 elm={elm} />
                     ))}
                   </div>
                 </div>

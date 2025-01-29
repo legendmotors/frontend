@@ -17,11 +17,12 @@ export default function ChairmansMessage() {
                             <div className="image-inner1 hover-img-wrap img-style-hover">
                                 <Image
                                     className="ls-is-cached lazyloaded"
-                                    data-src="/assets/images/team/chairman.png"
+                                    data-src="/assets/images/team/chairman.jpg"
                                     alt="images"
-                                    src="/assets/images/team/chairman.png"
+                                    src="/assets/images/team/chairman.jpg"
                                     width={600}
                                     height={800}
+                                    style={{ objectFit: "cover", width: "100%", height: "50%" }} // Ensures cover behavior
                                 />
                             </div>
                         </div>
@@ -41,7 +42,7 @@ export default function ChairmansMessage() {
                                             data-wow-delay="0.2s"
                                             data-wow-duration="1000ms"
                                         >
-                                           Chairman Message
+                                            Chairman Message
                                         </h1>
                                         <h2
                                             className="mt-18 wow fadeInUpSmall message-sub-header"
@@ -68,7 +69,7 @@ export default function ChairmansMessage() {
                                         </h4>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

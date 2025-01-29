@@ -42,8 +42,8 @@ export default function Contact() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <div className="inner-heading flex-two flex-wrap">
-                <h1 className="heading-listing">Contact us</h1>
+              <div className="inner-heading flex-two flex-wrap mb-2">
+                <h1 className="heading-listing">Drop Us a Line</h1>
                 <div className="social-listing flex-six flex-wrap">
                   <p>Share this page:</p>
                   <div className="icon-social style1">
@@ -66,24 +66,12 @@ export default function Contact() {
           </div>
         </div>
       </section>
-      <section className="tf-section-map">
-        <div className="container-fluid">
-          <div className="map">
-            <iframe
-              className="map-content"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7302.453092836291!2d90.47477022812872!3d23.77494577893369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1627293157601!5m2!1svi!2s"
-              allowFullScreen=""
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-      </section>
-      <section className="tf-section-contact">
+      
+      <section className="tf-section-contact pt-0">
         <div className="container">
           <div className="row">
             <div className="col-md-8 contact-left">
               <div className="heading-section mb-30">
-                <h2>Drop Us a Line</h2>
                 <p className="mt-12">
                   Legend Motors the most trusted provider of vehicle export solutions in the region, with over 120,000 vehicles sold we have deservedly earned the reputation for integrity, transparency and putting you the customer at the heart of our business.
                 </p>

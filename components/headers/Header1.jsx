@@ -6,6 +6,7 @@ import Image from "next/image";
 import MobileNav from "./MobileNav";
 import SearchBar from "../common/SearchBar";
 import LanguageSelector from "../common/LanguageSelector";
+import CurrencySelector from "../common/CurrencySelector";
 export default function Header1() {
   return (
     // <header className="main-header style2">
@@ -56,6 +57,7 @@ export default function Header1() {
                 <div className="header-account flex align-center">
                   <SearchBar />
                   <LanguageSelector />
+                  <CurrencySelector />
                   <a
                     href="#"
                     className="header-favorite flex items-center justify-center"
