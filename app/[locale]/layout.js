@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import RootClient from "@/components/layout/RootClient";
 import WhatsAppButton from "@/components/social/WhatsAppButton";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 export default async function RootLayout({ children, params: { locale } }) {
   // Server-side logic: Validate the locale
@@ -30,9 +32,10 @@ export default async function RootLayout({ children, params: { locale } }) {
         />
       </head>
       <body className="body" style={{ transition: "0s" }}>
-        <WhatsAppButton/>
+        <WhatsAppButton />
         <NextIntlClientProvider messages={messages}>
-          <RootClient>{children}</RootClient>
+        
+            <RootClient>{children}</RootClient>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -13,8 +13,14 @@ import ListGridToggler from "./ListGridToggler";
 import FilterSidebar from "./FilterSidebar";
 import FlatFilter3 from "../common/FlatFilter3";
 import CarCardWithGridAndListing from "./CarCardWithGridAndListing";
+import { useDispatch, useSelector } from "react-redux";
+import ShareButton from "../social/ShareButton";
 export default function Cars3() {
-  const [activeIndex, setActiveIndex] = useState(0); // Default active is the first item
+  const wishlist = useSelector((state) => state.wishlist.items);
+
+  const handleRemove = (id) => {
+    dispatch(removeFromWishlist(id));
+  };
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
@@ -35,7 +41,6 @@ export default function Cars3() {
     filtered,
     sortingOption,
     sorted,
-    currentPage,
     itemPerPage,
   } = state;
 
@@ -184,7 +189,46 @@ export default function Cars3() {
     }
     dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
   }, [filtered, sortingOption]);
-  const [isGrid, setIsGrid] = useState(true);
+  const [isGrid, setIsGrid] = useState(false);
+  const [cars, setCars] = useState([]); // State for storing car data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [pageSize, setPageSize] = useState(10); // Cars per page
+  const [totalItems, setTotalItems] = useState(0); // Total number of cars
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [activeIndex, setActiveIndex] = useState(0); // Default active is the first item
+
+  // Function to fetch car data
+  const fetchCars = async (page = 1, limit = 10) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `http://localhost:4000/api/car/list?page=${page}&limit=${limit}`
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        setCars(data.data); // Set car data
+        setTotalItems(data.pagination.totalItems); // Set total items
+      } else {
+        setError(data.message || "Failed to fetch cars.");
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching cars:", err);
+      setError("Something went wrong while fetching cars.");
+      setLoading(false);
+    }
+  };
+
+  // Fetch cars on component mount and page/limit changes
+  useEffect(() => {
+    fetchCars(currentPage, pageSize);
+  }, [currentPage, pageSize]);
+
+
+  console.log(cars, "uiuuuuuuuuuu");
+
   return (
     <>
       <div className="flat-filter-search mt--3">
@@ -203,12 +247,12 @@ export default function Cars3() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <div className="heading-section">
+              {/* <div className="heading-section">
                 <h2>Listing grid</h2>
                 <p className="mt-18">
                   There Are Currently {sorted.length} Results
                 </p>
-              </div>
+              </div> */}
               <div className="sidebar-left-listing">
                 <div className="row">
                   <div className="col-lg-12 listing-list-car-wrap listing-grid-car-wrap">
@@ -231,6 +275,7 @@ export default function Cars3() {
                           </div>
 
                           <div className="wd-find-select flex align-items-center gap-8">
+
                             <ListGridToggler
                               isGrid={isGrid}
                               setIsGrid={setIsGrid}
@@ -262,31 +307,57 @@ export default function Cars3() {
                                 }}
                               />
                             </div>
+                            <a href="#" className="icon border p-2 rounded">
+                              <ShareButton />
+                            </a>
 
                           </div>
                         </div>
                       </div>
                       <div className="content-tab">
                         <div className="content-inner tab-content">
-                          <div
-                            className={`list-car-list-1 ${isGrid ? "list-car-grid-1" : ""
-                              } `}
-                          >
-                            {sorted
-                              .slice((currentPage - 1) * itemPerPage, currentPage * itemPerPage)
-                              .map((car, i) => (
-                                <CarCardWithGridAndListing key={i} car={car} isGrid={isGrid} />
-                              ))}
+                          <div className="row">
+                            {isGrid ? <div className="col-lg-12">
+                              <div
+                                className={`list-car-list-1 list-car-grid-1`}
+                              >
+                                {cars.map((car) => (
+                                  <CarCardWithGridAndListing key={car.id} car={car} isGrid={isGrid} />
+                                ))}
+                              </div>
+                            </div> : <> <div className="col-lg-8">
+                              <div
+                                className={`list-car-list-1 list-car-list-1`}
+                              >
+                                {cars.map((car) => (
+                                  <CarCardWithGridAndListing key={car.id} car={car} isGrid={isGrid} />
+                                ))}
+                              </div>
+                            </div><div className="col-lg-4">
+                                <div className="sticky-top top-0 img-style">
+                                  <Image
+                                    className="lazyload"
+                                    alt="image"
+                                    src="/assets/skyskrapper.webp"
+                                    width={450}
+                                    height={338}
+                                  />
+                                </div>
+                              </div></>}
+
+
                           </div>
+
+
                         </div>
                       </div>
                       <div className="themesflat-pagination clearfix mt-40">
                         <ul>
                           <Pagination
                             currentPage={currentPage}
-                            setPage={(value) => allProps.setCurrentPage(value)}
-                            itemLength={sorted.length}
-                            itemPerPage={itemPerPage}
+                            setPage={setCurrentPage}
+                            itemLength={totalItems}
+                            itemPerPage={pageSize}
                           />
                         </ul>
                       </div>

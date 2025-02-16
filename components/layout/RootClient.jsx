@@ -10,6 +10,8 @@ import BackToTop from "@/components/common/BacktoTop";
 import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
 import Header1 from "@/components/headers/Header1";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 export default function RootClient({ children }) {
   useEffect(() => {
@@ -70,17 +72,19 @@ export default function RootClient({ children }) {
 
   return (
     <>
-      <div className="header-fixed">
-        <Header1 />
-      </div>
-      <div id="wrapper">
-        <div id="pagee" className="clearfix">
-          {children}
+      <Provider store={store}>
+        <div className="header-fixed">
+          <Header1 />
         </div>
-      </div>
-      <Login />
-      <SignUp />
-      <BackToTop />
+        <div id="wrapper">
+          <div id="pagee" className="clearfix">
+            {children}
+          </div>
+        </div>
+        <Login />
+        <SignUp />
+        <BackToTop />
+      </Provider>
     </>
   );
 }

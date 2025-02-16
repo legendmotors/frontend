@@ -45,3 +45,36 @@
   height: 100%;
   object-fit: cover; /* Ensures uniform height without stretching */
 }
+
+
+.wishlist-dropdown {
+  position: relative;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #fff;
+  max-width: 300px;
+}
+
+.wishlist-dropdown ul {
+  list-style: none;
+  padding: 0;
+}
+
+.wishlist-dropdown li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.wishlist-dropdown button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.wishlist-dropdown button:hover {
+  background-color: darkred;
+}

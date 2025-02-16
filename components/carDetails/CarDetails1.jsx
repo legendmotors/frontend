@@ -14,6 +14,31 @@ import Features from "./detailComponents/Features";
 import SidebarToggleButton from "./SidebarToggleButton";
 import Cookies from "js-cookie";
 export default function CarDetails1({ carItem }) {
+  const [carDetail, setCarDetail] = useState(null);
+
+  console.log(carDetail,"carItemcarItem");
+  
+  
+    useEffect(() => {
+      const fetchCarDetails = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/api/car/getById?id=8&lang=en");
+          const result = await response.json();
+          if (result.success) {
+            setCarDetail(result.data);
+          } else {
+            console.error("Failed to fetch car details:", result.message);
+          }
+        } catch (error) {
+          console.error("Error fetching car details:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchCarDetails();
+    }, []);
+
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
@@ -103,12 +128,6 @@ export default function CarDetails1({ carItem }) {
                       className="scrollspy-example"
                       tabIndex={0}
                     >
-                      <div className="listing-description mb-40">
-                        <div className="tfcl-listing-header">
-                          <h2>Description</h2>
-                        </div>
-                        <Description />
-                      </div>
                       <div
                         className="listing-description footer-col-block"
                         id="scrollspyHeading1"
@@ -116,11 +135,17 @@ export default function CarDetails1({ carItem }) {
                         <div className="footer-heading-desktop">
                           <h2>Car overview</h2>
                         </div>
-                        <div className="footer-heading-mobie listing-details-mobie">
-                          <h2>Car overview</h2>
-                        </div>
                         <Overview />
+                        
                       </div>
+                      <div className="listing-line" />
+                      <div className="listing-description mb-40">
+                        <div className="tfcl-listing-header">
+                          <h2>Description</h2>
+                        </div>
+                        <Description />
+                      </div>
+                      
                       <div className="listing-line" />
                       <div
                         className="listing-features footer-col-block"

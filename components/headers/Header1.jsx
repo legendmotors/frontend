@@ -7,6 +7,7 @@ import MobileNav from "./MobileNav";
 import SearchBar from "../common/SearchBar";
 import LanguageSelector from "../common/LanguageSelector";
 import CurrencySelector from "../common/CurrencySelector";
+import WishlistDropdown from "../common/WishlistDropdown";
 export default function Header1() {
   return (
     // <header className="main-header style2">
@@ -40,30 +41,11 @@ export default function Header1() {
                     </Link>
                   </div>
                 </div>
-                <div className="nav-outer flex align-center">
-                  {/* Main Menu */}
-                  <nav className="main-menu show navbar-expand-md">
-                    <div
-                      className="navbar-collapse collapse clearfix"
-                      id="navbarSupportedContent"
-                    >
-                      <ul className="navigation clearfix">
-                        <Nav />
-                      </ul>
-                    </div>
-                  </nav>
-                  {/* Main Menu End*/}
-                </div>
                 <div className="header-account flex align-center">
                   <SearchBar />
                   <LanguageSelector />
                   <CurrencySelector />
-                  <a
-                    href="#"
-                    className="header-favorite flex items-center justify-center"
-                  >
-                    <i className="icon-autodeal-favorite fs-18" />
-                  </a>
+                  <WishlistDropdown />
                   <div className="register">
                     <ul className="flex align-center">
                       <li>
@@ -138,6 +120,26 @@ export default function Header1() {
                 >
                   <span />
                 </div>
+              </div>
+            </div>
+            <div className="col-lg-12 ">
+              <div className="inner-container flex justify-center align-center  border border-t-1">
+
+                <div className="nav-outer flex align-center">
+                  {/* Main Menu */}
+                  <nav className="main-menu ms-0 show navbar-expand-md">
+                    <div
+                      className="navbar-collapse collapse clearfix"
+                      id="navbarSupportedContent"
+                    >
+                      <ul className="navigation clearfix">
+                        <Nav />
+                      </ul>
+                    </div>
+                  </nav>
+                  {/* Main Menu End*/}
+                </div>
+
               </div>
             </div>
           </div>

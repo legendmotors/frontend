@@ -81,7 +81,7 @@ export default function Nav() {
                   : ""
               }
             >
-              <LocalizedLink href={page.href}>{page.text}</LocalizedLink>
+              <LocalizedLink className="p-2" href={page.href}>{page.text}</LocalizedLink>
             </li>
           ))}
         </ul>
@@ -104,7 +104,7 @@ export default function Nav() {
                         : ""
                       }`}
                   >
-                    <LocalizedLink href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                    <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
                   </li>
                 ))}
               </ul>
@@ -126,7 +126,7 @@ export default function Nav() {
                   : ""
               }
             >
-              <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+              <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
             </li>
           ))}
         </ul>
@@ -135,14 +135,14 @@ export default function Nav() {
 
 
       <li className={pathname === "/" ? "current" : ""}>
-        <LocalizedLink href="/">Home</LocalizedLink>
+        <LocalizedLink className="p-2" href="/" >Home</LocalizedLink>
       </li>
 
 
       {/* New Cars Dropdown */}
       {/* Dropdown Menu */}
       <li className="tfcl-mega-menu dropdown2">
-        <LocalizedLink href="/listing-grid">Explore Cars</LocalizedLink>
+        <LocalizedLink className="p-2" href="/listing-grid">Explore Cars</LocalizedLink>
         <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
             {/* Tabs Section (Left Side) */}
@@ -181,7 +181,7 @@ export default function Nav() {
                     </div>
                   ))}
               </div>
-              <LocalizedLink href={`/${activeTab}`} className="see-all-link">
+              <LocalizedLink href={`/${activeTab}`} className="see-all-link p-2">
                 See all {tabs.find((tab) => tab.id === activeTab).label} →
               </LocalizedLink>
             </div>
@@ -215,14 +215,14 @@ export default function Nav() {
                             : ""
                         }
                       >
-                        <LocalizedLink href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                        <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
                       </li>
                     ))}
                   </ul>
                   <div className="dropdown2-btn" />
                 </>
               ) : (
-                <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+                <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
               )}
             </li>
           ))}
@@ -231,13 +231,13 @@ export default function Nav() {
      
       
       <li className={pathname === "/blog-grid" ? "current" : ""}>
-        <LocalizedLink href="/blog-grid">Blogs</LocalizedLink>
+        <LocalizedLink className="p-2" href="/blog-grid">Blogs</LocalizedLink>
       </li>
       <li className={pathname === "/about-us" ? "current" : ""}>
-        <LocalizedLink href="/about-us">About Us</LocalizedLink>
+        <LocalizedLink className="p-2" href="/about-us">About Us</LocalizedLink>
       </li>
       <li className={"contact" == pathname.split("/")[1] ? "current" : ""}>
-        <LocalizedLink href={`/contact`}>Contact</LocalizedLink>
+        <LocalizedLink className="p-2" href={`/contact`}>Contact</LocalizedLink>
       </li>
     </>
   );
@@ -256,7 +256,7 @@ function CarsTabUI({ data }) {
           <ul>
             {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
               <li key={LocalizedLinkIndex}>
-                <LocalizedLink href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
               </li>
             ))}
           </ul>
@@ -273,7 +273,7 @@ function HomeTabUI({ data }) {
       <ul>
         {data.map((item, index) => (
           <li key={index}>
-            <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
           </li>
         ))}
       </ul>
@@ -293,13 +293,13 @@ function PagesTabUI({ data }) {
               <ul>
                 {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
                   <li key={LocalizedLinkIndex}>
-                    <LocalizedLink href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                    <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
                   </li>
                 ))}
               </ul>
             </>
           ) : (
-            <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
           )}
         </div>
       ))}
@@ -314,7 +314,7 @@ function BlogTabUI({ data }) {
       <ul>
         {data.map((item, index) => (
           <li key={index}>
-            <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
           </li>
         ))}
       </ul>
