@@ -3,6 +3,8 @@ import "../../public/assets/scss/app.scss";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
 import "photoswipe/style.css";
+// Styles for PDF Viewer
+
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -26,6 +28,7 @@ export default async function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir}>
       <head>
+        <meta name="robots" content="noindex, nofollow" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap"
           rel="stylesheet"
@@ -34,8 +37,8 @@ export default async function RootLayout({ children, params: { locale } }) {
       <body className="body" style={{ transition: "0s" }}>
         <WhatsAppButton />
         <NextIntlClientProvider messages={messages}>
-        
-            <RootClient>{children}</RootClient>
+
+          <RootClient>{children}</RootClient>
         </NextIntlClientProvider>
       </body>
     </html>

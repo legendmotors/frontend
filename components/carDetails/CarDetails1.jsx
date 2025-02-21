@@ -13,31 +13,62 @@ import Recommended from "./detailComponents/Recommended";
 import Features from "./detailComponents/Features";
 import SidebarToggleButton from "./SidebarToggleButton";
 import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+
+
+// Dynamic imports for Next.js SSR compatibility
+const Viewer = dynamic(() => import("@react-pdf-viewer/core").then((mod) => mod.Viewer), { ssr: false });
+const Worker = dynamic(() => import("@react-pdf-viewer/core").then((mod) => mod.Worker), { ssr: false });
+const defaultLayoutPlugin = dynamic(() => import("@react-pdf-viewer/default-layout").then((mod) => mod.defaultLayoutPlugin), { ssr: false });
+
+// Import Full-Screen and Get File (Download PDF) Plugins
+import { fullScreenPlugin } from "@react-pdf-viewer/full-screen";
+import { getFilePlugin } from "@react-pdf-viewer/get-file";
+
+// Import Styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import "@react-pdf-viewer/full-screen/lib/styles/index.css";
 export default function CarDetails1({ carItem }) {
   const [carDetail, setCarDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
-  console.log(carDetail,"carItemcarItem");
-  
-  
-    useEffect(() => {
-      const fetchCarDetails = async () => {
-        try {
-          const response = await fetch("http://localhost:4000/api/car/getById?id=8&lang=en");
-          const result = await response.json();
-          if (result.success) {
-            setCarDetail(result.data);
-          } else {
-            console.error("Failed to fetch car details:", result.message);
-          }
-        } catch (error) {
-          console.error("Error fetching car details:", error);
-        } finally {
-          setLoading(false);
+  // Reference to the PDF Viewer Container
+  const pdfContainerRef = useRef(null);
+
+  // ✅ Initialize Full-Screen Plugin with `getFullScreenTarget`
+  const fullScreenPluginInstance = fullScreenPlugin({
+    enableShortcuts: true,
+    getFullScreenTarget: () => pdfContainerRef.current,
+  });
+
+  // ✅ Initialize Get File (Download PDF) Plugin
+  const getFilePluginInstance = getFilePlugin();
+
+  // ✅ Extract Buttons from Plugins
+  const { EnterFullScreenButton } = fullScreenPluginInstance;
+  const { DownloadButton } = getFilePluginInstance;
+
+  useEffect(() => {
+    const fetchCarDetails = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/car/getById?id=8&lang=en");
+        const result = await response.json();
+        if (result.success) {
+          setCarDetail(result.data);
+        } else {
+          console.error("Failed to fetch car details:", result.message);
         }
-      };
-  
-      fetchCarDetails();
-    }, []);
+      } catch (error) {
+        console.error("Error fetching car details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCarDetails();
+  }, []);
 
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
@@ -73,40 +104,40 @@ export default function CarDetails1({ carItem }) {
   };
 
   const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
-    const [exchangeRate, setExchangeRate] = useState(1);
-  
-    // Function to fetch exchange rate whenever currency changes
-    const fetchExchangeRate = async (newCurrency) => {
-      if (newCurrency !== "AED") {
-        try {
-          const res = await fetch(`/api/currency?to=${newCurrency}`);
-          const data = await res.json();
-          if (data.rates && data.rates[newCurrency]) {
-            setExchangeRate(data.rates[newCurrency]);
-          }
-        } catch (error) {
-          setExchangeRate(1); // Default to 1 if API fails
+  const [exchangeRate, setExchangeRate] = useState(1);
+
+  // Function to fetch exchange rate whenever currency changes
+  const fetchExchangeRate = async (newCurrency) => {
+    if (newCurrency !== "AED") {
+      try {
+        const res = await fetch(`/api/currency?to=${newCurrency}`);
+        const data = await res.json();
+        if (data.rates && data.rates[newCurrency]) {
+          setExchangeRate(data.rates[newCurrency]);
         }
-      } else {
-        setExchangeRate(1); // If AED, no conversion needed
+      } catch (error) {
+        setExchangeRate(1); // Default to 1 if API fails
       }
-    };
-  
-    // Effect to listen for currency changes
-    useEffect(() => {
-      const interval = setInterval(() => {
-        const savedCurrency = Cookies.get("NEXT_CURRENCY") || "AED";
-        if (savedCurrency !== currency) {
-          setCurrency(savedCurrency);
-          fetchExchangeRate(savedCurrency);
-        }
-      }, 2000); // Check every 2 seconds for changes
-  
-      return () => clearInterval(interval);
-    }, [currency]);
-  
-    // Calculate the converted price
-    const convertedPrice = Math.round(74896 * exchangeRate);
+    } else {
+      setExchangeRate(1); // If AED, no conversion needed
+    }
+  };
+
+  // Effect to listen for currency changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const savedCurrency = Cookies.get("NEXT_CURRENCY") || "AED";
+      if (savedCurrency !== currency) {
+        setCurrency(savedCurrency);
+        fetchExchangeRate(savedCurrency);
+      }
+    }, 2000); // Check every 2 seconds for changes
+
+    return () => clearInterval(interval);
+  }, [currency]);
+
+  // Calculate the converted price
+  const convertedPrice = Math.round(74896 * exchangeRate);
 
 
   return (
@@ -120,7 +151,7 @@ export default function CarDetails1({ carItem }) {
                 <Slider1 />
                 <div className="row">
                   <div className="col-lg-12">
-                    
+
                     <div
                       data-bs-spy="scroll"
                       data-bs-target="#navbar-example2"
@@ -136,16 +167,38 @@ export default function CarDetails1({ carItem }) {
                           <h2>Car overview</h2>
                         </div>
                         <Overview />
-                        
+
                       </div>
                       <div className="listing-line" />
-                      <div className="listing-description mb-40">
+
+                      {/* ✅ PDF Viewer Container */}
+                      <div className="flex justify-content-center">
+                        <div ref={pdfContainerRef} style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}>
+                          {/* ✅ Full-Screen Button */}
+
+                          <div className="flex justify-content-end">
+                            <EnterFullScreenButton />
+                            <DownloadButton />
+                          </div>
+
+
+                          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                            <Viewer
+                              fileUrl="/assets/zi5vv4h.pdf" // Change this to your actual PDF path
+                              plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance, getFilePluginInstance]}
+                            />
+                          </Worker>
+                        </div>
+                      </div>
+
+
+                      {/* <div className="listing-description mb-40">
                         <div className="tfcl-listing-header">
                           <h2>Description</h2>
                         </div>
                         <Description />
-                      </div>
-                      
+                      </div> */}
+
                       <div className="listing-line" />
                       <div
                         className="listing-features footer-col-block"
@@ -177,7 +230,7 @@ export default function CarDetails1({ carItem }) {
                 <div className="widget-listing mb-30 box-sd">
                   <div id="comments" className="comments">
                     <div className="respond-comment">
-                    <h3 className=" mb-2">Enquire Now</h3>
+                      <h3 className=" mb-2">Enquire Now</h3>
                       <form
                         onSubmit={sendMail}
                         ref={formRef}
