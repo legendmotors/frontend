@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { carListings2 } from "@/data/cars";
-import { formatPriceAED } from "@/utility/formatedPriceAED";
+import { formatPriceAED } from "@/utils/formatedPriceAED";
 import CarCardV2 from "@/components/carsListings/CarCardV2";
 const priceRanges = [
   { title: `AED 50 - 80K`, isActive: false, range: { min: 50000, max: 80000 } },
@@ -71,7 +71,10 @@ export default function Cars3() {
                 <div className="content-inner tab-content">
                   <div className="list-car-grid-2">
                     {filtered.slice(0, 4).map((elm, i) => (
-                      <CarCardV2 elm={elm} />
+                      <div key={i}>
+
+                        <CarCardV2 elm={elm} />
+                      </div>
                     ))}
                   </div>
                 </div>

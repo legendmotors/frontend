@@ -45,7 +45,7 @@ export default function Header1() {
                   <SearchBar />
                   <LanguageSelector />
                   <CurrencySelector />
-                  <WishlistDropdown />
+                  {/* <WishlistDropdown /> */}
                   <div className="register">
                     <ul className="flex align-center">
                       <li>

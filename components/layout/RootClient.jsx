@@ -5,15 +5,34 @@ import "../../public/assets/scss/app.scss";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
 import "photoswipe/style.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BackToTop from "@/components/common/BacktoTop";
 import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
 import Header1 from "@/components/headers/Header1";
 import { Provider } from "react-redux";
-import { store } from "@/store/store";
+import store from "@/store";
 
 export default function RootClient({ children }) {
+
+  const [clevertapModule, setClevertapModule] = useState(null);
+
+  useEffect(() => {
+    const initCleverTap = async () => {
+      if (!clevertapModule) {
+        try {
+          const clevertap = await initializeClevertap();
+          setClevertapModule(clevertap);
+          console.log("✅ CleverTap Initialized Globally");
+        } catch (error) {
+          console.error("❌ CleverTap Initialization Failed:", error);
+        }
+      }
+    };
+
+    initCleverTap();
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("bootstrap/dist/js/bootstrap.esm").then(() => {
@@ -23,6 +42,8 @@ export default function RootClient({ children }) {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const nav = document.querySelector(".header-lower");
     if (nav) {
       const headerHeight = nav.offsetHeight;
@@ -61,6 +82,7 @@ export default function RootClient({ children }) {
     };
   }, []);
 
+
   useEffect(() => {
     const { WOW } = require("wowjs");
     const wow = new WOW({
@@ -87,4 +109,14 @@ export default function RootClient({ children }) {
       </Provider>
     </>
   );
+}
+
+// CleverTap Initialization Function
+async function initializeClevertap() {
+  const clevertapModule = await import("clevertap-web-sdk");
+
+  clevertapModule.default.init("6Z8-W98-7W7Z", "eu1"); // Replace with your actual Account ID & Region
+  clevertapModule.default.setLogLevel(3);
+
+  return clevertapModule.default;
 }

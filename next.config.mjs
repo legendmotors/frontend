@@ -8,6 +8,14 @@ const nextConfig = {
   images: {
     unoptimized: true, // Retain your existing configuration
   },
+  async rewrites() {
+    return [
+      {
+        source: '/clevertap/:path*',
+        destination: 'https://api.clevertap.com/1/:path*', // CleverTap API proxy
+      },
+    ];
+  },
 };
 
 // Export the updated configuration

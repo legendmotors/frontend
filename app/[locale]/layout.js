@@ -10,8 +10,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import RootClient from "@/components/layout/RootClient";
 import WhatsAppButton from "@/components/social/WhatsAppButton";
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+import Script from "next/script";
 
 export default async function RootLayout({ children, params: { locale } }) {
   // Server-side logic: Validate the locale
@@ -33,11 +32,20 @@ export default async function RootLayout({ children, params: { locale } }) {
           href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap"
           rel="stylesheet"
         />
+
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-6WZ84PB88R" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6WZ84PB88R');
+          `}
+        </Script>
       </head>
       <body className="body" style={{ transition: "0s" }}>
         <WhatsAppButton />
         <NextIntlClientProvider messages={messages}>
-
           <RootClient>{children}</RootClient>
         </NextIntlClientProvider>
       </body>
