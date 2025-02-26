@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 
 // Show notification
 const showTopCenterNotification = (message: string) => {
-    MySwal.fire({
+    Swal.fire({
         title: message,
         toast: true,
         position: 'top',

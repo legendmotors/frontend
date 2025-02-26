@@ -80,21 +80,21 @@ export const unsubscribeNewsletter = async (email: string) => {
     try {
         const response = await api.put(Apis.UnsubscribeNewsletter, { email });
         if (!response || !response.data.success) {
-            MySwal.fire({
+            Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: response?.data?.msg || 'Failed to unsubscribe.',
             });
             return false;
         }
-        MySwal.fire({
+        Swal.fire({
             icon: 'success',
             title: 'Unsubscribed!',
             text: 'You have been unsubscribed from the newsletter.',
         });
         return true;
     } catch (error: any) {
-        MySwal.fire({
+        Swal.fire({
             icon: 'error',
             title: 'Error',
             text: error.message || 'An error occurred while unsubscribing.',

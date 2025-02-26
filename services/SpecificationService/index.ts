@@ -7,7 +7,7 @@ import { Apis } from '@/utils/apiUrls';
 
 // Helper function to display toast notifications
 const showTopCenterNotification = (message: string) => {
-    MySwal.fire({
+    Swal.fire({
         title: message,
         toast: true,
         position: 'top',

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 // Show notification
 const showTopCenterNotification = (message: string) => {
-    MySwal.fire({
+    Swal.fire({
         title: message,
         toast: true,
         position: 'top',
