@@ -1,16 +1,14 @@
 "use client"
 import Cars2 from "@/components/carsListings/Cars2";
 import Cars3 from "@/components/carsListings/Cars3";
-import Footer1 from "@/components/footers/Footer1";
-import Header2 from "@/components/headers/Header2";
-import { store } from "@/store/store";
+import Footer1 from "@/components/footers/Footer1";S
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 
 // export const metadata = {
 //     title:
 //         "Car Listing Grid || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-//     description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+//     description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",S
 // };
 export default function page() {
     useEffect(() => {
