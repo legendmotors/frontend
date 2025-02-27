@@ -29,7 +29,7 @@ export default function Cars({ parentClass = "tf-section" }) {
                 Used Cars By Body Type
               </h2>
               <Link
-                href={`/listing-grid`}
+                href={`/cars/new-cars`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"

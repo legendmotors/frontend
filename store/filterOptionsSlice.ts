@@ -6,6 +6,7 @@ interface FilterState {
   trimId: string[];
   yearId: string[];
   searchQuery: string;
+  sortOption: 'default' | 'asc' | 'desc';
 }
 
 const initialState: FilterState = {
@@ -14,6 +15,7 @@ const initialState: FilterState = {
   trimId: [],
   yearId: [],
   searchQuery: '',
+  sortOption: 'default',
 };
 
 const filterSlice = createSlice({
@@ -41,12 +43,17 @@ const filterSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
+    // New reducer for sortOption
+    setSortOption(state, action: PayloadAction<'default' | 'asc' | 'desc'>) {
+      state.sortOption = action.payload;
+    },
     resetFilters(state) {
       state.brandId = [];
       state.modelId = [];
       state.trimId = [];
       state.yearId = [];
       state.searchQuery = '';
+      state.sortOption = 'default';
     },
   },
 });
@@ -57,6 +64,7 @@ export const {
   setTrimId,
   setYearId,
   setSearchQuery,
+  setSortOption, // exported here
   resetFilters,
 } = filterSlice.actions;
 

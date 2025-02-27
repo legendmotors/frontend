@@ -49,7 +49,7 @@ export default function CarBrands() {
               <h2 className="wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 Search by body
               </h2>
-              <LocalizedLink href="/listing-grid" className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
+              <LocalizedLink href="/cars/new-cars" className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 View all
                 <i className="icon-autodeal-btn-right" />
               </LocalizedLink>
@@ -70,7 +70,7 @@ export default function CarBrands() {
                 { type: "Crossover", icon: "crossover.png", count: 271 },
               ].map((car, index) => (
                 <SwiperSlide key={index} className="swiper-slide">
-                  <LocalizedLink href="/listing-grid" className="partner-item style-2 ">
+                  <LocalizedLink href="/cars/new-cars" className="partner-item style-2 ">
                     <div className="icon d-flex align-items-center justify-content-center mb-0">
                       <img src={`/assets/images/bodytypes/${car.icon}`} alt={car.type} width={100} height={100} className="w-50"/>
                     </div>

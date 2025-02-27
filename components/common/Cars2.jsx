@@ -53,7 +53,7 @@ export default function Cars2() {
                 Used Cars To Suit Your Lifestyle
               </h2>
               <Link
-                href={`/listing-grid`}
+                href={`/cars/new-cars`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"

@@ -6,14 +6,18 @@ import LocalizedLink from "../translation/LocalizedLink";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishlistSlice";
+import { getCookie } from "@/utils/cookieFunction";
 
-export default function CarCardWithGridAndListing({ car, isGrid }) {
+export default function CarCardWithGridAndListing({ car, imagePath }) {
     const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
     const [exchangeRate, setExchangeRate] = useState(1);
     const dispatch = useDispatch();
 
+    const token = getCookie('token');
+
+
     const handleAddToWishlist = () => {
-      dispatch(addToWishlist(car)); // Dispatch the action to add the car to the wishlist
+        dispatch(addToWishlist(car)); // Dispatch the action to add the car to the wishlist
     };
     console.log(currency, "currency");
 
@@ -22,9 +26,25 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
     const bodyTypeSpecification = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "body_type"
     );
+
+    const fuelTypeSpecification = car.SpecificationValues.find(
+        (spec) => spec.Specification.key === "fuel_type"
+    );
+
+    const regionalSpecification = car.SpecificationValues.find(
+        (spec) => spec.Specification.key === "regional_specification"
+    );
+
+    const steeringSideSpecification = car.SpecificationValues.find(
+        (spec) => spec.Specification.key === "steering_side"
+    );
+
     const transmission = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "transmission"
     );
+
+
+    console.log(fuelTypeSpecification, "fuelTypeSpecification");
 
 
     const engine = car.SpecificationValues.find(
@@ -32,18 +52,18 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
     );
     // Extract the body type name if it exists
     const bodyTypeName = bodyTypeSpecification?.name || "N/A";
+
+    const fuelTypeName = fuelTypeSpecification?.name || "N/A"
     const transmissionName = transmission?.name || "N/A";
+    const regionalSpecificationName = regionalSpecification?.name || "N/A";
+    const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
+    const displayPrice = car?.CarPrices?.find(item => item.currency === currency);
 
-    const CarImages = car.CarImages.find(
-        (img) => img.type === "exterior"
-    );
-
-
-
+    console.log(displayPrice, "displayPrice");
 
     return (
         <div>
-            <div className="box-car-list style-2 hv-one">
+            <div className="box-car-list style-2 hv-one mb-3">
                 <div className="image-group relative">
                     <div className="top flex-two">
                         <ul className="d-flex gap-8">
@@ -51,9 +71,9 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
                                 <li className="flag-tag success">Featured</li>
                             )}
                         </ul>
-                        <div className="year flag-tag">{car.Year.year}</div>
+                        {/* <div className="year flag-tag">{car.Year.year}</div> */}
                     </div>
-                    <ul className="change-heart flex">
+                    {/* <ul className="change-heart flex">
                         <li className="box-icon w-32">
                             <div onClick={handleAddToWishlist} className="icon">
                                 <svg
@@ -73,12 +93,12 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
                                 </svg>
                             </div>
                         </li>
-                    </ul>
+                    </ul> */}
                     <div className="img-style">
                         <Image
-                            className="lazyload"
+                            className="lazyload "
                             alt="image"
-                            src={`http://localhost:4000/uploads/${CarImages.FileSystem.originalPath}`}
+                            src={imagePath}
                             width={450}
                             height={338}
                         />
@@ -87,44 +107,67 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
                 <div className="content">
                     <div className="inner1">
                         <div className="text-address">
-                            <p className="text-color-3 font">{bodyTypeName}</p>
+                            <div className="icons flex-three">
+                                <i className="text-color-3 fa fa-car-side me-2" />
+                                <span className="text-color-3">{bodyTypeName}</span>
+                            </div>
                         </div>
                         <h5 className="link-style-1">
-                            <Link href={`/listing-detail-v1/${car.id}`}>
-                                {car.Brand.name}{car.CarModel.nam} {car.Trim.name}
-                            </Link>
+                            <LocalizedLink href={`/cars/new-cars/${car.Brand.name}/${car.CarModel.name}/${car.Year.year}/${car.Year.year}${car.Brand.name}${car.CarModel.name}${car.Trim.name}`}>
+                                {car.Year.year} {car.Brand.name} {car.CarModel.name} {car.Trim.name}
+                            </LocalizedLink>
                         </h5>
-                        <div className="icon-box flex flex-wrap">
+                        <div className="icon-box flex flex-wrap my-2">
                             <div className="icons flex-three">
                                 <i className="fa fa-cogs" />
-                                <span>{car.engineSize} cc</span>
+                                <span>{car.engineSize} ltr</span>
                             </div>
                             <div className="icons flex-three">
                                 <i className="fa fa-gas-pump" />
+                                <span>{fuelTypeName}</span>
+                            </div>
+                            <div className="icons flex-three">
+                                <i className="fa fa-exchange-alt" />
                                 <span>{transmissionName}</span>
                             </div>
-                            <div className="icons flex-three">
-                                <i className="fa fa-tachometer-alt" />
-                                <span>{car.engineSize} cc</span>
-                            </div>
+
                             <div className="icons flex-three">
                                 <i className="fa fa-flag" />
-                                <span>Oman Spec</span>
+                                <span>{regionalSpecificationName}</span>
                             </div>
+                            <div className="icons flex-three">
+                                <i className="fa fa-steering-wheel" />
+                                <span>{steeringSideSpecificationName}</span>
+                            </div>
+
                         </div>
-                        <div className="money fs-20 fw-5 lh-25 text-color-3">
-                            {currency === "AED" ? <>{car.CarPrices[0].currency} {Math.floor(car.CarPrices[0].price)}</> : <>{car.CarPrices[1].currency} {Math.floor(car.CarPrices[1].price)}</>}
+                        <div className="money fs-20 text-color-3 mb-2 mt-2">
+                            {token ? <>{displayPrice?.currency} {displayPrice?.price}</> : <small className="fs-6 text-black">
+                                <a className="text-color-3" href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#popup_bid">Log in</a> or <a className="text-color-3" href="#"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#popup_bid2">Register</a> to see the price</small>}
                         </div>
-                        <LocalizedLink
-                            href={`/listing-detail-v2/${car.id}`}
-                            className="view-car"
-                        >
-                            View car
-                            <i className="icon-autodeal-btn-right" />
-                        </LocalizedLink>
+                        <div className="flex gap-2">
+                            <LocalizedLink
+                                href={`/listing-detail-v2/${car.id}`}
+                                className="view-car px-3"
+                            >
+                                View car
+                                <i className="icon-autodeal-btn-right" />
+                            </LocalizedLink>
+                            <button
+                                href={`/listing-detail-v2/${car.id}`}
+                                className="view-car px-3"
+                            >
+                                Get Offer
+                            </button>
+                        </div>
+
                     </div>
-                    <div className="inner2">
-                        <div className="days-box d-flex justify-content-end">
+                    <div className="inner2 ps-0 h-full">
+                        <div className="days-box d-flex justify-content-center align-items-center h-100">
                             <div className="d-flex justify-content-end">
                                 <LocalizedLink
                                     href={`/listing-detail-v2/${car.id}`}
@@ -133,10 +176,18 @@ export default function CarCardWithGridAndListing({ car, isGrid }) {
                                     View car
                                     <i className="icon-autodeal-btn-right" />
                                 </LocalizedLink>
+                                <button
+                                    href={`/listing-detail-v2/${car.id}`}
+                                    className="view-car"
+                                >
+                                    View car
+                                    <i className="icon-autodeal-btn-right" />
+                                </button>
                             </div>
-                            <p className="fs-12 lh-16">
-                                View 20 variants matching your search criteria
-                            </p>
+
+                            <button className="btn btn-outline border fs-12 lh-16">
+                                <i className="far fa-heart me-1"></i>   Wishlist
+                            </button>
                         </div>
                     </div>
                 </div>

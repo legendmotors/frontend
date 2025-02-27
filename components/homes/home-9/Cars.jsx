@@ -85,7 +85,7 @@ export default function Cars({ title }) {
               <h2 className="wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 {title}
               </h2>
-              <LocalizedLink href={`/listing-grid`} className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
+              <LocalizedLink href={`/cars/new-cars`} className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 View all
                 <i className="icon-autodeal-btn-right" />
               </LocalizedLink>

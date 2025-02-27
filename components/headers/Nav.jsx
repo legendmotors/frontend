@@ -142,7 +142,7 @@ export default function Nav() {
       {/* New Cars Dropdown */}
       {/* Dropdown Menu */}
       <li className="tfcl-mega-menu dropdown2">
-        <LocalizedLink className="p-2" href="/listing-grid">Explore Cars</LocalizedLink>
+        <LocalizedLink className="p-2" href="/cars/new-cars">Explore Cars</LocalizedLink>
         <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
             {/* Tabs Section (Left Side) */}

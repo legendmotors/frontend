@@ -21,15 +21,15 @@ export const listingPages = [
     className: "dropdown2",
     title: "Listing grid",
     links: [
-      { href: "/listing-grid", text: "Listing grid V1" },
-      { href: "/listing-grid2", text: "Listing grid V2" },
+      { href: "/cars/new-cars", text: "Listing grid V1" },
+      { href: "/cars/new-cars2", text: "Listing grid V2" },
     ],
   },
   {
     className: "dropdown2",
     title: "Listing grid map",
     links: [
-      { href: "/listing-grid-map", text: "Listing map V1" },
+      { href: "/cars/new-cars-map", text: "Listing map V1" },
       {
         href: "/listing-list-map",
         text: "Listing map V2",

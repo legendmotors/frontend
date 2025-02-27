@@ -7,13 +7,37 @@ import "swiper/css/grid";
 import "photoswipe/style.css";
 import { useEffect, useState } from "react";
 import BackToTop from "@/components/common/BacktoTop";
-import Login from "@/components/modals/Login";
 import SignUp from "@/components/modals/SignUp";
 import Header1 from "@/components/headers/Header1";
 import { Provider } from "react-redux";
 import store from "@/store";
+import Login from "../modals/Login";
+import { getCookie, setCookie } from "@/utils/cookieFunction";
+import { GetUserDetails, GetUserLogin } from "@/services";
 
 export default function RootClient({ children }) {
+  const token = getCookie('token');
+
+  const userId = getCookie('userId')
+ 
+
+
+  useEffect(() => {
+    if (token) {
+      GetUserDetails.getUserById(userId)
+        .then((response) => {
+          console.log("User response:", response);
+          if (response) {
+            // Save user details as a JSON string in a cookie for 60 minutes.
+            setCookie("userData", JSON.stringify(response), 60);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching user details:", err);
+        });
+    }
+  }, [userId]);
+
 
   const [clevertapModule, setClevertapModule] = useState(null);
 
@@ -103,8 +127,10 @@ export default function RootClient({ children }) {
             {children}
           </div>
         </div>
-        <Login />
-        <SignUp />
+        {!token && <>
+          <Login />
+          <SignUp /></>}
+
         <BackToTop />
       </Provider>
     </>

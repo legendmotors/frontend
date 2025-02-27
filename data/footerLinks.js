@@ -11,13 +11,13 @@ export const footerData = [
   {
     heading: "Popular Cars",
     menuItems: [
-      { text: "Chevrolet", href: "/listing-grid" },
-      { text: "Land Rover", href: "/listing-grid" },
-      { text: "Tesla", href: "/listing-grid" },
-      { text: "Volkswagen", href: "/listing-grid" },
-      { text: "Honda", href: "/listing-grid" },
-      { text: "Hyundai", href: "/listing-grid" },
-      { text: "Mercedes benz", href: "/listing-grid" },
+      { text: "Chevrolet", href: "/cars/new-cars" },
+      { text: "Land Rover", href: "/cars/new-cars" },
+      { text: "Tesla", href: "/cars/new-cars" },
+      { text: "Volkswagen", href: "/cars/new-cars" },
+      { text: "Honda", href: "/cars/new-cars" },
+      { text: "Hyundai", href: "/cars/new-cars" },
+      { text: "Mercedes benz", href: "/cars/new-cars" },
     ],
   },
   {

@@ -65,7 +65,7 @@ export default function Features() {
                           Explore our extensive inventory of the latest models and certified pre-owned vehicles to find the perfect fit for your lifestyle.
                         </p>
                         <div className="meta style">
-                          <LocalizedLink href="/listing-grid" className=" btn-button">
+                          <LocalizedLink href="/cars/new-cars" className=" btn-button">
                             <span>Explore Inventory →</span>
                             <i className="icon-autodeal-next" />
                           </LocalizedLink>
@@ -105,7 +105,7 @@ export default function Features() {
                           Stay ahead with the newest car models added to our collection. Be the first to explore the latest features and technologies.
                         </p>
                         <div className="meta style">
-                          <LocalizedLink href="/listing-grid" className="btn-button">
+                          <LocalizedLink href="/cars/new-cars" className="btn-button">
                             <span>View New Arrivals </span>
                             <i className="icon-autodeal-next" />
                           </LocalizedLink>

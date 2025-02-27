@@ -190,14 +190,14 @@ export default function CarDetails1({ carItem }) {
                           </Worker>
                         </div>
                       </div>
+                      <div className="listing-line" />
 
-
-                      {/* <div className="listing-description mb-40">
+                      <div className="listing-description mb-40">
                         <div className="tfcl-listing-header">
                           <h2>Description</h2>
                         </div>
                         <Description />
-                      </div> */}
+                      </div>
 
                       <div className="listing-line" />
                       <div

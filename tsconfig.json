@@ -27,6 +27,6 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/modals/Login.jsx", "components/auth/UserDropdown.jsx"  ],
   "exclude": ["node_modules"]
 }

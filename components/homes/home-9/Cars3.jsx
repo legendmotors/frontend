@@ -41,7 +41,7 @@ export default function Cars3() {
                 Best Cars by Budget
               </h2>
               <Link
-                href={`/listing-grid2`}
+                href={`/cars/new-cars2`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"

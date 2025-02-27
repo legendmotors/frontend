@@ -27,6 +27,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.6",
     "clevertap-web-sdk": "^1.13.0",
+    "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "next": "14.2.15",
@@ -36,12 +37,17 @@
     "rc-slider": "^11.1.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-infinite-scroller": "^1.2.6",
+    "react-loading-skeleton": "^3.5.0",
+    "react-popper": "^2.3.0",
     "react-redux": "^9.2.0",
     "react-select": "^5.9.0",
+    "react-select-async-paginate": "^0.7.9",
     "sass": "^1.80.6",
     "sweetalert2": "^11.17.2",
     "swiper": "^11.1.14",
-    "wowjs": "^1.1.3"
+    "wowjs": "^1.1.3",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
