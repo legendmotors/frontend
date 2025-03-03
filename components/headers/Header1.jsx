@@ -143,11 +143,11 @@ export default function Header1() {
             <Link href={`/`}>
               <Image
                 className="lazyload"
-                data-src="/assets/images/logo/logo@2x.png"
+                data-src="/assets/images/logo/legend-motors-logo.png"
                 alt=""
                 width={197}
                 height={48}
-                src="/assets/images/logo/logo@2x.png"
+                src="/assets/images/logo/legend-motors-logo.png"
               />
             </Link>
           </div>

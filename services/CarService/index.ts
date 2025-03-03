@@ -28,19 +28,19 @@ const listCars = async (params: Record<string, any>) => {
     try {
         const response = await api.get(Apis.GetCarList, { params });
         if (!response || response.data.success === false || !response.data.data?.length) {
-            showTopCenterNotification('No cars found.');
+            // showTopCenterNotification('No cars found.');
             return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
         }
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error fetching car list:', error.response?.data?.message);
-            showErrorNotification(
-                error.response?.data?.message || 'An error occurred while fetching the car list.'
-            );
+            // showErrorNotification(
+            //     error.response?.data?.message || 'An error occurred while fetching the car list.'
+            // );
         } else {
             console.error('Unexpected error:', error);
-            showErrorNotification('An unexpected error occurred.');
+            // showErrorNotification('An unexpected error occurred.');
         }
         return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
     }

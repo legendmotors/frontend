@@ -1,20 +1,19 @@
 "use client";
-import { partners } from "@/data/categories";
+import { useEffect, useState } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-export default function PopularBrands({title}) {
+import Link from "next/link";
+import BrandService from "@/services/BrandService"; // Ensure the path is correct
+
+export default function PopularBrands({ title }) {
+  const [brands, setBrands] = useState([]);
+
   const swiperOptions = {
     slidesPerView: 6,
     spaceBetween: 30,
-    // autoplay: {
-    //     delay: 0,
-    //     disableOnInteraction: false,
-    // },
-    // speed: 10000,
     observer: true,
     observeParents: true,
-
     breakpoints: {
       0: {
         slidesPerView: 2,
@@ -32,28 +31,29 @@ export default function PopularBrands({title}) {
       },
     },
   };
+
+  // Fetch featured brands from the API
+  useEffect(() => {
+    async function fetchFeaturedBrands() {
+      const params = { featured: true };
+      const res = await BrandService.listBrand(params);
+      if (res && res.data) {
+        setBrands(res.data);
+      }
+    }
+    fetchFeaturedBrands();
+  }, []);
+
   return (
     <section>
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="heading-section flex align-center justify-space flex-wrap gap-20">
-              <h2
-                className="wow fadeInUpSmall"
-                data-wow-delay="0.2s"
-                data-wow-duration="1000ms"
-              >
-                {title}
-              </h2>
-              <a
-                href="#"
-                className="tf-btn-arrow wow fadeInUpSmall"
-                data-wow-delay="0.2s"
-                data-wow-duration="1000ms"
-              >
-                View all
-                <i className="icon-autodeal-btn-right" />
-              </a>
+              <h2>{title}</h2>
+              <Link href="#" className="tf-btn-arrow">
+                View all <i className="icon-autodeal-btn-right" />
+              </Link>
             </div>
           </div>
           <div className="col-lg-12">
@@ -62,30 +62,42 @@ export default function PopularBrands({title}) {
               modules={[Pagination]}
               className="swiper partner-slide overflow-hidden"
             >
-              {partners.map((partner, i) => (
-                <SwiperSlide key={i} className="swiper-slide">
-                  <a href="#" className="partner-item style-1">
-                    <div className="image">
-                      <Image
-                        className="lazyload"
-                        data-src={partner.imgSrc}
-                        alt="images"
-                        src={partner.imgSrc}
-                        width={partner.imgWidth}
-                        height={partner.imgHeight}
-                      />
-                    </div>
-                    <div className="content center">
-                      <div className="fs-16 fw-6 title text-color-2 font-2">
-                        {partner.title}
+              {brands.length > 0 ? (
+                brands.map((brand, i) => (
+                  <SwiperSlide key={i} className="swiper-slide">
+                    <Link href="#" className="partner-item style-1">
+                      <div className="image">
+                        <Image
+                          src={
+                            // Use the thumbnail path if available, otherwise fallback
+                            process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + brand.logo?.webp ||
+                            "/placeholder-image.jpg"
+                          }
+                          alt={brand.name}
+                          width={100}
+                          height={100}
+                        // Remove lazyload attribute as Next.js Image handles lazy loading by default
+                        />
                       </div>
-                      <span className="sub-title fs-12 fw-4 font-2">
-                        {partner.subTitle}
-                      </span>
-                    </div>
-                  </a>
-                </SwiperSlide>
-              ))}
+                      <div className="content center">
+                        <div className="fs-16 fw-6 title text-color-2 font-2">
+                          {brand.name}
+                        </div>
+                      </div>
+                      <div className="content center">
+                        <div className="fs-16 fw-1 title text-color-2 font-2">
+                          Cars
+                        </div>
+                        <span className="sub-title fs-12 fw-6 font-2">
+                          {brand?.carCount}
+                        </span>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))
+              ) : (
+                <p>No brands found.</p>
+              )}
             </Swiper>
           </div>
         </div>

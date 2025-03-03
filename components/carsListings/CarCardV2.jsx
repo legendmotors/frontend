@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { formatPriceAED } from "@/utils/formatedPriceAED";
+import { formatPriceAED } from "@/utils/formatPrice";
 
 export default function CarCardV2({ elm }) {
   return (

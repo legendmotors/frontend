@@ -109,9 +109,9 @@ export default function page() {
     <>
       <Hero />
       <div className="mt-5 pt-5"></div>
-      <Cars title={sectionsByKey.featured_cars?.title} />
-      <Cars title={sectionsByKey.the_most_searched_cars?.title} />
-      <CarBodyTypes title={sectionsByKey.search_by_body?.title} />
+      <Cars title={sectionsByKey.featured_cars?.title} tagId={5}/>
+      <Cars title={sectionsByKey.the_most_searched_cars?.title} tagId={4} />
+      <CarBodyTypes title={sectionsByKey.search_by_body?.title} specId={6}/>
       <div className="mt-5 pt-5"></div>
       <PopularBrands title={sectionsByKey.popular_brands?.title} />
       {/* <Cta /> */}

@@ -1,10 +1,23 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SpecificationService from "@/services/SpecificationService"; // adjust the import path as needed
 
+// Mapping specification names to image filenames
+const imageMapping = {
+  Sedan: "sedan.png",
+  Hatchback: "hatchback.png",
+  SUV: "suv.png",
+  "Pickup Truck": "pickup.png",
+  Minivan: "minivan.png",
+  Crossover: "crossover.png",
+};
 
-export default function CarBodyTypes({title}) {
+export default function CarBodyTypes({ title, specId }) {
+  const [specValues, setSpecValues] = useState([]);
+
   const swiperOptions = {
     slidesPerView: 8,
     spaceBetween: 30,
@@ -41,47 +54,66 @@ export default function CarBodyTypes({title}) {
     },
   };
 
+  // Fetch specification values based on the provided specification ID
+  useEffect(() => {
+    async function fetchSpecValues() {
+      try {
+        const params = { specificationId: specId };
+        const response = await SpecificationService.listSpecificationValues(params);
+        // Assuming the API response contains the data array in response.data
+        if (response.data) {
+          setSpecValues(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching specification values:", error);
+      }
+    }
+    if (specId) {
+      fetchSpecValues();
+    }
+  }, [specId]);
+
   return (
     <section className="">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="heading-section flex align-center justify-space flex-wrap gap-20">
-              <h2 className="wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
-               {title}
-              </h2>
-              <Link href="/cars/new-cars" className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
-                View all
-                <i className="icon-autodeal-btn-right" />
+              <h2>{title}</h2>
+              <Link href="/cars/new-cars" className="tf-btn-arrow">
+                View all <i className="icon-autodeal-btn-right" />
               </Link>
             </div>
           </div>
           <div className="col-lg-12">
             <Swiper {...swiperOptions} modules={[Autoplay, Pagination]} className="swiper carousel-1 overflow-hidden">
-              {[
-                { type: "Sedan", icon: "sedan.png", count: 271 },
-                { type: "Hatchback", icon: "hatchback.png", count: 271 },
-                { type: "SUV", icon: "suv.png", count: 271 },
-                { type: "Pickup Truck", icon: "pickup.png", count: 271 },
-                { type: "Minivan", icon: "minivan.png", count: 271 },
-                { type: "Crossover", icon: "crossover.png", count: 271 },
-                { type: "SUV", icon: "suv.png", count: 271 },
-                { type: "Pickup Truck", icon: "pickup.png", count: 271 },
-                { type: "Minivan", icon: "minivan.png", count: 271 },
-                { type: "Crossover", icon: "crossover.png", count: 271 },
-              ].map((car, index) => (
-                <SwiperSlide key={index} className="swiper-slide">
-                  <Link href="/cars/new-cars" className="partner-item style-2 ">
-                    <div className="icon d-flex align-items-center justify-content-center mb-0">
-                      <img src={`/assets/images/bodytypes/${car.icon}`} alt={car.type} width={100} height={100} className="w-50"/>
-                    </div>
-                    <div className="content center">
-                      <div className="fs-16 fw-6 title text-color-2 font-2">{car.type}</div>
-                      <span className="sub-title fs-12 fw-4 font-2">{car.count} Car</span>
-                    </div>
-                  </Link>
-                </SwiperSlide>
-              ))}
+              {specValues.length > 0 ? (
+                specValues.map((spec, index) => {
+                  // Use mapping to determine the image filename
+                  const imageFile = imageMapping[spec.name] || spec.icon || "default.png";
+                  return (
+                    <SwiperSlide key={index}>
+                      <Link href="/cars/new-cars" className="partner-item style-2">
+                        <div className="icon d-flex align-items-center justify-content-center mb-0">
+                          <img
+                            src={`/assets/images/bodytypes/${imageFile}`}
+                            alt={spec.name}
+                            width={100}
+                            height={100}
+                            className="w-50"
+                          />
+                        </div>
+                        <div className="content center">
+                          <div className="fs-16 fw-6 title text-color-2 font-2">{spec.name}</div>
+                          {/* <span className="sub-title fs-12 fw-4 font-2">{spec.count} Car</span> */}
+                        </div>
+                      </Link>
+                    </SwiperSlide>
+                  );
+                })
+              ) : (
+                <p>No specification values found.</p>
+              )}
             </Swiper>
           </div>
         </div>
