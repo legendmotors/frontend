@@ -40,7 +40,7 @@ export default function CarBrands() {
                     ))}
                 </div>
             </div>
-            <Footer1 />
+            
         </>
     );
 }

@@ -20,12 +20,25 @@
 // };
 
 
-import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
+// import createMiddleware from 'next-intl/middleware';
+// import {routing} from './i18n/routing';
 
-export default createMiddleware(routing);
+// export default createMiddleware(routing);
 
+// export const config = {
+//   // Match all paths with the supported locales
+//   matcher: ['/', '/(en|ar|fr|es|pt|zh)/:path*'],
+// };
+
+
+import { i18nRouter } from 'next-i18n-router';
+import i18nConfig from './i18nConfig';
+
+export function middleware(request) {
+  return i18nRouter(request, i18nConfig);
+}
+
+// applies this middleware only to files in the app directory
 export const config = {
-  // Match all paths with the supported locales
-  matcher: ['/', '/(en|ar|fr|es|pt|zh)/:path*'],
+  matcher: '/((?!api|static|.*\\..*|_next).*)'
 };

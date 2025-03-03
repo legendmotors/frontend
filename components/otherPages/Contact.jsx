@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { branches } from "@/data/address";
 import MapAndAddress from "../contact/MapAndAddress";
-export default function Contact() {
+export default function Contact({ sectionsByKey }) {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
@@ -43,7 +43,7 @@ export default function Contact() {
           <div className="row">
             <div className="col-lg-12">
               <div className="inner-heading flex-two flex-wrap mb-2">
-                <h1 className="heading-listing">Drop Us a Line</h1>
+                <h1 className="heading-listing">{sectionsByKey.drop_us_a_line?.title}</h1>
                 <div className="social-listing flex-six flex-wrap">
                   <p>Share this page:</p>
                   <div className="icon-social style1">
@@ -66,19 +66,14 @@ export default function Contact() {
           </div>
         </div>
       </section>
-      
+
       <section className="tf-section-contact pt-0">
         <div className="container">
           <div className="row">
             <div className="col-md-8 contact-left">
               <div className="heading-section mb-30">
-                <p className="mt-12">
-                  Legend Motors the most trusted provider of vehicle export solutions in the region, with over 120,000 vehicles sold we have deservedly earned the reputation for integrity, transparency and putting you the customer at the heart of our business.
-                </p>
-                <p className="mt-12">
-                  Please contact us directly for all of your vehicle requirements with complete confidence
-                </p>
-                <p className="mt-12">Can we check the GDPR – does this need to be a bigger statement?</p>
+                <div className="mt-12" dangerouslySetInnerHTML={{ __html: sectionsByKey.drop_us_a_line?.content }}>
+                </div>
               </div>
               <div id="comments" className="comments">
                 <div className="respond-comment">
@@ -203,7 +198,7 @@ export default function Contact() {
                     <li className="mb-2">
                       <i className="bi bi-telephone-fill text-primary me-2"></i>
                       <a href={`tel: +971509660888`} className="text-decoration-none">
-                      +971 50 966 0888
+                        +971 50 966 0888
                       </a>
                     </li>
                   </ul>

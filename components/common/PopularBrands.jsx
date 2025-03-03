@@ -3,7 +3,7 @@ import { partners } from "@/data/categories";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-export default function Categories2({ parentClass = "tf-section2" }) {
+export default function PopularBrands({title}) {
   const swiperOptions = {
     slidesPerView: 6,
     spaceBetween: 30,
@@ -33,7 +33,7 @@ export default function Categories2({ parentClass = "tf-section2" }) {
     },
   };
   return (
-    <section className={parentClass}>
+    <section>
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
@@ -43,7 +43,7 @@ export default function Categories2({ parentClass = "tf-section2" }) {
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
-                Popular Brands
+                {title}
               </h2>
               <a
                 href="#"

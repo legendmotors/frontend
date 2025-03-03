@@ -5,7 +5,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useEffect, useState } from "react";
 import CarCard from "@/components/carsListings/CarCard";
-import LocalizedLink from "@/components/translation/LocalizedLink";
+
 import Cookies from "js-cookie";
 
 const priceRanges = [
@@ -85,10 +85,10 @@ export default function Cars({ title }) {
               <h2 className="wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 {title}
               </h2>
-              <LocalizedLink href={`/cars/new-cars`} className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
+              <Link href={`/cars/new-cars`} className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 View all
                 <i className="icon-autodeal-btn-right" />
-              </LocalizedLink>
+              </Link>
             </div>
           </div>
           <div className="col-lg-12">

@@ -34,7 +34,7 @@ export default function page({ params }) {
         </div>
       </section>
       <AgentDetails agentItem={agentItem} />
-      <Footer1 />
+      
     </>
   );
 }

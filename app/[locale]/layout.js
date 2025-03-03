@@ -14,11 +14,9 @@ import WhatsAppButton from "@/components/social/WhatsAppButton";
 import Script from "next/script";
 
 export default async function RootLayout({ children, params: { locale } }) {
-  // Server-side logic: Validate the locale
-  if (!routing.locales.includes(locale)) {
-    notFound();
-  }
 
+  console.log(locale,"loccaaca");
+  
   // Fetch messages for the given locale
   const messages = (await import(`../../messages/${locale}.json`)).default;
 
@@ -46,9 +44,9 @@ export default async function RootLayout({ children, params: { locale } }) {
       </head>
       <body className="body" style={{ transition: "0s" }}>
         <WhatsAppButton />
-        <NextIntlClientProvider messages={messages}>
+        {/* <NextIntlClientProvider messages={messages}> */}
           <RootClient>{children}</RootClient>
-        </NextIntlClientProvider>
+        {/* </NextIntlClientProvider> */}
       </body>
     </html>
   );

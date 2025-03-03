@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { blogPosts4 } from "@/data/blogs";
-export default function Blogs2() {
+export default function Blogs2({title}) {
   return (
     <section className="section-blog tf-section3">
       <div className="container">
@@ -14,7 +14,7 @@ export default function Blogs2() {
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
-                Our News
+               {title}
               </h2>
               <Link
                 href={`/blog-grid`}

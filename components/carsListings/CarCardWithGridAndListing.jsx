@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import LocalizedLink from "../translation/LocalizedLink";
+
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishlistSlice";
@@ -43,8 +43,6 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
         (spec) => spec.Specification.key === "transmission"
     );
 
-
-    console.log(fuelTypeSpecification, "fuelTypeSpecification");
 
 
     const engine = car.SpecificationValues.find(
@@ -113,9 +111,9 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                             </div>
                         </div>
                         <h5 className="link-style-1">
-                            <LocalizedLink href={`/cars/new-cars/${car.Brand.name}/${car.CarModel.name}/${car.Year.year}/${car.Year.year}${car.Brand.name}${car.CarModel.name}${car.Trim.name}`}>
+                            <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
                                 {car.Year.year} {car.Brand.name} {car.CarModel.name} {car.Trim.name}
-                            </LocalizedLink>
+                            </Link>
                         </h5>
                         <div className="icon-box flex flex-wrap my-2">
                             <div className="icons flex-three">
@@ -150,39 +148,39 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                         data-bs-target="#popup_bid2">Register</a> to see the price</small>}
                         </div>
                         <div className="flex gap-2">
-                            <LocalizedLink
-                                href={`/listing-detail-v2/${car.id}`}
+                            <Link
+                                href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}
                                 className="view-car px-3"
                             >
                                 View car
                                 <i className="icon-autodeal-btn-right" />
-                            </LocalizedLink>
-                            <button
+                            </Link>
+                            {/* <button
                                 href={`/listing-detail-v2/${car.id}`}
                                 className="view-car px-3"
                             >
                                 Get Offer
-                            </button>
+                            </button> */}
                         </div>
 
                     </div>
                     <div className="inner2 ps-0 h-full">
                         <div className="days-box d-flex justify-content-center align-items-center h-100">
                             <div className="d-flex justify-content-end">
-                                <LocalizedLink
+                                <Link
+                                    href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}
+                                    className="view-car"
+                                >
+                                    View car
+                                    <i className="icon-autodeal-btn-right" />
+                                </Link>
+                                {/* <button
                                     href={`/listing-detail-v2/${car.id}`}
                                     className="view-car"
                                 >
                                     View car
                                     <i className="icon-autodeal-btn-right" />
-                                </LocalizedLink>
-                                <button
-                                    href={`/listing-detail-v2/${car.id}`}
-                                    className="view-car"
-                                >
-                                    View car
-                                    <i className="icon-autodeal-btn-right" />
-                                </button>
+                                </button> */}
                             </div>
 
                             <button className="btn btn-outline border fs-12 lh-16">

@@ -10,7 +10,7 @@ const priceRanges = [
   { title: `AED 80 - 130K`, isActive: false, range: { min: 80000, max: 130000 } },
   { title: `AED 130 - 180K`, isActive: false, range: { min: 130000, max: 180000 } },
 ];
-export default function Cars3() {
+export default function Cars3({title}) {
   const [filtered, setFiltered] = useState(carListings2);
   const [selectedRange, setSelectedRange] = useState(priceRanges[0]);
 
@@ -38,7 +38,7 @@ export default function Cars3() {
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
-                Best Cars by Budget
+               {title}
               </h2>
               <Link
                 href={`/cars/new-cars2`}

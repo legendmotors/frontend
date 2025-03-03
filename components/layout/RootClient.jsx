@@ -14,12 +14,13 @@ import store from "@/store";
 import Login from "../modals/Login";
 import { getCookie, setCookie } from "@/utils/cookieFunction";
 import { GetUserDetails, GetUserLogin } from "@/services";
+import Footer1 from "../footers/Footer1";
 
 export default function RootClient({ children }) {
   const token = getCookie('token');
 
   const userId = getCookie('userId')
- 
+
 
 
   useEffect(() => {
@@ -127,6 +128,7 @@ export default function RootClient({ children }) {
             {children}
           </div>
         </div>
+        <Footer1 />
         {!token && <>
           <Login />
           <SignUp /></>}

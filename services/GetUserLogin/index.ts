@@ -157,18 +157,10 @@ const authenticate = (user: { token: string }, next: () => void) => {
 
         // Decode the token to extract details
         const decoded: any = jwtDecode(user.token); // Decoding the token
-
-
-        console.log(decoded, "decoded");
-
         if (decoded) {
             // Save roleId from the token
             if (decoded.roleId) {
                 setCookie('roleId', decoded.roleId, 30);
-            }
-
-            if (decoded.sub) {
-                setCookie('userId', decoded.sub, 30);
             }
 
             // Save permissions as a comma-separated string
@@ -199,7 +191,6 @@ const logout = (next: () => void) => {
         eraseCookie('permissions');
         eraseCookie('userId');
         eraseCookie('XSRF-token');
-        eraseCookie('userData');
         window.location.reload();
     }
 };

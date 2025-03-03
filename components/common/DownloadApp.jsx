@@ -1,8 +1,11 @@
 import React from "react";
 import Image from "next/image";
-export default function DownloadApp({ parentClass = "tf-section-banner" }) {
+export default function DownloadApp({ sectionsByKey }) {
+
+  console.log(sectionsByKey, "sectionsByKeysss");
+
   return (
-    <section className={parentClass}>
+    <section >
       <div className="container">
         <div className="row">
           <div className="col-lg-6">
@@ -19,12 +22,11 @@ export default function DownloadApp({ parentClass = "tf-section-banner" }) {
               </div>
               <div className="content">
                 <h2 className="text-color-1">
-                  <a href="#">Down load our app</a>
+                  <a href="#">{sectionsByKey?.download_our_app?.title}</a>
                 </h2>
-                <p className="text-color-1">
-                  Whether you're buying, selling, or simply researching cars,
-                  Legend Motors is the app for you.
-                </p>
+                <div className="text-color-1" dangerouslySetInnerHTML={{ __html: sectionsByKey?.download_our_app?.content }}>
+
+                </div>
                 <div className="flex gap-8">
                   <a href="#">
                     <Image
@@ -64,12 +66,10 @@ export default function DownloadApp({ parentClass = "tf-section-banner" }) {
               </div>
               <div className="content">
                 <h2 className="text-color-1">
-                  <a href="#">Are you looking for a car?</a>
+                  <a href="#">{sectionsByKey?.are_you_looking_for_a_car?.title}</a>
                 </h2>
-                <p className="text-color-1">
-                  Save time and effort as you no longer need to visit multiple
-                  stores to find the right car.
-                </p>
+                <div className="text-color-1" dangerouslySetInnerHTML={{ __html: sectionsByKey?.are_you_looking_for_a_car?.content }}>
+                </div>
                 <a href="#" className="find-cars">
                   <span>Find cars</span>
                   <i className="icon-autodeal-search" />

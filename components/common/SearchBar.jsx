@@ -43,7 +43,7 @@ const SearchBar = () => {
       <div className="wd-find-select">
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="form-group-1 search-form form-style2 relative">
-            <i className="icon-autodeal-search position-absolute top-50 start-100 translate-middle pe-5" />
+            <i className="fal fa-search position-absolute top-50 start-100 translate-middle pe-5"/>
             <input
               type="search"
               className="search-field"

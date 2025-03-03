@@ -25,7 +25,7 @@ export default function page() {
                 </div>
             </section>
             <Cars2 />
-            <Footer1 />
+            
         </>
     )
 }

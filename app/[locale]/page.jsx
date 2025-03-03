@@ -1,8 +1,9 @@
 "use client"
 import Blogs2 from "@/components/common/Blogs2";
-import Brands from "@/components/common/Brands";
-import CarBrands from "@/components/common/CarBrands";
-import Categories2 from "@/components/common/Categories2";
+import CarBodyTypes from "@/components/common/CarBodyTypes";
+import CarBrands from "@/components/common/CarBodyTypes";
+import PopularBrands from "@/components/common/PopularBrands";
+import Categories2 from "@/components/common/PopularBrands";
 import Cta from "@/components/common/Cta";
 import DownloadApp from "@/components/common/DownloadApp";
 import Features from "@/components/common/Features";
@@ -13,47 +14,116 @@ import Cars2 from "@/components/homes/home-9/Cars2";
 import Cars3 from "@/components/homes/home-9/Cars3";
 import Hero from "@/components/homes/home-9/Hero";
 import Testimonials from "@/components/homes/home-9/Testimonials";
-import React, { useEffect } from "react";
+import PagesService from "@/services/PagesService";
+import { useLocale } from "next-intl";
+import React, { useEffect, useRef, useState } from "react";
+import Partners from "@/components/common/Partners";
 
-// export const metadata = {
-//   title:
-//     "Home 09 || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-//   description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-// };
 export default function page() {
+  const hasTracked = useRef(false);
+  const TRACKING_INTERVAL = 30000; // 30 seconds
+
   useEffect(() => {
+    // Prevent duplicate tracking from Strict Mode
+    if (hasTracked.current) return;
+    hasTracked.current = true;
+
+    const now = Date.now();
+    const lastTracked = localStorage.getItem("lastTrackingEvent");
+
+    // Check if the last event was tracked within the interval
+    if (lastTracked && now - parseInt(lastTracked, 10) < TRACKING_INTERVAL) {
+      console.log("Tracking event suppressed due to recent event.");
+      return;
+    }
+    // Update the last tracked timestamp
+    localStorage.setItem("lastTrackingEvent", now.toString());
+
+    // CleverTap event
     if (typeof window !== "undefined" && window.clevertap) {
-      clevertap.event.push('Page Viewed', {
-        "Page Name": "Homepage"
-      });
+      clevertap.event.push('Page Viewed', { "Page Name": "Homepage" });
       console.log("CleverTap Event: Home Page Viewed");
     }
+
+    // Custom tracking event to your Node.js backend
+    const sessionId = localStorage.getItem("sessionId") || (() => {
+      const newSession = Math.random().toString(36).substr(2, 9);
+      localStorage.setItem("sessionId", newSession);
+      return newSession;
+    })();
+
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}tracking/create`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId,
+        eventType: "page_view",
+        page: "Homepage",
+        timestamp: now
+      })
+    })
+      .then(response => response.json())
+      .then(data => console.log("Tracking event recorded:", data))
+      .catch(err => console.error("Error recording tracking event:", err));
   }, []);
+
+  const locale = useLocale();
+  const [pageData, setPageData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  console.log(pageData, "pageData");
+
+
+
+  useEffect(() => {
+    const fetchPage = async () => {
+      try {
+        // For the homepage, assume your slug is "home"
+        const result = await PagesService.getPageBySlug("home", locale);
+
+        if (result && result.success && result.data) {
+          setPageData(result.data);
+        }
+      } catch (err) {
+        console.error("Error fetching page data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPage();
+  }, [locale]);
+  const sectionsByKey = pageData && Array.isArray(pageData.sections)
+    ? pageData.sections.reduce((acc, section) => {
+      acc[section.sectionKey] = {
+        title: section.title,
+        content: section.content,
+      };
+      return acc;
+    }, {})
+    : {};
+
+
 
   return (
     <>
-
       <Hero />
       <div className="mt-5 pt-5"></div>
-      <Cars title={"Featured Cars"} />
-      <Cars title={"The Most Searched Cars"} />
-
-      <CarBrands />
+      <Cars title={sectionsByKey.featured_cars?.title} />
+      <Cars title={sectionsByKey.the_most_searched_cars?.title} />
+      <CarBodyTypes title={sectionsByKey.search_by_body?.title} />
       <div className="mt-5 pt-5"></div>
-      <Categories2 parentClass="tf-section3 pb-0" />
+      <PopularBrands title={sectionsByKey.popular_brands?.title} />
       {/* <Cta /> */}
       <div className="mt-5 pt-5"></div>
-      <DownloadApp />
+      <DownloadApp sectionsByKey={sectionsByKey} />
       <div className="mt-5 pt-5"></div>
-
-      <Features />
-
-      <Cars3 title={"Upcoming Cars"} />
-      <Testimonials />
+      <Features sectionsByKey={sectionsByKey} />
+      <Cars3 title={sectionsByKey.best_cars_by_budget?.title} />
+      <Testimonials sectionsByKey={sectionsByKey} />
       <div className="mt-5 pt-5"></div>
-      <Blogs2 />
-      <Brands />
-      <Footer1 />
+      <Blogs2 title={sectionsByKey.our_news?.title}/>
+      <Partners title={sectionsByKey.our_partners?.title}/>
     </>
   );
 }

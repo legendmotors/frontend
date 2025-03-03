@@ -6,8 +6,8 @@ import Link from "next/link";
 import { allCars } from "@/data/cars";
 export const metadata = {
   title:
-    "Car Details 01 || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-  description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+    "",
+  description: "",
 };
 export default function page({ params }) {
   const carItem = allCars.filter((elm) => elm.id == params.id)[0] || allCars[0];
@@ -30,7 +30,7 @@ export default function page({ params }) {
         </div>
       </section>
       <CarDetails1 carItem={carItem} />
-      <Footer1 />
+      
     </>
   );
 }

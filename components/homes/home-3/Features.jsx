@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-export default function Features() {
+export default function Features({ sectionsByKey }) {
   return (
     <section className="tf-section3 section-why-choose-us">
       <div className="container">
@@ -11,19 +11,19 @@ export default function Features() {
                 <li className="tf-icon-list ani5">
                   <i className="icon-autodeal-check" />
                   <span className="fs-18 fw-6 lh-25 text-color-2">
-                    Proven Expertise
+                    {sectionsByKey.item_one?.title}
                   </span>
                 </li>
                 <li className="tf-icon-list ani4">
                   <i className="icon-autodeal-check" />
                   <span className="fs-18 fw-6 lh-25 text-color-2">
-                    1 million visits per day
+                    {sectionsByKey.item_two?.title}
                   </span>
                 </li>
                 <li className="tf-icon-list ani5">
                   <i className="icon-autodeal-check" />
                   <span className="fs-18 fw-6 lh-25 text-color-2">
-                    7,800 car sellers
+                    {sectionsByKey.item_three?.title}
                   </span>
                 </li>
               </ul>
@@ -57,19 +57,35 @@ export default function Features() {
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Why Choose Legend Motors
+                  {sectionsByKey.why_choose_legend_motor?.title}
                 </h2>
                 <p
                   className="mt-18 wow fadeInUpSmall"
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
+                  dangerouslySetInnerHTML={{ __html: sectionsByKey?.why_choose_legend_motor?.content }}
                 >
-                  Our experienced team excels in car sales with many years of
-                  successfully navigating the market, delivering informed
-                  decisions and optimal results.
                 </p>
               </div>
-              <div className="tf-icon-box-list">
+
+              <div className="heading-section">
+                <h2
+                  className="wow fadeInUpSmall"
+                  data-wow-delay="0.2s"
+                  data-wow-duration="1000ms"
+                >
+                  {sectionsByKey.brand_story?.title}
+                </h2>
+                <p
+                  className="mt-18 wow fadeInUpSmall"
+                  data-wow-delay="0.2s"
+                  data-wow-duration="1000ms"
+                  dangerouslySetInnerHTML={{ __html: sectionsByKey?.brand_story?.content }}
+                >
+                </p>
+              </div>
+
+              {/* <div className="tf-icon-box-list">
                 <div
                   className="tf-icon-box style-2 wow fadeInUpSmall"
                   data-wow-delay="0.2s"
@@ -233,7 +249,7 @@ export default function Features() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ export default function Header1() {
                         className="lazyload img-none"
                         data-src="/assets/images/logo/legend-motors-logo.png"
                         alt=""
-                        width={225}
+                        width={160}
                         height={40}
                         src="/assets/images/logo/legend-motors-logo.png"
                       />
@@ -44,7 +44,7 @@ export default function Header1() {
                         className="lazyload img-is-fixed"
                         data-src="/assets/images/logo/legend-motors-logo.png"
                         alt=""
-                        width={225}
+                        width={160}
                         height={40}
                         src="/assets/images/logo/legend-motors-logo.png"
                       />
@@ -103,7 +103,7 @@ export default function Header1() {
               </div>
             </div>
             <div className="col-lg-12 ">
-              <div className="inner-container flex justify-center align-center  border border-t-1">
+            <div className="d-flex justify-content-center align-items-center border-top border-grey">
 
                 <div className="nav-outer flex align-center">
                   {/* Main Menu */}

@@ -1,24 +1,70 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import BannerService from "@/services/BannerService";
+import { useLocale } from "next-intl";
 
 export default function Banner() {
+  const [banner, setBanner] = useState(null);
+  const locale = useLocale();
+  const [loading, setLoading] = useState(true);
+  console.log(banner, "banner");
+
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        // Use a single banner identifier from your database
+        const identifier = "AboutUs";
+        const result = await BannerService.getBannerByIdentifier(identifier, locale);
+        if (result && result.success && result.data) {
+          setBanner(result.data);
+        }
+      } catch (err) {
+        console.error("Error fetching banner by identifier:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanner();
+  }, [locale]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!banner) {
+    return <div>Banner not found.</div>;
+  }
+
+  // Build image URL if media is available
+  const imageUrl =
+    banner.media &&
+    `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${
+      banner.media.original || banner.media.thumbnailPath
+    }`;
+
   return (
-    <section className="tf-banner style-3">
+    <section
+      className="tf-banner"
+      style={{
+        backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
+            {/* Text Content rendered on top of the background */}
             <div className="content relative z-2">
               <div className="heading">
-                <h1 className="text-color-1">
-                  Buying Cars<br />
-                  has never been easier!
-                </h1>
+                <h1 className="text-color-1">{banner?.title}</h1>
                 <p className="text-color-1 fs-18 fw-4 lh-22 font">
-                  Leading online car buying platform. helps users
-                  buy <br />
-                  cars that are right for them
+                  {banner?.description}
                 </p>
                 <a href="#" className="sc-button btn-svg">
-                  <span>Search for your favorite car</span>
+                  <span>{banner?.buttontext}</span>
                   <i className="icon-autodeal-next" />
                 </a>
               </div>

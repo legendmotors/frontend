@@ -28,7 +28,7 @@ export default function page() {
         </div>
       </section>
       <Blogs1 />
-      <Footer1 />
+      
     </>
   );
 }

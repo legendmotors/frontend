@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import LocalizedLink from "../translation/LocalizedLink";
+
 import Cookies from "js-cookie";
 
 const CarCard = ({ car }) => {
@@ -114,12 +114,12 @@ const CarCard = ({ car }) => {
         {/* Display Converted Price in Selected Currency */}
         <div className="money fs-20 fw-5 lh-25 text-color-3 d-flex justify-content-between align-items-center">
           {currency} {convertedPrice}
-          <LocalizedLink
+          <Link
             href={`/listing-detail-v2/${car.id}`}
             className="view-car"
           >
             View car
-          </LocalizedLink>
+          </Link>
         </div>
       </div>
     </div>

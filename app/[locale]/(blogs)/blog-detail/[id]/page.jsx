@@ -31,7 +31,7 @@ export default function page({ params }) {
         </div>
       </section>
       <BlogDetails blogItem={blogItem} />
-      <Footer1 />
+      
     </>
   );
 }

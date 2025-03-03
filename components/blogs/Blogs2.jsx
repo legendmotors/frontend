@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { blogPosts2 } from "@/data/blogs";
 import Pagination2 from "../common/Pagination2";
-import LocalizedLink from "../translation/LocalizedLink";
+
 export default function Blogs2() {
   return (
     <section className="tf-section3 flat-blog-grid flat-blog-list flat-property">
@@ -56,9 +56,9 @@ export default function Blogs2() {
                             </a>
                           </div>
                           <h3>
-                            <LocalizedLink href={`/blog-detail/${post.id}`}>
+                            <Link href={`/blog-detail/${post.id}`}>
                               {post.title}
-                            </LocalizedLink>
+                            </Link>
                           </h3>
                           <p>{post.excerpt}</p>
                         </div>

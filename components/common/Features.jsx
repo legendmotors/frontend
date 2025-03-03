@@ -1,12 +1,58 @@
 "use client";
-
+import React, { useState, useEffect } from "react";
+import BannerService from "@/services/BannerService";
+import { useLocale } from "next-intl";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import LocalizedLink from "../translation/LocalizedLink";
 
-export default function Features() {
+
+export default function Features({ sectionsByKey }) {
+  const [banner, setBanner] = useState(null);
+  const locale = useLocale();
+  const [loading, setLoading] = useState(true);
+  console.log(banner, "banner");
+
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        // Use a single banner identifier from your database
+        const identifier = "WhyChooseBanner";
+        const result = await BannerService.getBannerByIdentifier(identifier, locale);
+        if (result && result.success && result.data) {
+          setBanner(result.data);
+        }
+      } catch (err) {
+        console.error("Error fetching banner by identifier:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanner();
+  }, [locale]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!banner) {
+    return <div>Banner not found.</div>;
+  }
+
+  // Build image URL if media is available
+  const imageUrl =
+    banner.media &&
+    `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.original || banner.media.thumbnailPath
+    }`;
+
   return (
     <>
-      <section className="loan-calculator inner-7">
+      <section className="loan-calculator inner-7" style={{
+        backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -16,14 +62,14 @@ export default function Features() {
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Why Choose Legend Motors?
+                  {banner?.title}
                 </h2>
                 <p
                   className="text-color-1 wow fadeInUpSmall"
                   data-wow-delay="0.2s"
                   data-wow-duration="1000ms"
                 >
-                  Our dedicated team offers a wide selection of brand-new and certified vehicles, ensuring a seamless car-buying experience with trusted support.
+                  {banner?.description}
                 </p>
               </div>
             </div>
@@ -59,16 +105,15 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Browse Our Cars</a>
+                          <a href="#">{sectionsByKey?.browse_our_cars?.title}</a>
                         </h3>
-                        <p>
-                          Explore our extensive inventory of the latest models and certified pre-owned vehicles to find the perfect fit for your lifestyle.
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: sectionsByKey?.browse_our_cars?.content }}>
+                        </div>
                         <div className="meta style">
-                          <LocalizedLink href="/cars/new-cars" className=" btn-button">
+                          <Link href="/cars/new-cars" className=" btn-button">
                             <span>Explore Inventory →</span>
                             <i className="icon-autodeal-next" />
-                          </LocalizedLink>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -99,16 +144,14 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Latest Arrivals</a>
+                          <a href="#">{sectionsByKey?.latest_arrivals?.title}</a>
                         </h3>
-                        <p>
-                          Stay ahead with the newest car models added to our collection. Be the first to explore the latest features and technologies.
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: sectionsByKey?.latest_arrivals?.content }} />
                         <div className="meta style">
-                          <LocalizedLink href="/cars/new-cars" className="btn-button">
+                          <Link href="/cars/new-cars" className="btn-button">
                             <span>View New Arrivals </span>
                             <i className="icon-autodeal-next" />
-                          </LocalizedLink>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -135,11 +178,10 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Special Offers</a>
+                          <a href="#">{sectionsByKey?.special_offers?.title}</a>
                         </h3>
-                        <p>
-                          Get access to exclusive deals and discounts on our wide range of vehicles.
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: sectionsByKey?.special_offers?.content }} />
+
                         <div className="meta style">
                           <a href="#" className="btn-button">
                             <span>Apply Now</span>
@@ -175,11 +217,10 @@ export default function Features() {
                       </div>
                       <div className="content">
                         <h3>
-                          <a href="#">Contact Us</a>
+                          <a href="#">{sectionsByKey?.contact_us?.title}</a>
                         </h3>
-                        <p>
-                          Have questions or need assistance? Our experts are here to guide you through every step of your car-buying journey.
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: sectionsByKey?.contact_us?.content }} />
+
                         <div className="meta style">
                           <a href="#" className="btn-button">
                             <span>Get in Touch</span>

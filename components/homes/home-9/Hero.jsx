@@ -1,16 +1,15 @@
-
 "use client";
-import { slides } from "@/data/heroSlides";
+import React, { useEffect, useReducer, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
-import FlatFilter2 from "@/components/common/FlatFilter2";
-import React, { useEffect, useReducer } from "react";
-import { useTranslations } from "next-intl";
 import FlatFilter3 from "@/components/common/FlatFilter3";
+import { useTranslations, useLocale } from "next-intl";
 import { initialState, reducer } from "@/reducer/carFilterReducer";
+import BannerService from "@/services/BannerService";
 
 export default function Hero() {
+  // Swiper configuration
   const swiperOptions = {
     autoplay: {
       delay: 6000,
@@ -34,11 +33,17 @@ export default function Hero() {
     allowTouchMove: true, // Allow touch interactions if needed
   };
 
+  // const t = useTranslations("HomePage");
+  const locale = useLocale();
 
-  const t = useTranslations('HomePage');
+  console.log(locale,"locale");
+  
+  // Car filter reducer/state
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-
-const [state, dispatch] = useReducer(reducer, initialState);
+  // Expose filter state and setters
   const allProps = {
     ...state,
     setPrice: (value) => dispatch({ type: "SET_PRICE", payload: value }),
@@ -54,11 +59,10 @@ const [state, dispatch] = useReducer(reducer, initialState);
     setDoor: (value) => dispatch({ type: "SET_DOOR", payload: value }),
     setCylinder: (value) => dispatch({ type: "SET_CYLINDER", payload: value }),
     setColor: (value) => dispatch({ type: "SET_COLOR", payload: value }),
-
     setFeatures: (newFeature) => {
-      const updated = [...features].includes(newFeature)
-        ? [...features].filter((elm) => elm != newFeature)
-        : [...features, newFeature];
+      const updated = [...state.features].includes(newFeature)
+        ? [...state.features].filter((elm) => elm !== newFeature)
+        : [...state.features, newFeature];
       dispatch({ type: "SET_FEATURES", payload: updated });
     },
     setSortingOption: (value) =>
@@ -66,8 +70,8 @@ const [state, dispatch] = useReducer(reducer, initialState);
     setCurrentPage: (value) =>
       dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
     setItemPerPage: (value) => {
-      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 }),
-        dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
+      dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
     },
   };
 
@@ -75,59 +79,102 @@ const [state, dispatch] = useReducer(reducer, initialState);
     dispatch({ type: "CLEAR_FILTER" });
   };
 
+  /**
+   * Fetch multiple banners by their identifiers on mount.
+   * Replace the identifiers below with your actual banner identifiers.
+   */
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        // Example identifiers from your database
+        const identifiers = [
+          "HomeBannerSlideOne",
+          "HomeBannerSlideTwo",
+          "HomeBannerSlideThree",
+        ];
+
+        // Pass the locale value to each API call so the backend returns translated content
+        const promises = identifiers.map((id) =>
+          BannerService.getBannerByIdentifier(id, locale)
+        );
+        const results = await Promise.all(promises);
+
+        // Filter successful responses and map to banner data
+        const validBanners = results
+          .filter((r) => r?.success && r.data)
+          .map((r) => r.data);
+
+        setBanners(validBanners);
+      } catch (err) {
+        console.error("Error fetching banners by identifier:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanners();
+  }, [locale]);
+
   return (
     <Swiper
       {...swiperOptions}
       modules={[Autoplay, Navigation, Pagination, EffectFade]}
       className="swiper mainslider slider home9"
     >
-      {slides.map((elm, i) => (
-        <SwiperSlide key={i} className="swiper-slide">
-          <div className="slider-item">
-            <div className="img-slider">
-              <Image
-                className="img-item lazyload"
-                alt=""
-                src={elm.imgSrc}
-                width={3840}
-                height={1920}
-              />
-            </div>
-            <div className="container relative">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="content po-content-two">
-                    <div className="heading center">
-                      <div
-                        className="sub-title2 fs-20 fw-3 lh-25 text-color-1 wow fadeInUp"
-                        data-wow-delay="0ms"
-                        data-wow-duration="1200ms"
-                      >
-                        {t('ads_count')}
+      {!loading && banners.length > 0 ? (
+        banners.map((banner, i) => (
+          <SwiperSlide key={i} className="swiper-slide">
+            <div className="slider-item">
+              <div className="img-slider">
+                <Image
+                  className="img-item lazyload"
+                  alt={banner.title || banner.identifier || "Banner"}
+                  src={
+                    banner.media
+                      ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.webp ||
+                      banner.media.compressed
+                      }`
+                      : "/default-banner.jpg"
+                  }
+                  width={3840}
+                  height={1920}
+                  priority
+                />
+              </div>
+              <div className="container relative">
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="content po-content-two">
+                      <div className="heading center">
+                        <div
+                          className="sub-title2 fs-20 fw-3 lh-25 text-color-1 wow fadeInUp"
+                          data-wow-delay="0ms"
+                          data-wow-duration="1200ms"
+                        >
+                          {banner.title}
+                        </div>
+                        <h1
+                          className="wow fadeInUp js-letters text-color-1"
+                          data-wow-delay="200ms"
+                          data-wow-duration="1200ms"
+                        >
+                          {banner.description}
+                        </h1>
                       </div>
-                      <h1
-                        className="wow fadeInUp js-letters text-color-1"
-                        data-wow-delay="200ms"
-                        data-wow-duration="1200ms"
-                      >
-                        {t('cta_text')}
-                      </h1>
-                    </div>
-                    {/* filter */}
-                    <div className="flat-filter-search home9">
-                      <div className="flat-tabs">
-                        <FlatFilter3 clearFilter={clearFilter} allProps={allProps} />
+                      {/* Filter */}
+                      <div className="flat-filter-search home9">
+                        <div className="flat-tabs">
+                          <FlatFilter3 clearFilter={clearFilter} allProps={allProps} />
+                        </div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </SwiperSlide>
-      ))}
-
+          </SwiperSlide>
+        ))
+      ) : null}
       <div className="swiper-button-next snbn7" />
       <div className="swiper-button-prev snbp7" />
     </Swiper>

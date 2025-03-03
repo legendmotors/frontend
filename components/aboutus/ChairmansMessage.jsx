@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-export default function ChairmansMessage() {
+export default function ChairmansMessage({ sectionsByKey }) {
     return (
         <section className="tf-section3 section-why-choose-us">
             <div className="container">
@@ -42,31 +42,30 @@ export default function ChairmansMessage() {
                                             data-wow-delay="0.2s"
                                             data-wow-duration="1000ms"
                                         >
-                                            Chairman Message
+                                            {sectionsByKey.chairman_message?.title}
                                         </h1>
                                         <h2
                                             className="mt-18 wow fadeInUpSmall message-sub-header"
                                             data-wow-delay="0.2s"
                                             data-wow-duration="1000ms"
                                         >
-                                            Principal and Co-founder
+                                            {sectionsByKey.principal?.title}
                                         </h2>
                                         <h3
                                             className="mt-18 wow fadeInUpSmall"
                                             data-wow-delay="0.2s"
                                             data-wow-duration="1000ms"
+                                            dangerouslySetInnerHTML={{ __html: sectionsByKey.chairman_message?.content }}
                                         >
-                                            Our experienced team excels in car sales with many years of
-                                            successfully navigating the market, delivering informed
-                                            decisions and optimal results.
+
                                         </h3>
-                                        <h4
+                                        {/* <h4
                                             className="mt-18 wow fadeInUpSmall"
                                             data-wow-delay="0.2s"
                                             data-wow-duration="1000ms"
                                         >
                                             - Mira Wu
-                                        </h4>
+                                        </h4> */}
                                     </div>
                                 </div>
 

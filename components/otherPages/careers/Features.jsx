@@ -1,11 +1,54 @@
 "use client";
-import React from 'react'
-
+import React, { useState, useEffect } from "react";
+import BannerService from "@/services/BannerService";
+import { useLocale } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-export default function Features() {
+export default function Features({ sectionsByKey }) {
+    const [banner, setBanner] = useState(null);
+    const locale = useLocale();
+    const [loading, setLoading] = useState(true);
+    console.log(banner, "banner");
+
+    useEffect(() => {
+        const fetchBanner = async () => {
+            try {
+                // Use a single banner identifier from your database
+                const identifier = "CareerBannerTwo";
+                const result = await BannerService.getBannerByIdentifier(identifier, locale);
+                if (result && result.success && result.data) {
+                    setBanner(result.data);
+                }
+            } catch (err) {
+                console.error("Error fetching banner by identifier:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBanner();
+    }, [locale]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!banner) {
+        return <div>Banner not found.</div>;
+    }
+
+    // Build image URL if media is available
+    const imageUrl =
+        banner.media &&
+        `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.webp || banner.media.original
+        }`;
     return (
-        <> <section className="loan-calculator inner-7 mt-5">
+        <> <section className="loan-calculator inner-7 mt-5" style={{
+            backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+        }}>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
@@ -15,14 +58,14 @@ export default function Features() {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="1000ms"
                             >
-                                Why Work With Us?
+                                {banner?.title}
                             </h2>
                             <p
                                 className="text-color-1 wow fadeInUpSmall"
                                 data-wow-delay="0.2s"
                                 data-wow-duration="1000ms"
                             >
-                                We provide a thriving work environment where your career can grow and flourish.
+                                {banner?.description}
                             </p>
                         </div>
                     </div>
@@ -58,10 +101,9 @@ export default function Features() {
                                             </div>
                                             <div className="content">
                                                 <h3>
-                                                    <a href="#">Exciting Work Environment</a>
+                                                    <a href="#">{sectionsByKey.exciting_work_environment?.title}</a>
                                                 </h3>
-                                                <p>
-                                                    Be part of a dynamic and inclusive workplace that values innovation and teamwork.
+                                                <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.exciting_work_environment?.content }}>
                                                 </p>
                                             </div>
                                         </div>
@@ -92,10 +134,9 @@ export default function Features() {
                                             </div>
                                             <div className="content">
                                                 <h3>
-                                                    <a href="#">Competitive Compensation</a>
+                                                    <a href="#">{sectionsByKey.competitive_compensation?.title}</a>
                                                 </h3>
-                                                <p>
-                                                    Enjoy industry-leading salaries, performance bonuses, and comprehensive benefits.
+                                                <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.competitive_compensation?.content }}>
                                                 </p>
 
                                             </div>
@@ -123,10 +164,9 @@ export default function Features() {
                                             </div>
                                             <div className="content">
                                                 <h3>
-                                                    <a href="#">Career Growth Opportunities</a>
+                                                    <a href="#">{sectionsByKey.career_growth_opportunities?.title}</a>
                                                 </h3>
-                                                <p>
-                                                    We support your professional development with training programs and mentorship.
+                                                <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.career_growth_opportunities?.content }}>
                                                 </p>
                                             </div>
                                         </div>
@@ -157,10 +197,9 @@ export default function Features() {
                                             </div>
                                             <div className="content">
                                                 <h3>
-                                                    <a href="#">Employee Well-being</a>
+                                                    <a href="#">{sectionsByKey.employee_well_being?.title}</a>
                                                 </h3>
-                                                <p>
-                                                    Prioritizing your health and happiness with work-life balance initiatives and wellness programs.
+                                                <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.employee_well_being?.content }}>
                                                 </p>
 
                                             </div>

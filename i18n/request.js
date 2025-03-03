@@ -1,16 +1,12 @@
-import { getRequestConfig } from 'next-intl/server';
-import { routing } from './routing';
+import { defineRouting } from 'next-intl/routing';
+import { createNavigation } from 'next-intl/navigation';
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  let locale = requestLocale;
-
-  // Ensure that the locale is valid
-  if (!locale || !routing.locales.includes(locale)) {
-    locale = routing.defaultLocale;
-  }
-
-  return {
-    locale,
-    messages: (await import(`../messages/${locale}.json`)).default
-  };
+export const routing = defineRouting({
+  locales: ['en', 'ar', 'fr', 'es', 'pt', 'zh'], // Supported locales
+  defaultLocale: 'en', // Default locale
+  redirectToDefaultLocale: false, // Prevent automatic redirection of / to /en
+  hideDefaultLocaleInURL: true, // Hides en in URLs
 });
+
+export const { Link, redirect, usePathname, useRouter, getPathname } =
+  createNavigation(routing);

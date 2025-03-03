@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/routing";
 import { usePathname, useSearchParams } from 'next/navigation';
 
-export default function LocalizedLink({ href, children, locale, className, activeClassName, ...props }) {
+export default function Link({ href, children, locale, className, activeClassName, ...props }) {
   const currentPath = usePathname();
   const currentLocale = locale || currentPath.split('/')[1]; // Extract locale from the path
   const searchParams = useSearchParams();

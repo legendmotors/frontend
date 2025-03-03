@@ -1,10 +1,9 @@
 "use client";
 
-import { partnerLogos } from "@/data/brands";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-export default function Brands() {
+export default function Partners({title}) {
   const swiperOptions = {
     autoplay: {
       delay: 0,
@@ -47,7 +46,7 @@ export default function Brands() {
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
-                Our partners
+               {title}
               </h2>
             </div>
             <Swiper
@@ -55,7 +54,7 @@ export default function Brands() {
               modules={[Autoplay, Pagination]}
               className="swiper-container carousel-5"
             >
-              {partnerLogos.map((logo, index) => (
+              {/* {partnerLogos.map((logo, index) => (
                 <SwiperSlide className="swiper-slide" key={index}>
                   <div className="slogan-logo">
                     <a href="#">
@@ -70,7 +69,7 @@ export default function Brands() {
                     </a>
                   </div>
                 </SwiperSlide>
-              ))}
+              ))} */}
             </Swiper>
           </div>
         </div>

@@ -3,33 +3,34 @@ import React, { useState } from "react";
 import { blogPages, homepages, listingPages, otherPages } from "@/data/menu";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import LocalizedLink from "../translation/LocalizedLink";
+import Link from "next/link";
+
 
 // Example data for each tab
 const popularBrands = [
-  { name: "", image: "/assets/images/brands/BENZ.png", LocalizedLink: "/brands/toyota" },
-  { name: "", image: "/assets/images/brands/BMW.png", LocalizedLink: "/brands/toyota" },
-  { name: "", image: "/assets/images/brands/BYD.png", LocalizedLink: "/brands/toyota" },
-  { name: "", image: "/assets/images/brands/Changan.png", LocalizedLink: "/brands/toyota" },
-  { name: "", image: "/assets/images/brands/CHERY.png", LocalizedLink: "/brands/toyota" },
-  { name: " ", image: "/assets/images/brands/GAC.png", LocalizedLink: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BENZ.png", Link: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BMW.png", Link: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/BYD.png", Link: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/Changan.png", Link: "/brands/toyota" },
+  { name: "", image: "/assets/images/brands/CHERY.png", Link: "/brands/toyota" },
+  { name: " ", image: "/assets/images/brands/GAC.png", Link: "/brands/toyota" },
 ];
 
 const popularModels = [
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
 ];
 
 const newModels = [
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
-  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", LocalizedLink: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
+  { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
 ];
 
 
@@ -48,8 +49,8 @@ export default function Nav() {
     let active = false;
 
     menus.forEach((elm) => {
-      if (elm.LocalizedLinks) {
-        elm.LocalizedLinks.forEach((elm2) => {
+      if (elm.Links) {
+        elm.Links.forEach((elm2) => {
           if (elm2.href.split("/")[1] == pathname.split("/")[1]) {
             active = true;
           }
@@ -81,7 +82,7 @@ export default function Nav() {
                   : ""
               }
             >
-              <LocalizedLink className="p-2" href={page.href}>{page.text}</LocalizedLink>
+              <Link className="p-2" href={page.href}>{page.text}</Link>
             </li>
           ))}
         </ul>
@@ -96,15 +97,15 @@ export default function Nav() {
             <li key={index} className={item.className}>
               <a href="#">{item.title}</a>
               <ul>
-                {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
+                {item.Links.map((Link, LinkIndex) => (
                   <li
-                    key={LocalizedLinkIndex}
-                    className={`${LocalizedLink.className || ""} ${LocalizedLink.href.split("/")[1] == pathname.split("/")[1]
+                    key={LinkIndex}
+                    className={`${Link.className || ""} ${Link.href.split("/")[1] == pathname.split("/")[1]
                         ? "current"
                         : ""
                       }`}
                   >
-                    <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                    <Link className="p-2" href={Link.href}>{Link.text}</Link>
                   </li>
                 ))}
               </ul>
@@ -126,7 +127,7 @@ export default function Nav() {
                   : ""
               }
             >
-              <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
+              <Link className="p-2" href={item.href}>{item.text}</Link>
             </li>
           ))}
         </ul>
@@ -135,14 +136,14 @@ export default function Nav() {
 
 
       <li className={pathname === "/" ? "current" : ""}>
-        <LocalizedLink className="p-2" href="/" >Home</LocalizedLink>
+        <Link className="p-2" href="/" >Home</Link>
       </li>
 
 
       {/* New Cars Dropdown */}
       {/* Dropdown Menu */}
       <li className="tfcl-mega-menu dropdown2">
-        <LocalizedLink className="p-2" href="/cars/new-cars">Explore Cars</LocalizedLink>
+        <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
         <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
             {/* Tabs Section (Left Side) */}
@@ -181,9 +182,9 @@ export default function Nav() {
                     </div>
                   ))}
               </div>
-              <LocalizedLink href={`/${activeTab}`} className="see-all-link p-2">
+              <Link href={`/${activeTab}`} className="see-all-link p-2">
                 See all {tabs.find((tab) => tab.id === activeTab).label} →
-              </LocalizedLink>
+              </Link>
             </div>
           </li>
         </ul>
@@ -196,7 +197,7 @@ export default function Nav() {
           {otherPages.map((item, index) => (
             <li
               key={index}
-              className={`${item.className || ""}  ${item.LocalizedLinks ? (isActive(item.LocalizedLinks) ? "current" : "") : ""
+              className={`${item.className || ""}  ${item.Links ? (isActive(item.Links) ? "current" : "") : ""
                 } ${item.href?.split("/")[1] == pathname.split("/")[1]
                   ? "current"
                   : ""
@@ -206,23 +207,23 @@ export default function Nav() {
                 <>
                   <a href="#">{item.title}</a>
                   <ul>
-                    {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
+                    {item.Links.map((Link, LinkIndex) => (
                       <li
-                        key={LocalizedLinkIndex}
+                        key={LinkIndex}
                         className={
-                          LocalizedLink.href.split("/")[1] == pathname.split("/")[1]
+                          Link.href.split("/")[1] == pathname.split("/")[1]
                             ? "current"
                             : ""
                         }
                       >
-                        <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                        <Link className="p-2" href={Link.href}>{Link.text}</Link>
                       </li>
                     ))}
                   </ul>
                   <div className="dropdown2-btn" />
                 </>
               ) : (
-                <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
+                <Link className="p-2" href={item.href}>{item.text}</Link>
               )}
             </li>
           ))}
@@ -231,13 +232,13 @@ export default function Nav() {
      
       
       <li className={pathname === "/blog-grid" ? "current" : ""}>
-        <LocalizedLink className="p-2" href="/blog-grid">Blogs</LocalizedLink>
+        <Link className="p-2" href="/blog-grid">Blogs</Link>
       </li>
       <li className={pathname === "/about-us" ? "current" : ""}>
-        <LocalizedLink className="p-2" href="/about-us">About Us</LocalizedLink>
+        <Link className="p-2" href="/about-us">About Us</Link>
       </li>
       <li className={"contact" == pathname.split("/")[1] ? "current" : ""}>
-        <LocalizedLink className="p-2" href={`/contact`}>Contact</LocalizedLink>
+        <Link className="p-2" href={`/contact`}>Contact</Link>
       </li>
     </>
   );
@@ -254,9 +255,9 @@ function CarsTabUI({ data }) {
         <div key={index}>
           <strong>{item.title}</strong>
           <ul>
-            {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
-              <li key={LocalizedLinkIndex}>
-                <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+            {item.Links.map((Link, LinkIndex) => (
+              <li key={LinkIndex}>
+                <Link className="p-2" href={Link.href}>{Link.text}</Link>
               </li>
             ))}
           </ul>
@@ -273,7 +274,7 @@ function HomeTabUI({ data }) {
       <ul>
         {data.map((item, index) => (
           <li key={index}>
-            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
+            <Link className="p-2" href={item.href}>{item.text}</Link>
           </li>
         ))}
       </ul>
@@ -291,15 +292,15 @@ function PagesTabUI({ data }) {
             <>
               <strong>{item.title}</strong>
               <ul>
-                {item.LocalizedLinks.map((LocalizedLink, LocalizedLinkIndex) => (
-                  <li key={LocalizedLinkIndex}>
-                    <LocalizedLink className="p-2" href={LocalizedLink.href}>{LocalizedLink.text}</LocalizedLink>
+                {item.Links.map((Link, LinkIndex) => (
+                  <li key={LinkIndex}>
+                    <Link className="p-2" href={Link.href}>{Link.text}</Link>
                   </li>
                 ))}
               </ul>
             </>
           ) : (
-            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
+            <Link className="p-2" href={item.href}>{item.text}</Link>
           )}
         </div>
       ))}
@@ -314,7 +315,7 @@ function BlogTabUI({ data }) {
       <ul>
         {data.map((item, index) => (
           <li key={index}>
-            <LocalizedLink className="p-2" href={item.href}>{item.text}</LocalizedLink>
+            <Link className="p-2" href={item.href}>{item.text}</Link>
           </li>
         ))}
       </ul>

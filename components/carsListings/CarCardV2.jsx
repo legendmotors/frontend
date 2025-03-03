@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatPriceAED } from "@/utils/formatedPriceAED";
-import LocalizedLink from "../translation/LocalizedLink";
 
 export default function CarCardV2({ elm }) {
   return (
@@ -113,9 +112,9 @@ export default function CarCardV2({ elm }) {
         </div>
         <div className="days-box flex justify-space align-center">
          
-          <LocalizedLink href={`/listing-detail-v3/${elm.id}`} className="view-car">
+          <Link href={`/listing-detail-v3/${elm.id}`} className="view-car">
             View car
-          </LocalizedLink>
+          </Link>
         </div>
       </div>
     </div>

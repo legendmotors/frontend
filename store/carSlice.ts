@@ -1,18 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import CarService from '@/services/CarService';
-import { IRootState } from '@/store'; // Adjust the import path as needed
-import { Car } from '@/types';
-
-interface Pagination {
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
-}
-
-interface CarListResponse {
-  data: Car[];
-  pagination: Pagination;
-}
+import { Car } from '@/types'; // or wherever your Car interface is
+import { IRootState } from '@/store';
 
 interface CarState {
   cars: Car[];
@@ -31,7 +20,7 @@ const initialState: CarState = {
 };
 
 export const fetchCarList = createAsyncThunk<
-  CarListResponse,
+  { data: Car[]; pagination: { totalItems: number; currentPage: number; totalPages: number } },
   { page: number },
   { state: IRootState }
 >(
@@ -44,31 +33,54 @@ export const fetchCarList = createAsyncThunk<
         limit: 12,
       };
 
-      if (filters.brandId.length > 0) {
-        params.brandId = filters.brandId.join(',');
+      // Fixed filters
+      if (filters.brandId.length > 0) params.brandId = filters.brandId.join(',');
+      if (filters.modelId.length > 0) params.modelId = filters.modelId.join(',');
+      if (filters.trimId.length > 0) params.trimId = filters.trimId.join(',');
+      if (filters.yearId.length > 0) params.yearId = filters.yearId.join(',');
+      if (filters.searchQuery.trim()) params.search = filters.searchQuery.trim();
+
+      // Price range filters for AED
+      if (filters.minPriceAED !== null && filters.minPriceAED !== undefined) {
+        params.minPriceAED = filters.minPriceAED;
       }
-      if (filters.modelId.length > 0) {
-        params.modelId = filters.modelId.join(',');
-      }
-      if (filters.trimId.length > 0) {
-        params.trimId = filters.trimId.join(',');
-      }
-      if (filters.yearId.length > 0) {
-        params.yearId = filters.yearId.join(',');
-      }
-      if (filters.searchQuery.trim()) {
-        params.search = filters.searchQuery.trim();
+      if (filters.maxPriceAED !== null && filters.maxPriceAED !== undefined) {
+        params.maxPriceAED = filters.maxPriceAED;
       }
 
-      // Add sorting if a valid sort option is selected.
-      if (filters.sortOption && filters.sortOption !== 'default') {
-        params.sortBy = 'price';
-        params.order = filters.sortOption; // Should be either "asc" or "desc"
+      // Price range filters for USD
+      if (filters.minPriceUSD !== null && filters.minPriceUSD !== undefined) {
+        params.minPriceUSD = filters.minPriceUSD;
+      }
+      if (filters.maxPriceUSD !== null && filters.maxPriceUSD !== undefined) {
+        params.maxPriceUSD = filters.maxPriceUSD;
+      }
+
+      // Dynamic specification filters
+      if (filters.specFilters) {
+        Object.entries(filters.specFilters).forEach(([key, values]) => {
+          if (values.length > 0) {
+            params[key] = values.join(',');
+          }
+        });
+      }
+
+      // Tag filter (if any)
+      if (filters.tagIds && filters.tagIds.length > 0) {
+        params.tags = filters.tagIds.join(',');
+      }
+
+      // Add sorting parameters
+      if (filters.sortBy) {
+        params.sortBy = filters.sortBy;
+      }
+      if (filters.order) {
+        params.order = filters.order;
       }
 
       const response = await CarService.listCars(params);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error);
     }
   }
@@ -91,23 +103,17 @@ const carSlice = createSlice({
     builder.addCase(fetchCarList.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(
-      fetchCarList.fulfilled,
-      (
-        state,
-        action: PayloadAction<CarListResponse>
-      ) => {
-        state.isLoading = false;
-        const { data, pagination } = action.payload;
-        if (state.currentPage === 1) {
-          state.cars = data;
-        } else {
-          state.cars = [...state.cars, ...data];
-        }
-        state.totalCars = pagination.totalItems;
-        state.hasMore = pagination.currentPage < pagination.totalPages;
+    builder.addCase(fetchCarList.fulfilled, (state, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      const { data, pagination } = action.payload;
+      if (state.currentPage === 1) {
+        state.cars = data;
+      } else {
+        state.cars = [...state.cars, ...data];
       }
-    );
+      state.totalCars = pagination.totalItems;
+      state.hasMore = pagination.currentPage < pagination.totalPages;
+    });
     builder.addCase(fetchCarList.rejected, (state) => {
       state.isLoading = false;
     });

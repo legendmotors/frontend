@@ -4,7 +4,7 @@ import { testimonials } from "@/data/testimonials";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-export default function Testimonials() {
+export default function Testimonials({ sectionsByKey }) {
   const swiperOptions = {
     // autoplay: {
     //     delay: 5000,
@@ -44,16 +44,15 @@ export default function Testimonials() {
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
               >
-                We love our clients
+                {sectionsByKey?.we_love_our_clients?.title}
               </h2>
-              <p
+              <div
                 className="mt-18 wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
+                dangerouslySetInnerHTML={{ __html: sectionsByKey?.we_love_our_clients?.content }}
               >
-                Discover exceptional experiences through testimonials from our
-                satisfied customers.
-              </p>
+              </div>
             </div>
           </div>
           <div className="col-lg-12">

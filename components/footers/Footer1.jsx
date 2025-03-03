@@ -4,7 +4,7 @@ import Image from "next/image";
 import emailjs from "@emailjs/browser";
 import Link from "next/link";
 import { footerData } from "@/data/footerLinks";
-import LocalizedLink from "../translation/LocalizedLink";
+
 export default function Footer1() {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
@@ -84,7 +84,7 @@ export default function Footer1() {
                   <ul className="box-menu tf-collapse-content">
                     {column.menuItems.map((item, itemIndex) => (
                       <li key={itemIndex}>
-                        <LocalizedLink href={item.href}>{item.text}</LocalizedLink>
+                        <Link href={item.href}>{item.text}</Link>
                       </li>
                     ))}
                   </ul>

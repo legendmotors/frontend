@@ -1,9 +1,10 @@
 "use client";
+import Link from "next/link";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import LocalizedLink from "../translation/LocalizedLink";
 
-export default function CarBrands() {
+
+export default function CarBodyTypes({title}) {
   const swiperOptions = {
     slidesPerView: 8,
     spaceBetween: 30,
@@ -47,12 +48,12 @@ export default function CarBrands() {
           <div className="col-lg-12">
             <div className="heading-section flex align-center justify-space flex-wrap gap-20">
               <h2 className="wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
-                Search by body
+               {title}
               </h2>
-              <LocalizedLink href="/cars/new-cars" className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
+              <Link href="/cars/new-cars" className="tf-btn-arrow wow fadeInUpSmall" data-wow-delay="0.2s" data-wow-duration="1000ms">
                 View all
                 <i className="icon-autodeal-btn-right" />
-              </LocalizedLink>
+              </Link>
             </div>
           </div>
           <div className="col-lg-12">
@@ -70,7 +71,7 @@ export default function CarBrands() {
                 { type: "Crossover", icon: "crossover.png", count: 271 },
               ].map((car, index) => (
                 <SwiperSlide key={index} className="swiper-slide">
-                  <LocalizedLink href="/cars/new-cars" className="partner-item style-2 ">
+                  <Link href="/cars/new-cars" className="partner-item style-2 ">
                     <div className="icon d-flex align-items-center justify-content-center mb-0">
                       <img src={`/assets/images/bodytypes/${car.icon}`} alt={car.type} width={100} height={100} className="w-50"/>
                     </div>
@@ -78,7 +79,7 @@ export default function CarBrands() {
                       <div className="fs-16 fw-6 title text-color-2 font-2">{car.type}</div>
                       <span className="sub-title fs-12 fw-4 font-2">{car.count} Car</span>
                     </div>
-                  </LocalizedLink>
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
