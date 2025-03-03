@@ -18,7 +18,7 @@ export default function Blogs({ parentClass = "section-blog tf-section" }) {
                 News to help choose your car
               </h2>
               <Link
-                href={`/blog-grid`}
+                href={`/blog`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
@@ -67,7 +67,7 @@ export default function Blogs({ parentClass = "section-blog tf-section" }) {
                         </a>
                       </div>
                       <h3>
-                        <Link href={`/blog-detail/${slide.id}`}>
+                        <Link href={`/blog/${slide.id}`}>
                           {slide.title}
                         </Link>
                       </h3>

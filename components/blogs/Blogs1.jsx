@@ -45,7 +45,7 @@ export default function Blogs1() {
                       </div>
                       <div className="content">
                         <h3>
-                          <Link href={`/blog-detail/${post.id}`}>
+                          <Link href={`/blog/${post.id}`}>
                             {post.title}
                           </Link>
                         </h3>

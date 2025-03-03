@@ -76,6 +76,6 @@ export const otherPages = [
 
 export const blogPages = [
   { href: "/blog", text: "Blog List" },
-  { href: "/blog-grid", text: "Blog Grid" },
-  { href: "/blog-detail/1", text: "Blog Detail" },
+  { href: "/blog", text: "Blog Grid" },
+  { href: "/blog/1", text: "Blog Detail" },
 ];

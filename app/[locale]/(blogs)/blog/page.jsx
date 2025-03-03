@@ -1,11 +1,11 @@
-import Blogs1 from "@/components/blogs/Blogs1";
+import Blogs2 from "@/components/blogs/Blogs2";
 import Footer1 from "@/components/footers/Footer1";
 import Header2 from "@/components/headers/Header2";
 import React from "react";
 import Link from "next/link";
 export const metadata = {
   title:
-    "Blog || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+    "Blog Grid || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
   description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
 };
 export default function page() {
@@ -27,7 +27,7 @@ export default function page() {
           </div>
         </div>
       </section>
-      <Blogs1 />
+      <Blogs2 />
       
     </>
   );

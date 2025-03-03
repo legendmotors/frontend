@@ -1,27 +1,56 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import { useLocale } from "next-intl";
+import PagesService from "@/services/PagesService";
 
 export default function Page() {
+    const locale = useLocale();
+    const [pageData, setPageData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    console.log(pageData, "pageData");
+
+
+
+    useEffect(() => {
+        const fetchPage = async () => {
+            try {
+                // For the homepage, assume your slug is "home"
+                const result = await PagesService.getPageBySlug("cookie_policy", locale);
+
+                if (result && result.success && result.data) {
+                    setPageData(result.data);
+                }
+            } catch (err) {
+                console.error("Error fetching page data:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPage();
+    }, [locale]);
+
+    const sectionsByKey = pageData && Array.isArray(pageData.sections)
+        ? pageData.sections.reduce((acc, section) => {
+            acc[section.sectionKey] = {
+                title: section.title,
+                content: section.content,
+            };
+            return acc;
+        }, {})
+        : {};
     return (
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-12 contact-left">
                     <div className="heading-section mb-30">
-                        <h2>Cookie Policy</h2>
-                        <p className="mt-12">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vehicula dolor ac orci tristique, in tristique sem bibendum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse potenti.
-                        </p>
-                        <p className="mt-12">
-                            Nulla facilisi. Aenean fermentum ipsum at orci gravida, eget facilisis velit sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti.
-                        </p>
-                        <p className="mt-12">
-                            Proin sit amet turpis eget orci faucibus scelerisque nec et erat. Fusce gravida vestibulum sem, id facilisis risus placerat sit amet. Curabitur venenatis lorem eu fermentum dignissim.
-                        </p>
-                        <p className="mt-12">
-                            Sed aliquet, justo nec hendrerit volutpat, nulla turpis ultrices est, vel ultricies augue neque et erat. Aliquam erat volutpat. Integer auctor ligula nec arcu tincidunt, at tincidunt erat pulvinar.
-                        </p>
-                        <p className="mt-12">
-                            Curabitur vehicula sapien vitae enim fermentum, at bibendum erat dictum. Aenean tincidunt, sapien ac rhoncus egestas, sapien risus condimentum justo, at interdum quam libero id sapien.
-                        </p>
+                        <h2>{sectionsByKey?.cookie_content?.title}</h2>
+                        <div className="mt-12" dangerouslySetInnerHTML={{ __html: sectionsByKey.cookie_content?.content }}
+                        >
+                        </div>
+
                     </div>
                 </div>
             </div>

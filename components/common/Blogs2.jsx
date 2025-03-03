@@ -17,7 +17,7 @@ export default function Blogs2({title}) {
                {title}
               </h2>
               <Link
-                href={`/blog-grid`}
+                href={`/blog`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"
@@ -51,7 +51,7 @@ export default function Blogs2({title}) {
                       </a>
                     </div>
                     <h3>
-                      <Link href={`/blog-detail/${post.id}`}>{post.title}</Link>
+                      <Link href={`/blog/${post.id}`}>{post.title}</Link>
                     </h3>
                     <p>{post.desc}</p>
                   </div>
@@ -90,7 +90,7 @@ export default function Blogs2({title}) {
                       </a>
                     </div>
                     <h3>
-                      <Link href={`/blog-detail/${post.id}`}>{post.title}</Link>
+                      <Link href={`/blog/${post.id}`}>{post.title}</Link>
                     </h3>
                     <p>{post.desc}</p>
                   </div>

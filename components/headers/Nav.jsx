@@ -231,8 +231,8 @@ export default function Nav() {
       </li> */}
      
       
-      <li className={pathname === "/blog-grid" ? "current" : ""}>
-        <Link className="p-2" href="/blog-grid">Blogs</Link>
+      <li className={pathname === "/blog" ? "current" : ""}>
+        <Link className="p-2" href="/blog">Blogs</Link>
       </li>
       <li className={pathname === "/about-us" ? "current" : ""}>
         <Link className="p-2" href="/about-us">About Us</Link>

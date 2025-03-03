@@ -31,7 +31,7 @@ export default function CarReview() {
                 Car reviews
               </h2>
               <Link
-                href={`/blog-grid`}
+                href={`/blog`}
                 className="tf-btn-arrow wow fadeInUpSmall"
                 data-wow-delay="0.2s"
                 data-wow-duration="1000ms"

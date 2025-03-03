@@ -11,7 +11,7 @@ export default function BlogDetails({ blogItem }) {
     <section className="tf-section3 flat-blog-detail flat-property-detail">
       <div className="container">
         <div className="row">
-          <div className="col-lg-8">
+          <div className="col-lg-12">
             <div className="post">
               <h1 className="title-heading">{blogItem.title}</h1>
               <div className="icon-boxs flex flex-wrap gap-20">
@@ -92,7 +92,7 @@ export default function BlogDetails({ blogItem }) {
               <div className="image">
                 <Image
                   alt="images"
-                  src="/assets/images/blog/blog-details-1.jpg"
+                  src="/assets/images/blog/blogs-1.jpg"
                   width={1260}
                   height={710}
                 />
@@ -129,7 +129,7 @@ export default function BlogDetails({ blogItem }) {
                 <div className="overflow-hidden br-16">
                   <Image
                     alt="imag-blog"
-                    src="/assets/images/blog/blog-details-2.jpg"
+                    src="/assets/images/blog/blogs-2.jpg"
                     width={615}
                     height={410}
                   />
@@ -137,7 +137,7 @@ export default function BlogDetails({ blogItem }) {
                 <div className="overflow-hidden br-16">
                   <Image
                     alt="imag-blog"
-                    src="/assets/images/blog/blog-details-3.jpg"
+                    src="/assets/images/blog/blogs-3.jpg"
                     width={615}
                     height={410}
                   />
@@ -212,14 +212,13 @@ export default function BlogDetails({ blogItem }) {
               
             </div>
           </div>
-          <div className="col-lg-4">
+          {/* <div className="col-lg-4">
             <aside className="side-bar side-bar-1 side-blog">
               <div className="inner-side-bar">
                 <div className="widget-rent">
                   <div className="flat-tabs style2">
                     <div className="form-s2">
                       <BlogSearch />
-                      {/* End Job  Search Form*/}
                     </div>
                   </div>
                 </div>
@@ -229,7 +228,7 @@ export default function BlogDetails({ blogItem }) {
                 <PopulerTags />
               </div>
             </aside>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

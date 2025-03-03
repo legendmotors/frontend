@@ -56,7 +56,7 @@ export default function Blogs2() {
                             </a>
                           </div>
                           <h3>
-                            <Link href={`/blog-detail/${post.id}`}>
+                            <Link href={`/blog/${post.id}`}>
                               {post.title}
                             </Link>
                           </h3>

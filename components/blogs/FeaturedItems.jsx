@@ -18,7 +18,7 @@ export default function FeaturedItems() {
             />
           </div>
           <div className="content link-style-1">
-            <Link className="fs-16 lh-22 fw-5" href={`/blog-detail/${post.id}`}>
+            <Link className="fs-16 lh-22 fw-5" href={`/blog/${post.id}`}>
               {post.title}
             </Link>
             <span className="date">
