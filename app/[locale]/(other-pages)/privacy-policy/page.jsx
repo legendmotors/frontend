@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
 
 export default function Page() {

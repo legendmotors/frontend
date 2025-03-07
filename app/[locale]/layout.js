@@ -6,17 +6,20 @@ import "photoswipe/style.css";
 
 // Styles for PDF Viewer
 
-import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
 import RootClient from "@/components/layout/RootClient";
+import TranslationsProvider from "@/components/layout/TranslationsProvider";
 import WhatsAppButton from "@/components/social/WhatsAppButton";
 import Script from "next/script";
+import initTranslations from '@/app/i18n';
+
+const i18nNamespaces = ['home'];
+
 
 export default async function RootLayout({ children, params: { locale } }) {
 
-  console.log(locale,"loccaaca");
-  
+  const { t, resources } = await initTranslations(locale, i18nNamespaces);
+
   // Fetch messages for the given locale
   const messages = (await import(`../../messages/${locale}.json`)).default;
 
@@ -44,9 +47,12 @@ export default async function RootLayout({ children, params: { locale } }) {
       </head>
       <body className="body" style={{ transition: "0s" }}>
         <WhatsAppButton />
-        {/* <NextIntlClientProvider messages={messages}> */}
+        <TranslationsProvider
+          namespaces={i18nNamespaces}
+          locale={locale}
+          resources={resources}>
           <RootClient>{children}</RootClient>
-        {/* </NextIntlClientProvider> */}
+        </TranslationsProvider>
       </body>
     </html>
   );

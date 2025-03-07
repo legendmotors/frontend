@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import FlatFilter3 from "@/components/common/FlatFilter3";
-import { useTranslations, useLocale } from "next-intl";
 import { initialState, reducer } from "@/reducer/carFilterReducer";
 import BannerService from "@/services/BannerService";
+import { useTranslation } from "react-i18next";
 
 export default function Hero() {
   // Swiper configuration
@@ -34,9 +34,9 @@ export default function Hero() {
   };
 
   // const t = useTranslations("HomePage");
-  const locale = useLocale();
+  const {i18n} = useTranslation();
 
-  console.log(locale,"locale");
+  console.log(i18n.language,"i18n.languagehero");
   
   // Car filter reducer/state
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -93,9 +93,9 @@ export default function Hero() {
           "HomeBannerSlideThree",
         ];
 
-        // Pass the locale value to each API call so the backend returns translated content
+        // Pass the i18n.language value to each API call so the backend returns translated content
         const promises = identifiers.map((id) =>
-          BannerService.getBannerByIdentifier(id, locale)
+          BannerService.getBannerByIdentifier(id, i18n.language)
         );
         const results = await Promise.all(promises);
 
@@ -113,7 +113,7 @@ export default function Hero() {
     };
 
     fetchBanners();
-  }, [locale]);
+  }, [i18n.language]);
 
   return (
     <Swiper

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { GetUserLogin } from "@/services";
-import CleverTap from "clevertap-web-sdk/clevertap"; // ✅ Import CleverTap SDK
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -13,7 +12,16 @@ export default function Login() {
     password: "",
   });
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [clevertap, setClevertap] = useState<any>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      import("clevertap-web-sdk/clevertap").then((ct) => {
+        setClevertap(ct.default); // Store CleverTap module
+      });
+    }
+  }, []);
 
   // Redirect to home if user is already authenticated
   useEffect(() => {
@@ -38,26 +46,28 @@ export default function Login() {
 
       console.log(response, "response");
 
-
       if (response) {
-        // Store token & redirect
         GetUserLogin.authenticate(response, () => {
           window.location.replace("/");
         });
 
-        // ✅ Send user login event to CleverTap
-        CleverTap.onUserLogin.push({
-          Site: {
-            Identity: user.email || `user_${Date.now()}`,
-            Email: user.email,
-            Name: user.email ? user.email.split("@")[0] : "Unknown User",
-            "MSG-email": true,
-            "MSG-push": true,
-            "MSG-sms": false,
-            "MSG-whatsapp": true,
-          },
-        });
-        console.log("CleverTap: User Login Event Sent");
+        // ✅ Ensure CleverTap is available before using it
+        if (clevertap) {
+          clevertap.onUserLogin.push({
+            Site: {
+              Identity: user.email || `user_${Date.now()}`,
+              Email: user.email,
+              Name: user.email ? user.email.split("@")[0] : "Unknown User",
+              "MSG-email": true,
+              "MSG-push": true,
+              "MSG-sms": false,
+              "MSG-whatsapp": true,
+            },
+          });
+          console.log("CleverTap: User Login Event Sent");
+        } else {
+          console.warn("CleverTap not initialized yet.");
+        }
       } else {
         Swal.fire({
           icon: "error",

@@ -4,7 +4,7 @@ import Banner from '@/components/otherPages/careers/Banner'
 import Features from '@/components/otherPages/careers/Features'
 
 import React, { useEffect, useState } from "react";
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
 
 export default function pages() {

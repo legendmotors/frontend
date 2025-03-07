@@ -10,7 +10,7 @@ import Banner from "@/components/otherPages/about/Banner";
 import React, { useEffect, useState } from "react";
 import ChairmansMessage from "@/components/aboutus/ChairmansMessage";
 import Partners from "@/components/common/Partners";
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
 
 // export const metadata = {

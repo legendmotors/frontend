@@ -15,6 +15,7 @@ import Login from "../modals/Login";
 import { getCookie, setCookie } from "@/utils/cookieFunction";
 import { GetUserDetails, GetUserLogin } from "@/services";
 import Footer1 from "../footers/Footer1";
+import { I18nextProvider } from 'react-i18next';
 
 export default function RootClient({ children }) {
   const token = getCookie('token');

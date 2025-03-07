@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import BannerService from "@/services/BannerService";
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 export default function Banner() {
   const [banner, setBanner] = useState(null);
-  const locale = useLocale();
+   const { i18n } = useTranslation();
+  const locale = i18n.language
   const [loading, setLoading] = useState(true);
   console.log(banner, "banner");
 

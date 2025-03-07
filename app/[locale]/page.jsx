@@ -15,9 +15,9 @@ import Cars3 from "@/components/homes/home-9/Cars3";
 import Hero from "@/components/homes/home-9/Hero";
 import Testimonials from "@/components/homes/home-9/Testimonials";
 import PagesService from "@/services/PagesService";
-import { useLocale } from "next-intl";
 import React, { useEffect, useRef, useState } from "react";
 import Partners from "@/components/common/Partners";
+import { useTranslation } from "react-i18next";
 
 export default function page() {
   const hasTracked = useRef(false);
@@ -67,11 +67,13 @@ export default function page() {
       .catch(err => console.error("Error recording tracking event:", err));
   }, []);
 
-  const locale = useLocale();
+  
+  const { i18n } = useTranslation();
+  const locale = i18n.language
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(pageData, "pageData");
+  console.log(locale, "locale");
 
 
 

@@ -5,7 +5,7 @@ import Contact from "@/components/otherPages/Contact";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Partners from "@/components/common/Partners";
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
 // export const metadata = {
 //   title:

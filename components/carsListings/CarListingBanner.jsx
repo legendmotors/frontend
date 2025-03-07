@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import BannerService from "@/services/BannerService";
-import { useLocale } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 export default function CarListingBanner() {
     const [banner, setBanner] = useState(null);
