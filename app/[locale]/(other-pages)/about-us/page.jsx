@@ -12,7 +12,6 @@ import ChairmansMessage from "@/components/aboutus/ChairmansMessage";
 import Partners from "@/components/common/Partners";
 import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
-import { useTranslation } from "react-i18next";
 // export const metadata = {
 //   title:
 //     "About Us",
@@ -60,12 +59,11 @@ export default function page() {
   return (
     <>
       <Banner />
-      <div className="mt-5 pt-5"></div>
       <Features sectionsByKey={sectionsByKey}/>
       <div className="mt-5 pt-5"></div>
       {/* <Agents parentClass="tf-section3" /> */}
       <ChairmansMessage sectionsByKey={sectionsByKey} />
-      <Partners />
+      {/* <Partners /> */}
       {/* <Testimonials /> */}
       {/* <RecomandedCars /> */}
       

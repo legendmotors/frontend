@@ -6,14 +6,8 @@ export default function ChairmansMessage({ sectionsByKey }) {
         <section className="tf-section3 section-why-choose-us">
             <div className="container">
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                         <div className="relative">
-                            <div className="glass-container d-flex align-items-center justify-content-center position-absolute top-50 start-50"  >
-
-                            </div>
-                            <div className="glass-container d-flex align-items-center justify-content-center position-absolute top-0 start-0 mt-5"  >
-
-                            </div>
                             <div className="image-inner1 hover-img-wrap img-style-hover">
                                 <Image
                                     className="ls-is-cached lazyloaded"
@@ -27,7 +21,7 @@ export default function ChairmansMessage({ sectionsByKey }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-8">
                         <div className="content-wcs d-flex flex-column justify-content-center h-100">
                             <div className="tf-icon-box-list">
                                 <div

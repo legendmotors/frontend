@@ -2,8 +2,41 @@ import React from "react";
 import Image from "next/image";
 export default function Features({ sectionsByKey }) {
   return (
-    <section className="tf-section3 section-why-choose-us">
+    <section className="tf-section3 section-why-choose-us mt-4">
+
       <div className="container">
+
+        <div className="col-md-12">
+          <div className=" d-flex flex-column justify-content-center h-100">
+            <div className="tf-icon-box-list">
+              <div
+                className="tf-icon-box style-2 wow fadeInUpSmall"
+                data-wow-delay="0.2s"
+                data-wow-duration="1000ms"
+              >
+
+                <div className="content">
+                  <h2
+                    className="wow fadeInUpSmall"
+                    data-wow-delay="0.2s"
+                    data-wow-duration="1000ms"
+                  >
+                    {sectionsByKey.brand_story?.title}
+                  </h2>
+                  <h3
+                    className="mt-18 wow fadeInUpSmall"
+                    data-wow-delay="0.2s"
+                    data-wow-duration="1000ms"
+                    dangerouslySetInnerHTML={{ __html: sectionsByKey?.brand_story?.content }}
+                  >
+
+                  </h3>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
         <div className="row">
           <div className="col-md-6">
             <div className="image-wcs relative">
@@ -49,6 +82,7 @@ export default function Features({ sectionsByKey }) {
               </div>
             </div>
           </div>
+
           <div className="col-md-6">
             <div className="content-wcs">
               <div className="heading-section">
@@ -68,22 +102,7 @@ export default function Features({ sectionsByKey }) {
                 </p>
               </div>
 
-              <div className="heading-section">
-                <h2
-                  className="wow fadeInUpSmall"
-                  data-wow-delay="0.2s"
-                  data-wow-duration="1000ms"
-                >
-                  {sectionsByKey.brand_story?.title}
-                </h2>
-                <p
-                  className="mt-18 wow fadeInUpSmall"
-                  data-wow-delay="0.2s"
-                  data-wow-duration="1000ms"
-                  dangerouslySetInnerHTML={{ __html: sectionsByKey?.brand_story?.content }}
-                >
-                </p>
-              </div>
+
 
               {/* <div className="tf-icon-box-list">
                 <div
