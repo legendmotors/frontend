@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function CarListingBanner() {
     const [banner, setBanner] = useState(null);
-    const locale = useLocale();
+     const {i18n} = useTranslation();
     const [loading, setLoading] = useState(true);
     console.log(banner, "banner");
 
@@ -14,7 +14,7 @@ export default function CarListingBanner() {
             try {
                 // Use a single banner identifier from your database
                 const identifier = "CarListingPageBanner";
-                const result = await BannerService.getBannerByIdentifier(identifier, locale);
+                const result = await BannerService.getBannerByIdentifier(identifier, i18n.language);
                 if (result && result.success && result.data) {
                     setBanner(result.data);
                 }
@@ -26,7 +26,7 @@ export default function CarListingBanner() {
         };
 
         fetchBanner();
-    }, [locale]);
+    }, [i18n.language]);
 
     if (loading) {
         return <div>Loading...</div>;

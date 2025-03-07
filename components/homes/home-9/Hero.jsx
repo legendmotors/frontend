@@ -35,8 +35,6 @@ export default function Hero() {
 
   // const t = useTranslations("HomePage");
   const {i18n} = useTranslation();
-
-  console.log(i18n.language,"i18n.languagehero");
   
   // Car filter reducer/state
   const [state, dispatch] = useReducer(reducer, initialState);

@@ -201,7 +201,9 @@ export default function CarDetails1({ carResponse }) {
               <div className="listing-sidebar">
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
-                    <h2 className="title">{title}</h2>
+                    <h2 className="title">
+                      {carItem?.additionalInfo ? <>{carItem?.additionalInfo}</> : <> {carItem.Year.year} {carItem.Brand.name} {carItem.CarModel.name} {carItem?.Trim?.name}</>}
+                    </h2>
                     <CarInfo carResponse={carItem} currency={currency} convertedPrice={convertedPrice} />
                   </div>
                 </div>

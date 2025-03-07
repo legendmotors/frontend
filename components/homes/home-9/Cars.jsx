@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import CarService from "@/services/CarService"; // Using your CarService.listCars
+import { formatCurrency } from "@/utils/formatCurrency";
 
 // Define your price range filters.
 // Note: Adjust these ranges so that at least one car matches the first tab.
@@ -140,10 +141,11 @@ export default function Cars({ title, tagId }) {
     const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
     const displayPrice = car?.CarPrices?.find(item => item.currency === currency);
 
+
     return (
       <div key={car.id} className="box-car-list hv-one">
         <div className="image-group relative">
-          <div className="top flex-two">
+          {/* <div className="top flex-two">
             <ul className="d-flex gap-8">
               {car.Tags &&
                 car.Tags.map((tag) => <li className="flag-tag success">{tag.name}</li>
@@ -170,55 +172,66 @@ export default function Cars({ title, tagId }) {
               </li>
             </ul>
             <div className="year flag-tag">{carYear}</div>
-          </div>
+          </div> */}
           <div className="img-style">
             <Image
-              className="lazyload"
+              className="lazyload object-fit-cover"
               alt="car image"
               src={imagePath}
               width={450}
-              height={338}
+              height={200}
+              style={{ height: "200px" }}
             />
+
           </div>
         </div>
         <div className="content">
-          <div className="text-address">
-            <div className="icons flex-three">
-              <i className="text-color-3 fa fa-car-side me-2" />
-              <span className="text-color-3">{bodyTypeName}</span>
+          <div>
+            <div className="d-flex gap-8 mb-1">
+              {car.Tags &&
+                car.Tags.map((tag) => <li className="badge bg-dark">{tag.name}</li>
+                )}
+
+            </div>
+            <div className="text-address">
+              <div className="icons flex-three">
+                <i className="text-color-3 fa fa-car-side me-2" />
+                <span className="text-color-3">{bodyTypeName}</span>
+              </div>
+            </div>
+            <h5 className="link-style-1">
+              <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
+                {car.Year.year} {car.Brand.name} {car.CarModel.name} {car.Trim.name}
+              </Link>
+            </h5>
+            <div className="icon-box flex flex-wrap my-2">
+              <div className="icons flex-three">
+                <i className="fa fa-cogs" />
+                <span>{car.engineSize} ltr</span>
+              </div>
+              <div className="icons flex-three">
+                <i className="fa fa-gas-pump" />
+                <span>{fuelTypeName}</span>
+              </div>
+              <div className="icons flex-three">
+                <i className="fa fa-exchange-alt" />
+                <span>{transmissionName}</span>
+              </div>
+
+              <div className="icons flex-three">
+                <i className="fa fa-flag" />
+                <span>{regionalSpecificationName}</span>
+              </div>
+              <div className="icons flex-three">
+                <i className="fa fa-steering-wheel" />
+                <span>{steeringSideSpecificationName}</span>
+              </div>
+
             </div>
           </div>
-          <h5 className="link-style-1">
-            <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
-              {car.Year.year} {car.Brand.name} {car.CarModel.name} {car.Trim.name}
-            </Link>
-          </h5>
-          <div className="icon-box flex flex-wrap my-2">
-            <div className="icons flex-three">
-              <i className="fa fa-cogs" />
-              <span>{car.engineSize} ltr</span>
-            </div>
-            <div className="icons flex-three">
-              <i className="fa fa-gas-pump" />
-              <span>{fuelTypeName}</span>
-            </div>
-            <div className="icons flex-three">
-              <i className="fa fa-exchange-alt" />
-              <span>{transmissionName}</span>
-            </div>
 
-            <div className="icons flex-three">
-              <i className="fa fa-flag" />
-              <span>{regionalSpecificationName}</span>
-            </div>
-            <div className="icons flex-three">
-              <i className="fa fa-steering-wheel" />
-              <span>{steeringSideSpecificationName}</span>
-            </div>
-
-          </div>
           <div className="money fs-20 fw-5 lh-25 text-color-3 d-flex justify-content-between align-items-center">
-            {currency} {convertedPrice}
+            {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
             <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`} className="view-car">
               View car
             </Link>
@@ -271,7 +284,7 @@ export default function Cars({ title, tagId }) {
               </div>
               <div className="content-tab">
                 <div className="content-inner tab-content">
-                  <Swiper {...swiperOptions} modules={[Pagination, Navigation]} className="swiper-container">
+                  <Swiper {...swiperOptions} modules={[Pagination, Navigation]} className="swiper-container" >
                     {cars.length > 0 ? (
                       cars.map((car) => (
                         <SwiperSlide key={car.id}>

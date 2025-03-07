@@ -226,3 +226,16 @@
 
 /* New Custom */
 
+.swiper-container,
+.my-swiper-slide {
+  height: 450px; /* or any desired height */
+}
+
+.my-swiper-slide {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.box-car-list.hv-one {
+  height: 100%;
+}

@@ -174,12 +174,12 @@ export default function SignUp() {
                             onClick={handleRequestOtp}
                             disabled={loadingOtp}
                           >
-                            {loadingOtp ? "Sending OTP..." : "Send OTP"}
+                            {loadingOtp ? "Sending Welcome Code..." : "Welcome Code"}
                           </button>
                         )}
 
                         {otpSent && isTimerActive && (
-                          <p className="text-sm text-gray-400 mt-2">Resend OTP in {timer} seconds</p>
+                          <p className="text-sm text-gray-400 mt-2">Resend Welcome Code in {timer} seconds</p>
                         )}
 
                         {!isTimerActive && otpSent && (
@@ -188,7 +188,7 @@ export default function SignUp() {
                             className="btn btn-outline-secondary mt-2 w-full"
                             onClick={handleRequestOtp}
                           >
-                            Resend OTP
+                            Resend Welcome Code
                           </button>
                         )}
                       </div>

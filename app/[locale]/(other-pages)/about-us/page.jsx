@@ -12,7 +12,7 @@ import ChairmansMessage from "@/components/aboutus/ChairmansMessage";
 import Partners from "@/components/common/Partners";
 import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
-
+import { useTranslation } from "react-i18next";
 // export const metadata = {
 //   title:
 //     "About Us",
@@ -20,7 +20,7 @@ import PagesService from "@/services/PagesService";
 // };
 export default function page() {
 
-  const locale = useLocale();
+  const {i18n} = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +32,7 @@ export default function page() {
     const fetchPage = async () => {
       try {
         // For the homepage, assume your slug is "home"
-        const result = await PagesService.getPageBySlug("about_us", locale);
+        const result = await PagesService.getPageBySlug("about_us", i18n.language);
 
         if (result && result.success && result.data) {
           setPageData(result.data);
@@ -45,7 +45,7 @@ export default function page() {
     };
 
     fetchPage();
-  }, [locale]);
+  }, [i18n.language]);
 
   const sectionsByKey = pageData && Array.isArray(pageData.sections)
     ? pageData.sections.reduce((acc, section) => {

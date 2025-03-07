@@ -14,7 +14,7 @@ import PagesService from "@/services/PagesService";
 // };
 export default function page() {
 
-  const locale = useLocale();
+   const {i18n} = useTranslation();
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,7 @@ export default function page() {
     const fetchPage = async () => {
       try {
         // For the homepage, assume your slug is "home"
-        const result = await PagesService.getPageBySlug("contact", locale);
+        const result = await PagesService.getPageBySlug("contact", i18n.language);
 
         if (result && result.success && result.data) {
           setPageData(result.data);
@@ -39,7 +39,7 @@ export default function page() {
     };
 
     fetchPage();
-  }, [locale]);
+  }, [i18n.language]);
 
   const sectionsByKey = pageData && Array.isArray(pageData.sections)
     ? pageData.sections.reduce((acc, section) => {

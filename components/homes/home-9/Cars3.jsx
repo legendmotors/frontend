@@ -5,6 +5,7 @@ import Image from "next/image";
 import CarService from "@/services/CarService";
 import { formatPrice, formatPriceAED } from "@/utils/formatPrice";
 import Cookies from "js-cookie";
+import { formatCurrency } from "@/utils/formatCurrency";
 const priceRanges = [
   { title: "AED 50 - 80K", range: { min: 50000, max: 80000 } },
   { title: "AED 80 - 130K", range: { min: 80000, max: 130000 } },
@@ -110,7 +111,7 @@ export default function Cars3({ title }) {
     return (
       <div className="box-car-list style-2 style-dark hv-one">
         <div className="image-group relative">
-          <div className="top flex-two">
+          {/* <div className="top flex-two">
             <ul className="d-flex gap-8">
               {car.Tags &&
                 car.Tags.map((tag) => <li className="flag-tag success">{tag.name}</li>
@@ -136,7 +137,7 @@ export default function Cars3({ title }) {
                 6
               </li>
             </ul>
-          </div>
+          </div> */}
           <ul className="change-heart flex">
             <li className="box-icon w-32">
               <a
@@ -174,6 +175,12 @@ export default function Cars3({ title }) {
           </div>
         </div>
         <div className="content">
+        <div className="d-flex gap-8 mb-1">
+            {car.Tags &&
+              car.Tags.map((tag) => <li className="badge bg-light text-dark">{tag.name}</li>
+              )}
+
+          </div>
           <div className="text-address">
             <p className="text-color-3 font">{car.type}</p>
           </div>
@@ -206,7 +213,7 @@ export default function Cars3({ title }) {
 
           </div>
           <div className="money fs-20 fw-5 lh-25 text-color-3">
-            {currency === "AED" ? formatPrice(convertedPrice, 'AED','en-AE' ) : formatPrice(convertedPrice, 'USD','en-US' )}
+            {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
           </div>
           <div className="days-box flex justify-space align-center">
             <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`} className="view-car">

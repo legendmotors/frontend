@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import PagesService from "@/services/PagesService";
 
 export default function Page() {
-    const locale = useLocale();
+    const {i18n} = useTranslation();
     const [pageData, setPageData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -17,7 +17,7 @@ export default function Page() {
         const fetchPage = async () => {
             try {
                 // For the homepage, assume your slug is "home"
-                const result = await PagesService.getPageBySlug("privacy_policy", locale);
+                const result = await PagesService.getPageBySlug("privacy_policy", i18n.language);
 
                 if (result && result.success && result.data) {
                     setPageData(result.data);
@@ -30,7 +30,7 @@ export default function Page() {
         };
 
         fetchPage();
-    }, [locale]);
+    }, [i18n.language]);
 
     const sectionsByKey = pageData && Array.isArray(pageData.sections)
         ? pageData.sections.reduce((acc, section) => {

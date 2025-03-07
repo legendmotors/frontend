@@ -1,37 +1,67 @@
 import ShareButton from "@/components/social/ShareButton";
+import { formatCurrency } from "@/utils/formatCurrency";
 import React from "react";
 
 export default function CarInfo({ carResponse, currency, convertedPrice }) {
   // Extract additional details from the response if available.
-  // Adjust the property names below according to your API response structure.
-  const fuelType = carResponse.fuelType || "Petrol";
-  const transmission = carResponse.transmission || "Manual";
-  const engineType = carResponse.engineType || "V8";
-  const spec = carResponse.spec || "Oman Spec";
+  const bodyTypeSpecification = carResponse.SpecificationValues.find(
+    (spec) => spec.Specification.key === "body_type"
+  );
 
+  const fuelTypeSpecification = carResponse.SpecificationValues.find(
+    (spec) => spec.Specification.key === "fuel_type"
+  );
+
+  const regionalSpecification = carResponse.SpecificationValues.find(
+    (spec) => spec.Specification.key === "regional_specification"
+  );
+
+  const steeringSideSpecification = carResponse.SpecificationValues.find(
+    (spec) => spec.Specification.key === "steering_side"
+  );
+
+  const transmission = carResponse.SpecificationValues.find(
+    (spec) => spec.Specification.key === "transmission"
+  );
+
+
+  // Extract the body type name if it exists
+  const bodyTypeName = bodyTypeSpecification?.name || "N/A";
+
+  const fuelTypeName = fuelTypeSpecification?.name || "N/A"
+  const transmissionName = transmission?.name || "N/A";
+  const regionalSpecificationName = regionalSpecification?.name || "N/A";
+  const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
+  const displayPrice = carResponse?.CarPrices?.find(item => item.currency === currency);
   return (
     <>
-      {/* <div className="icon-box flex flex-wrap">
-        <div className="icons flex-three">
+      <div className="icon-box flex flex-wrap my-2">
+        <div className="icons flex-three gap-1">
           <i className="fa fa-cogs" />
-          <span className="ms-2">{fuelType}</span>
+          <span>{carResponse.engineSize} ltr</span>
         </div>
-        <div className="icons flex-three">
+        <div className="icons flex-three gap-1">
           <i className="fa fa-gas-pump" />
-          <span className="ms-2">{transmission}</span>
+          <span>{fuelTypeName}</span>
         </div>
-        <div className="icons flex-three">
-          <i className="fa fa-tachometer-alt" />
-          <span className="ms-2">{engineType}</span>
+        <div className="icons flex-three gap-1">
+          <i className="fa fa-exchange-alt" />
+          <span>{transmissionName}</span>
         </div>
-        <div className="icons flex-three">
+
+        <div className="icons flex-three gap-1">
           <i className="fa fa-flag" />
-          <span className="ms-2">{spec}</span>
+          <span>{regionalSpecificationName}</span>
         </div>
-      </div> */}
+        <div className="icons flex-three gap-1">
+          <i className="fa fa-steering-wheel" />
+          <span>{steeringSideSpecificationName}</span>
+        </div>
+
+      </div>
 
       <div className="money text-color-3 font">
-        {currency} {convertedPrice.toLocaleString()}
+        {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
       </div>
 
       <ul className="action-icon flex flex-wrap">

@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishlistSlice";
 import { getCookie } from "@/utils/cookieFunction";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function CarCardWithGridAndListing({ car, imagePath }) {
     const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
@@ -112,7 +113,8 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                         </div>
                         <h5 className="link-style-1">
                             <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
-                                {car.Year.year} {car.Brand.name} {car.CarModel.name} {car.Trim.name}
+                                {car.additionalInfo ? <>{car.additionalInfo}</> : <> {car.Year.year} {car.Brand.name} {car.CarModel.name} {car?.Trim?.name}</>}
+
                             </Link>
                         </h5>
                         <div className="icon-box flex flex-wrap my-2">
@@ -140,7 +142,7 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
 
                         </div>
                         <div className="money fs-20 text-color-3 mb-2 mt-2">
-                            {token ? <>{displayPrice?.currency} {displayPrice?.price}</> : <small className="fs-6 text-black">
+                            {token ? <>{displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}</> : <small className="fs-6 text-black">
                                 <a className="text-color-3" href="#"
                                     data-bs-toggle="modal"
                                     data-bs-target="#popup_bid">Log in</a> or <a className="text-color-3" href="#"
