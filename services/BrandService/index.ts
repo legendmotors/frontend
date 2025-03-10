@@ -22,7 +22,7 @@ const listBrand = async (params: Record<string, any>) => {
         const response = await api.get(Apis.GetBrandList, { params });
 
         if (!response || response.data.success === false || !response.data.data?.length) {
-            showTopCenterNotification('No brands found.');
+            // showTopCenterNotification('No brands found.');
             return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
         }
 
@@ -30,10 +30,10 @@ const listBrand = async (params: Record<string, any>) => {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error fetching brands:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while fetching brands.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while fetching brands.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
 
         return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
@@ -46,7 +46,7 @@ const getBrandById = async (id: number) => {
         const response = await api.get(Apis.GetBrandById, { params: { id } });
 
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Brand not found.');
+            // showTopCenterNotification('Brand not found.');
             return null;
         }
 
@@ -54,10 +54,10 @@ const getBrandById = async (id: number) => {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error fetching brand by ID:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while fetching the brand.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while fetching the brand.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
         return null;
     }
@@ -69,19 +69,19 @@ const addBrand = async (payload: Record<string, any>) => {
         const response = await api.post(Apis.AddBrand, payload);
 
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to add brand.');
+            // showTopCenterNotification('Failed to add brand.');
             return null;
         }
 
-        showTopCenterNotification('Brand added successfully!');
+        // showTopCenterNotification('Brand added successfully!');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error adding brand:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while adding the brand.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while adding the brand.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
         return null;
     }
@@ -93,19 +93,19 @@ const updateBrand = async (payload: Record<string, any>) => {
         const response = await api.put(Apis.UpdateBrand, payload);
 
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to update brand.');
+            // showTopCenterNotification('Failed to update brand.');
             return null;
         }
 
-        showTopCenterNotification('Brand updated successfully!');
+        // showTopCenterNotification('Brand updated successfully!');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error updating brand:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while updating the brand.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while updating the brand.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
         return null;
     }
@@ -117,18 +117,18 @@ const deleteBrand = async (id: number) => {
         const response = await api.delete(Apis.DeleteBrand, { params: { id } });
 
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to delete brand.');
+            // showTopCenterNotification('Failed to delete brand.');
             return false;
         }
-        showTopCenterNotification('Brand deleted successfully!');
+        // showTopCenterNotification('Brand deleted successfully!');
         return true;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error deleting brand:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while deleting the brand.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while deleting the brand.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
         return false;
     }
@@ -140,19 +140,19 @@ const bulkDeleteBrands = async (ids: number[]) => {
         const response = await api.delete(Apis.BulkDeleteBrands, { data: { ids } });
 
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to delete brands.');
+            // showTopCenterNotification('Failed to delete brands.');
             return false;
         }
 
-        showTopCenterNotification('Brands deleted successfully!');
+        // showTopCenterNotification('Brands deleted successfully!');
         return true;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error deleting brands:', error.response?.data?.message);
-            showTopCenterNotification(error.response?.data?.message || 'An error occurred while deleting brands.');
+            // showTopCenterNotification(error.response?.data?.message || 'An error occurred while deleting brands.');
         } else {
             console.error('Unexpected error:', error);
-            showTopCenterNotification('An unexpected error occurred.');
+            // showTopCenterNotification('An unexpected error occurred.');
         }
         return false;
     }

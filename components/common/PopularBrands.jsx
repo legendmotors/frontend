@@ -95,9 +95,7 @@ export default function PopularBrands({ title }) {
                     </Link>
                   </SwiperSlide>
                 ))
-              ) : (
-                <p>No brands found.</p>
-              )}
+              ) : null}
             </Swiper>
           </div>
         </div>

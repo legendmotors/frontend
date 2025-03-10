@@ -53,10 +53,10 @@ const addCar = async (payload: Record<string, any>) => {
             headers: { 'Content-Type': 'application/json' },
         });
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to add car.');
+            // showTopCenterNotification('Failed to add car.');
             return null;
         }
-        showTopCenterNotification('Car added successfully!');
+        // showTopCenterNotification('Car added successfully!');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -79,10 +79,10 @@ const updateCar = async (payload: Record<string, any>) => {
             headers: { 'Content-Type': 'application/json' },
         });
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to update car.');
+            // showTopCenterNotification('Failed to update car.');
             return null;
         }
-        showTopCenterNotification('Car updated successfully!');
+        // showTopCenterNotification('Car updated successfully!');
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -128,7 +128,7 @@ const getCarBySlug = async (slug: string, lang = 'en') => {
     try {
         const response = await api.get(Apis.GetCarBySlug, { params: { slug, lang } });
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Car not found.');
+            // showTopCenterNotification('Car not found.');
             return null;
         }
         return response.data.data;
@@ -151,10 +151,10 @@ const deleteCar = async (id: number) => {
     try {
         const response = await api.delete(Apis.DeleteCar, { params: { id } });
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to delete car.');
+            // showTopCenterNotification('Failed to delete car.');
             return false;
         }
-        showTopCenterNotification('Car deleted successfully!');
+        // showTopCenterNotification('Car deleted successfully!');
         return true;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -175,10 +175,10 @@ const bulkDeleteCars = async (ids: number[]) => {
     try {
         const response = await api.delete(Apis.BulkDeleteCars, { data: { ids } });
         if (!response || response.data.success === false) {
-            showTopCenterNotification('Failed to delete cars.');
+            // showTopCenterNotification('Failed to delete cars.');
             return false;
         }
-        showTopCenterNotification('Cars deleted successfully!');
+        // showTopCenterNotification('Cars deleted successfully!');
         return true;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -199,7 +199,7 @@ const fuzzySearch = async (params: Record<string, any>) => {
     try {
         const response = await api.get(Apis.FuzzySearchCars, { params });
         if (!response || response.data.success === false || !response.data.data?.length) {
-            showTopCenterNotification('No cars found.');
+            // showTopCenterNotification('No cars found.');
             return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
         }
         return response.data;
