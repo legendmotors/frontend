@@ -144,9 +144,8 @@ export default function Nav() {
       {/* Dropdown Menu */}
       <li className="tfcl-mega-menu dropdown2">
         <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
-        <ul className="dropdown-menu">
+        {/* <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
-            {/* Tabs Section (Left Side) */}
             <div className="dropdown-tabs">
               {tabs.map((tab) => (
                 <div
@@ -160,7 +159,6 @@ export default function Nav() {
               ))}
             </div>
 
-            {/* Content Section (Right Side) */}
             <div className="dropdown-content tab-transition">
               <div className="megamenu-grid">
                 {tabs
@@ -187,7 +185,7 @@ export default function Nav() {
               </Link>
             </div>
           </li>
-        </ul>
+        </ul> */}
       </li>
 
 

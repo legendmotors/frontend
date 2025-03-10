@@ -117,12 +117,12 @@ export default function page() {
       <div className="mt-5 pt-5"></div>
       <PopularBrands title={sectionsByKey.popular_brands?.title} />
       {/* <Cta /> */}
-      <div className="mt-5 pt-5"></div>
-      <DownloadApp sectionsByKey={sectionsByKey} />
+      {/* <div className="mt-5 pt-5"></div>
+      <DownloadApp sectionsByKey={sectionsByKey} /> */}
       <div className="mt-5 pt-5"></div>
       <Features sectionsByKey={sectionsByKey} />
       <Cars3 title={sectionsByKey.best_cars_by_budget?.title} />
-      <Testimonials sectionsByKey={sectionsByKey} />
+      {/* <Testimonials sectionsByKey={sectionsByKey} /> */}
       <div className="mt-5 pt-5"></div>
       <Blogs2 title={sectionsByKey.our_news?.title}/>
       <Partners title={sectionsByKey.our_partners?.title}/>

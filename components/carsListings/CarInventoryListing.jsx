@@ -675,7 +675,7 @@ const CarInventoryListing = () => {
                                                     </button>
                                                 </div> */}
                     <div className={expanded ? "collapse show" : "collapse"}>
-                        <div className="row mb-4 mt-3">
+                        <div className="row mt-3">
                             {/* Specification Filters */}
                             {specifications.map((spec) => (
                                 <div key={spec.id} className="col-12 col-md-3 mb-3">
@@ -722,7 +722,7 @@ const CarInventoryListing = () => {
                                         <option value="USD">USD</option>
                                     </select>
                                 </label>
-                                <RangeSlider
+                                {/* <RangeSlider
                                     min={0}
                                     max={500000}
                                     step={1000}
@@ -740,7 +740,7 @@ const CarInventoryListing = () => {
                                     <span className="badge bg-primary rounded-pill ms-2">
                                         Max: {localPriceRangeAED[1]}
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="d-flex gap-2 mt-3">
                                     <input
                                         type="number"
@@ -785,7 +785,7 @@ const CarInventoryListing = () => {
                                         <option value="USD">USD</option>
                                     </select>
                                 </label>
-                                <RangeSlider
+                                {/* <RangeSlider
                                     min={0}
                                     max={100000}
                                     step={500}
@@ -802,7 +802,7 @@ const CarInventoryListing = () => {
                                     <span className="badge bg-primary rounded-pill ms-2">
                                         Max: {localPriceRangeUSD[1]}
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="d-flex gap-2 mt-3">
                                     <input
                                         type="number"
