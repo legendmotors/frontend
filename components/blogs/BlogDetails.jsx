@@ -11,7 +11,7 @@ export default function BlogDetails({ blogItem }) {
     <section className="tf-section3 flat-blog-detail flat-property-detail">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
+          {/* <div className="col-lg-12">
             <div className="post">
               <h1 className="title-heading">{blogItem.title}</h1>
               <div className="icon-boxs flex flex-wrap gap-20">
@@ -211,7 +211,7 @@ export default function BlogDetails({ blogItem }) {
               </div>
               
             </div>
-          </div>
+          </div> */}
           {/* <div className="col-lg-4">
             <aside className="side-bar side-bar-1 side-blog">
               <div className="inner-side-bar">

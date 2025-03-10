@@ -4,14 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { blogPosts2 } from "@/data/blogs";
 import Pagination2 from "../common/Pagination2";
+import ShareButton from "../social/ShareButton";
 
 export default function Blogs2() {
   return (
     <section className="tf-section3 flat-blog-grid flat-blog-list flat-property">
       <div className="container">
         <div className="inner-heading flex-two flex-wrap">
-          <h1 className="heading-listing">Blog Grid</h1>
-          <div className="social-listing flex-six flex-wrap">
+          <h1 className="heading-listing">Our News</h1>
+          <ShareButton />
+          {/* <div className="social-listing flex-six flex-wrap">
             <p>Share this page:</p>
             <div className="icon-social style1">
               <a href="#">
@@ -27,14 +29,14 @@ export default function Blogs2() {
                 <i className="icon-autodeal-instagram" />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="row">
           <div className="col-lg-12">
             <div className="post">
               <div className="flat-blog">
                 <div className="row">
-                  {blogPosts2.map((post, index) => (
+                  {/* {blogPosts2.map((post, index) => (
                     <div className="col-lg-4 col-md-6" key={index}>
                       <div className="box hover-img">
                         <div className="images img-style relative flex-none">
@@ -64,12 +66,12 @@ export default function Blogs2() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
               <div className="themesflat-pagination clearfix center">
                 <ul>
-                  <Pagination2 />
+                  {/* <Pagination2 /> */}
                 </ul>
               </div>
             </div>

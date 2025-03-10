@@ -7,6 +7,7 @@ import FlatFilter3 from "@/components/common/FlatFilter3";
 import { initialState, reducer } from "@/reducer/carFilterReducer";
 import BannerService from "@/services/BannerService";
 import { useTranslation } from "react-i18next";
+import CarFilter from "@/components/filter/CarFilter";
 
 export default function Hero() {
   // Swiper configuration
@@ -34,8 +35,8 @@ export default function Hero() {
   };
 
   // const t = useTranslations("HomePage");
-  const {i18n} = useTranslation();
-  
+  const { i18n } = useTranslation();
+
   // Car filter reducer/state
   const [state, dispatch] = useReducer(reducer, initialState);
   const [banners, setBanners] = useState([]);
@@ -162,7 +163,7 @@ export default function Hero() {
                       {/* Filter */}
                       <div className="flat-filter-search home9">
                         <div className="flat-tabs">
-                          <FlatFilter3 clearFilter={clearFilter} allProps={allProps} />
+                          <CarFilter />
                         </div>
                       </div>
                     </div>

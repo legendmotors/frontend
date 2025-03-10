@@ -15,7 +15,7 @@ export default function page({ params }) {
   return (
     <>
       <section className="flat-title mb-40">
-        <div className="container2">
+        {/* <div className="container2">
           <div className="row">
             <div className="col-lg-12">
               <div className="title-inner style">
@@ -28,7 +28,7 @@ export default function page({ params }) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
       <BlogDetails blogItem={blogItem} />
       

@@ -12,7 +12,7 @@ export default function page() {
   return (
     <>
       <section className="flat-title mb-40">
-        <div className="container2">
+        {/* <div className="container2">
           <div className="row">
             <div className="col-lg-12">
               <div className="title-inner style">
@@ -25,7 +25,7 @@ export default function page() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
       <Blogs2 />
       

@@ -115,7 +115,7 @@ export default function Nav() {
         </ul>
       </li> */}
 
-       {/* <li className={`dropdown2  ${isActive(blogPages) ? "current" : ""} `}>
+      {/* <li className={`dropdown2  ${isActive(blogPages) ? "current" : ""} `}>
         <a href="#">Blog</a>
         <ul>
           {blogPages.map((item, index) => (
@@ -142,9 +142,12 @@ export default function Nav() {
 
       {/* New Cars Dropdown */}
       {/* Dropdown Menu */}
-      <li className="tfcl-mega-menu dropdown2">
+      <li className={pathname === "/cars/new-cars" ? "current" : ""}>
         <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
-        {/* <ul className="dropdown-menu">
+      </li>
+      {/* <li className="tfcl-mega-menu dropdown2">
+        <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
+        <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
             <div className="dropdown-tabs">
               {tabs.map((tab) => (
@@ -185,8 +188,8 @@ export default function Nav() {
               </Link>
             </div>
           </li>
-        </ul> */}
-      </li>
+        </ul>
+      </li> */}
 
 
       {/* <li className={`dropdown2  ${isActive(otherPages) ? "current" : ""} `}>
@@ -227,8 +230,8 @@ export default function Nav() {
           ))}
         </ul>
       </li> */}
-     
-      
+
+
       <li className={pathname === "/blog" ? "current" : ""}>
         <Link className="p-2" href="/blog">Blogs</Link>
       </li>
