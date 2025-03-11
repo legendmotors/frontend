@@ -15,10 +15,11 @@ export default async function initTranslations(
 
   if (!resources) {
     i18nInstance.use(
-      resourcesToBackend(
-        (language, namespace) =>
-          import(`/public/locales/${language}/${namespace}.json`)
-      )
+      resourcesToBackend((language, namespace) => {
+        const url = `/locales/${language}/${namespace}.json`;
+        console.log("Fetching translation file:", url);
+        return fetch(url).then((res) => res.json());
+      })
     );
   }
 
@@ -30,12 +31,12 @@ export default async function initTranslations(
     defaultNS: namespaces[0],
     fallbackNS: namespaces[0],
     ns: namespaces,
-    preload: resources ? [] : i18nConfig.locales
+    preload: resources ? [] : i18nConfig.locales,
   });
 
   return {
     i18n: i18nInstance,
     resources: { [locale]: i18nInstance.services.resourceStore.data[locale] },
-    t: i18nInstance.t
+    t: i18nInstance.t,
   };
 }

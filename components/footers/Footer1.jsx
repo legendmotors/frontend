@@ -4,11 +4,13 @@ import Image from "next/image";
 import emailjs from "@emailjs/browser";
 import Link from "next/link";
 import { footerData } from "@/data/footerLinks";
+import { useTranslation } from "react-i18next";
 
 export default function Footer1() {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const { t } = useTranslation();
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -27,7 +29,6 @@ export default function Footer1() {
         if (res.status === 200) {
           setSuccess(true);
           handleShowMessage();
-
           formRef.current.reset();
         } else {
           setSuccess(false);
@@ -38,6 +39,7 @@ export default function Footer1() {
         console.log(err);
       });
   };
+
   useEffect(() => {
     const headings = document.querySelectorAll(".footer-heading-mobie");
 
@@ -60,13 +62,13 @@ export default function Footer1() {
       heading.addEventListener("click", toggleOpen);
     });
 
-    // Clean up event listeners when the component unmounts
     return () => {
       headings.forEach((heading) => {
         heading.removeEventListener("click", toggleOpen);
       });
     };
-  }, []); // Empty dependency array means this will run only once on mount
+  }, []);
+
   return (
     <footer id="footer" className="clearfix home">
       <div className="container">
@@ -76,15 +78,15 @@ export default function Footer1() {
               <div className="col-lg-3 col-sm-6 col-12" key={index}>
                 <div className="widget widget-menu footer-col-block">
                   <div className="footer-heading-desktop">
-                    <h4>{column.heading}</h4>
+                    <h4>{t(column.heading)}</h4>
                   </div>
-                  <div className="footer-heading-mobie ">
-                    <h4>{column.heading}</h4>
+                  <div className="footer-heading-mobie">
+                    <h4>{t(column.heading)}</h4>
                   </div>
                   <ul className="box-menu tf-collapse-content">
                     {column.menuItems.map((item, itemIndex) => (
                       <li key={itemIndex}>
-                        <Link href={item.href}>{item.text}</Link>
+                        <Link href={item.href}>{t(item.text)}</Link>
                       </li>
                     ))}
                   </ul>
@@ -94,23 +96,23 @@ export default function Footer1() {
             <div className="col-lg-3 col-sm-6 col-12">
               <div className="widget widget-menu widget-form footer-col-block">
                 <div className="footer-heading-desktop">
-                  <h4>Newsletter</h4>
+                  <h4>{t("newsletter")}</h4>
                 </div>
                 <div className="footer-heading-mobie">
-                  <h4>Newsletter</h4>
+                  <h4>{t("newsletter")}</h4>
                 </div>
                 <div className="tf-collapse-content">
                   <div
-                    className={`tfSubscribeMsg  footer-sub-element ${
+                    className={`tfSubscribeMsg footer-sub-element ${
                       showMessage ? "active" : ""
                     }`}
                   >
                     {success ? (
                       <p style={{ color: "rgb(52, 168, 83)" }}>
-                        You have successfully subscribed.
+                        {t("subscription_success")}
                       </p>
                     ) : (
-                      <p style={{ color: "red" }}>Something went wrong</p>
+                      <p style={{ color: "red" }}>{t("subscription_error")}</p>
                     )}
                   </div>
                   <form
@@ -119,17 +121,14 @@ export default function Footer1() {
                     className="comment-form form-submit"
                     acceptCharset="utf-8"
                   >
-                    <p className="font-2">
-                      Stay on top of the latest car trends, tips, and tricks for
-                      selling your car.
-                    </p>
+                    <p className="font-2">{t("newsletter_text")}</p>
                     <div className="text-wrap clearfix">
                       <fieldset className="email-wrap style-text">
                         <input
                           type="email"
                           className="tb-my-input"
                           name="email"
-                          placeholder="Your email address"
+                          placeholder={t("email_placeholder")}
                           required
                         />
                       </fieldset>
@@ -139,7 +138,7 @@ export default function Footer1() {
                       type="submit"
                       className="button btn-submit-comment btn-1 btn-8"
                     >
-                      <span>Send</span>
+                      <span>{t("send")}</span>
                     </button>
                   </form>
                 </div>
@@ -154,11 +153,11 @@ export default function Footer1() {
                 <Link href={`/`}>
                   <Image
                     className="lazyload"
-                    data-src="/assets/images/logo/footer-logo.png"
-                    alt="img"
+                    data-src={t("logo_footer")}
+                    alt={t("footer_logo_alt")}
                     width={225}
                     height={40}
-                    src="/assets/images/logo/footer-logo.png"
+                    src={t("logo_footer")}
                   />
                 </Link>
               </div>
@@ -166,7 +165,7 @@ export default function Footer1() {
             <div className="col-lg-8 col-md-12">
               <div className="footer-bottom-right flex-six flex-wrap">
                 <div className="title-bottom center">
-                  © 2024 Legend Motors. All rights reserved
+                  {t("footer_copyright")}
                 </div>
                 <div className="icon-social box-3 text-color-1">
                   <a href="#">

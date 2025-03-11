@@ -26,18 +26,18 @@ export const listPages = async (params: Record<string, any>) => {
       !response.data.success ||
       !response.data.data?.length
     ) {
-      showNotification('No pages found.', 'error');
+      // showNotification('No pages found.', 'error');
       return { data: [], pagination: { totalItems: 0, totalPages: 0 } };
     }
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error fetching pages:', error.response?.data?.message);
-      showNotification(
-        error.response?.data?.message ||
-          'An error occurred while fetching pages.',
-        'error'
-      );
+      // showNotification(
+      //   error.response?.data?.message ||
+      //     'An error occurred while fetching pages.',
+      //   'error'
+      // );
     } else {
       console.error('Unexpected error:', error);
       showNotification('An unexpected error occurred.', 'error');
@@ -75,20 +75,20 @@ export const getPageBySlug = async (slug: string, lang: string = 'en') => {
   try {
     const response = await api.get(Apis.GetPageBySlug, { params: { slug, lang } });
     if (!response || !response.data.success) {
-      showNotification('Page not found.', 'error');
+      // showNotification('Page not found.', 'error');
       return null;
     }
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error fetching page by slug:', error.response?.data?.message);
-      showNotification(
-        error.response?.data?.message || 'An error occurred while fetching page.',
-        'error'
-      );
+      // showNotification(
+      //   error.response?.data?.message || 'An error occurred while fetching page.',
+      //   'error'
+      // );
     } else {
       console.error('Unexpected error:', error);
-      showNotification('An unexpected error occurred.', 'error');
+      // showNotification('An unexpected error occurred.', 'error');
     }
     return null;
   }

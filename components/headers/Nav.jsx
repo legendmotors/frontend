@@ -4,7 +4,7 @@ import { blogPages, homepages, listingPages, otherPages } from "@/data/menu";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useTranslation } from "react-i18next";
 
 // Example data for each tab
 const popularBrands = [
@@ -33,15 +33,15 @@ const newModels = [
   { name: "2018 BMV X1 xDrive 20d xline", image: "assets/images/car-list/car1.jpg", Link: "/models/camry" },
 ];
 
-
 export default function Nav() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("popularBrands"); // Default active tab
-  // Tabs for "New Cars" dropdown
-  // Tabs Configuration
+  
+  // Tabs for "New Cars" dropdown updated with t()
   const tabs = [
-    { id: "popularBrands", label: "Popular Brands", data: popularBrands },
-    { id: "popularModels", label: "Popular Models", data: popularModels },
-    { id: "newModels", label: "Latest Models", data: newModels },
+    { id: "popularBrands", label: t("popular_brands"), data: popularBrands },
+    { id: "popularModels", label: t("popular_models"), data: popularModels },
+    { id: "newModels", label: t("latest_models"), data: newModels },
   ];
 
   const pathname = usePathname();
@@ -63,6 +63,7 @@ export default function Nav() {
     });
     return active;
   };
+
   return (
     <>
       {/* Home Menu */}
@@ -133,28 +134,24 @@ export default function Nav() {
         </ul>
       </li> */}
 
-
-
       <li className={pathname === "/" ? "current" : ""}>
-        <Link className="p-2" href="/" >Home</Link>
+        <Link className="p-2" href="/">{t("home")}</Link>
       </li>
-
 
       {/* New Cars Dropdown */}
       {/* Dropdown Menu */}
       <li className={pathname === "/cars/new-cars" ? "current" : ""}>
-        <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
+        <Link className="p-2" href="/cars/new-cars">{t("explore_cars")}</Link>
       </li>
-      {/* <li className="tfcl-mega-menu dropdown2">
-        <Link className="p-2" href="/cars/new-cars">Explore Cars</Link>
+      <li className="tfcl-mega-menu dropdown2">
+        <Link className="p-2" href="/cars/new-cars">{t("explore_cars")}</Link>
         <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
             <div className="dropdown-tabs">
               {tabs.map((tab) => (
                 <div
                   key={tab.id}
-                  className={`tab-item ${tab.id === activeTab ? "active-tab" : ""
-                    }`}
+                  className={`tab-item ${tab.id === activeTab ? "active-tab" : ""}`}
                   onMouseEnter={() => setActiveTab(tab.id)}
                 >
                   {tab.label}
@@ -171,8 +168,7 @@ export default function Nav() {
                       <Image
                         className={`lazyload ${activeTab === "popularBrands" || activeTab === "popularBodyTypes"
                           ? "object-fit-contain p-3"
-                          : "rounded object-fit-cover"
-                          }`}
+                          : "rounded object-fit-cover"}`}
                         data-src={item.image}
                         alt="images"
                         src={item.image}
@@ -184,13 +180,12 @@ export default function Nav() {
                   ))}
               </div>
               <Link href={`/${activeTab}`} className="see-all-link p-2">
-                See all {tabs.find((tab) => tab.id === activeTab).label} →
+                {t("see_all")} {tabs.find((tab) => tab.id === activeTab).label} →
               </Link>
             </div>
           </li>
         </ul>
-      </li> */}
-
+      </li>
 
       {/* <li className={`dropdown2  ${isActive(otherPages) ? "current" : ""} `}>
         <a href="#">Page</a>
@@ -231,95 +226,15 @@ export default function Nav() {
         </ul>
       </li> */}
 
-
       <li className={pathname === "/blog" ? "current" : ""}>
-        <Link className="p-2" href="/blog">Blogs</Link>
+        <Link className="p-2" href="/blog">{t("blogs")}</Link>
       </li>
       <li className={pathname === "/about-us" ? "current" : ""}>
-        <Link className="p-2" href="/about-us">About Us</Link>
+        <Link className="p-2" href="/about-us">{t("about_us")}</Link>
       </li>
       <li className={"contact" == pathname.split("/")[1] ? "current" : ""}>
-        <Link className="p-2" href={`/contact`}>Contact</Link>
+        <Link className="p-2" href={`/contact`}>{t("contact")}</Link>
       </li>
     </>
-  );
-}
-
-
-
-// Custom UI for each tab
-function CarsTabUI({ data }) {
-  return (
-    <div className="tab-content">
-      <h3>Cars Section</h3>
-      {data.map((item, index) => (
-        <div key={index}>
-          <strong>{item.title}</strong>
-          <ul>
-            {item.Links.map((Link, LinkIndex) => (
-              <li key={LinkIndex}>
-                <Link className="p-2" href={Link.href}>{Link.text}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function HomeTabUI({ data }) {
-  return (
-    <div className="tab-content">
-      <h3>Home Section</h3>
-      <ul>
-        {data.map((item, index) => (
-          <li key={index}>
-            <Link className="p-2" href={item.href}>{item.text}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function PagesTabUI({ data }) {
-  return (
-    <div className="tab-content">
-      <h3>Pages Section</h3>
-      {data.map((item, index) => (
-        <div key={index}>
-          {item.title ? (
-            <>
-              <strong>{item.title}</strong>
-              <ul>
-                {item.Links.map((Link, LinkIndex) => (
-                  <li key={LinkIndex}>
-                    <Link className="p-2" href={Link.href}>{Link.text}</Link>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <Link className="p-2" href={item.href}>{item.text}</Link>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function BlogTabUI({ data }) {
-  return (
-    <div className="tab-content">
-      <h3>Blog Section</h3>
-      <ul>
-        {data.map((item, index) => (
-          <li key={index}>
-            <Link className="p-2" href={item.href}>{item.text}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

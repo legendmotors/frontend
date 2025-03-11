@@ -230,6 +230,14 @@ const Apis: Record<string, string> = {
     GetContactList: `${API_URL}contact-us/list`,
     GetContactById: `${API_URL}contact-us/getById`,
     DeleteContact: `${API_URL}contact-us/delete`,
+
+    GetPartnerLogoList: `${API_URL}partner/list`,
+    AddPartnerLogo: `${API_URL}partner/create`,
+    UpdatePartnerLogo: `${API_URL}partner/update`,
+    DeletePartnerLogo: `${API_URL}partner/delete`,
+    GetPartnerLogoById: `${API_URL}partner/getById`,
+    GetPartnerLogoByIdentifier: `${API_URL}partner/getByIdentifier`,
+    BulkDeletePartnerLogos: `${API_URL}partner/bulk-delete`,
 };
 
 export { API_URL, Apis };

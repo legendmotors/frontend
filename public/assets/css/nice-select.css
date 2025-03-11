@@ -225,10 +225,10 @@
 
 
 /* New Custom */
-
+/* 
 .swiper-container,
 .my-swiper-slide {
-  height: 450px; /* or any desired height */
+  height: 450px; 
 }
 
 .my-swiper-slide {
@@ -238,4 +238,4 @@
 
 .box-car-list.hv-one {
   height: 100%;
-}
+} */

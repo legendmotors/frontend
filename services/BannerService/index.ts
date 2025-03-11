@@ -92,7 +92,7 @@ export const getBannerByIdentifier = async (identifier: string, lang?: string) =
     }
     const response = await api.get(Apis.GetBannerByIdentifier, { params });
     if (!response || !response.data.success) {
-      showNotification("Banner not found.", "error");
+      // showNotification("Banner not found.", "error");
       return null;
     }
     return response.data;
@@ -102,14 +102,14 @@ export const getBannerByIdentifier = async (identifier: string, lang?: string) =
         "Error fetching banner by identifier:",
         error.response?.data?.message
       );
-      showNotification(
-        error.response?.data?.message ||
-          "An error occurred while fetching banner by identifier.",
-        "error"
-      );
+      // showNotification(
+      //   error.response?.data?.message ||
+      //     "An error occurred while fetching banner by identifier.",
+      //   "error"
+      // );
     } else {
       console.error("Unexpected error:", error);
-      showNotification("An unexpected error occurred.", "error");
+      // showNotification("An unexpected error occurred.", "error");
     }
     return null;
   }

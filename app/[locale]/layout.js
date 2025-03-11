@@ -13,7 +13,7 @@ import WhatsAppButton from "@/components/social/WhatsAppButton";
 import Script from "next/script";
 import initTranslations from '@/app/i18n';
 
-const i18nNamespaces = ['home'];
+const i18nNamespaces = ['common'];
 
 
 export default async function RootLayout({ children, params: { locale } }) {
@@ -21,7 +21,6 @@ export default async function RootLayout({ children, params: { locale } }) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
 
   // Fetch messages for the given locale
-  const messages = (await import(`../../messages/${locale}.json`)).default;
 
   // Determine the direction of the text (RTL or LTR)
   const dir = locale === "ar" ? "rtl" : "ltr";
@@ -47,10 +46,7 @@ export default async function RootLayout({ children, params: { locale } }) {
       </head>
       <body className="body" style={{ transition: "0s" }}>
         <WhatsAppButton />
-        <TranslationsProvider
-          namespaces={i18nNamespaces}
-          locale={locale}
-          resources={resources}>
+        <TranslationsProvider namespaces={i18nNamespaces} locale={locale}>
           <RootClient>{children}</RootClient>
         </TranslationsProvider>
       </body>

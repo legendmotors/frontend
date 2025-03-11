@@ -1,19 +1,27 @@
+"use client";
 
-'use client';
+import React, { useState, useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
+import initTranslations from "@/app/i18n";
+import { createInstance } from "i18next";
 
-import { I18nextProvider } from 'react-i18next';
-import initTranslations from '@/app/i18n';
-import { createInstance } from 'i18next';
+export default function TranslationsProvider({ children, locale, namespaces }) {
+  const [i18n, setI18n] = useState(null);
 
-export default function TranslationsProvider({
-  children,
-  locale,
-  namespaces,
-  resources
-}) {
-  const i18n = createInstance();
+  useEffect(() => {
+    const instance = createInstance();
+    initTranslations(locale, namespaces, instance)
+      .then(() => {
+        setI18n(instance);
+      })
+      .catch((error) => {
+        console.error("Failed to initialize translations:", error);
+      });
+  }, [locale, namespaces]);
 
-  initTranslations(locale, namespaces, i18n, resources);
+  if (!i18n) {
+    return <div>Loading translations...</div>;
+  }
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 }

@@ -16,7 +16,7 @@ export default function LanguageSelector() {
     { code: "ar", label: "Arabic" },
     { code: "fr", label: "French" },
     { code: "es", label: "Spanish" },
-    { code: "pt", label: "Portuguese" },
+    { code: "ru", label: "Russian" },
     { code: "zh-CN", label: "Chinese" },
   ];
 

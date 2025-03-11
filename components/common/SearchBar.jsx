@@ -3,8 +3,10 @@
 import CarService from "@/services/CarService";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +25,7 @@ const SearchBar = () => {
     try {
       // Call fuzzy search using CarService.fuzzySearch
       const response = await CarService.fuzzySearch({ search: query, page: 1, limit: 10 });
-      console.log("Fuzzy search response:", response); // Debug: Inspect the API response
+      console.log("Fuzzy search response:", response);
       
       if (response && response.success && response.data && response.data.length > 0) {
         setResults(response.data);
@@ -43,16 +45,16 @@ const SearchBar = () => {
       <div className="wd-find-select">
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="form-group-1 search-form form-style2 relative">
-            <i className="fal fa-search position-absolute top-50 start-100 translate-middle pe-5"/>
+            <i className="fal fa-search position-absolute top-50 start-100 translate-middle pe-5" />
             <input
               type="search"
               className="search-field"
               id="search-terms"
-              placeholder="Search by Make, Model, or Keyword"
+              placeholder={t("search_placeholder")}
               value={searchTerm}
               onChange={handleSearch}
               name="s"
-              title="Search for"
+              title={t("search_title")}
               required
             />
           </div>
@@ -72,7 +74,7 @@ const SearchBar = () => {
           }}
         >
           {isLoading ? (
-            <p className="dropdown-item text-muted">Loading...</p>
+            <p className="dropdown-item text-muted">{t("loading")}</p>
           ) : results.length > 0 ? (
             results.map((car) => (
               <div key={car.id} className="dropdown-item">
@@ -90,7 +92,7 @@ const SearchBar = () => {
               </div>
             ))
           ) : (
-            <p className="dropdown-item text-muted">No results found.</p>
+            <p className="dropdown-item text-muted">{t("no_results")}</p>
           )}
         </div>
       )}

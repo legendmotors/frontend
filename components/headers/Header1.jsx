@@ -16,12 +16,14 @@ import IconMail from "../icon/icon-mail";
 import IconLockDots from "../icon/icon-lock-dots";
 import IconLogout from "../icon/icon-logout";
 import UserDropdown from "../auth/UserDropdown";
+import { useTranslation } from "react-i18next";
+
 export default function Header1() {
-  const token = getCookie('token');
+  const token = getCookie("token");
+  const { t } = useTranslation();
 
   return (
-    // <header className="main-header style2">
-    <header className="main-header ">
+    <header className="main-header">
       {/* Header Lower */}
       <div className="header-lower">
         <div className="container2">
@@ -34,19 +36,19 @@ export default function Header1() {
                     <Link href={`/`}>
                       <Image
                         className="lazyload img-none"
-                        data-src="/assets/images/logo/legend-motors-logo.png"
-                        alt=""
+                        data-src={t("logo_header")}
+                        alt="Logo"
                         width={160}
                         height={40}
-                        src="/assets/images/logo/legend-motors-logo.png"
+                        src={t("logo_header")}
                       />
                       <Image
                         className="lazyload img-is-fixed"
-                        data-src="/assets/images/logo/legend-motors-logo.png"
-                        alt=""
+                        data-src={t("logo_header")}
+                        alt="Logo"
                         width={160}
                         height={40}
-                        src="/assets/images/logo/legend-motors-logo.png"
+                        src={t("logo_header")}
                       />
                     </Link>
                   </div>
@@ -56,41 +58,37 @@ export default function Header1() {
                   <LanguageSelector />
                   <CurrencySelector />
                   {/* <WishlistDropdown /> */}
-
-                  {!token &&
+                  {!token && (
                     <div className="register">
                       <ul className="flex align-center">
                         <li>
                           <i className="icon-autodeal-user fs-20" />
                         </li>
-                        <li className="">
+                        <li>
                           <a
                             href="#"
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid"
                           >
-                            Login
+                            {t("login")}
                           </a>
                         </li>
                         <li>
                           <span>/</span>
                         </li>
-                        <li className="">
+                        <li>
                           <a
                             href="#"
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid2"
                           >
-                            Register
+                            {t("register")}
                           </a>
                         </li>
                       </ul>
                     </div>
-                  }
-                  {token &&
-                    <UserDropdown />
-                  }
-
+                  )}
+                  {token && <UserDropdown />}
                 </div>
                 <div
                   className="mobile-nav-toggler mobile-button"
@@ -102,9 +100,8 @@ export default function Header1() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-12 ">
-            <div className="d-flex justify-content-center align-items-center border-top border-grey">
-
+            <div className="col-lg-12">
+              <div className="d-flex justify-content-center align-items-center border-top border-grey">
                 <div className="nav-outer flex align-center">
                   {/* Main Menu */}
                   <nav className="main-menu ms-0 show navbar-expand-md">
@@ -117,26 +114,29 @@ export default function Header1() {
                       </ul>
                     </div>
                   </nav>
-                  {/* Main Menu End*/}
+                  {/* Main Menu End */}
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </div>
       {/* End Header Lower */}
-      {/* Mobile Menu  */}
+      {/* Mobile Menu */}
       <div
         className="close-btn"
-        onClick={() => document.body.classList.remove("mobile-menu-visible")}
+        onClick={() =>
+          document.body.classList.remove("mobile-menu-visible")
+        }
       >
         <span className="icon flaticon-cancel-1" />
       </div>
       <div className="mobile-menu">
         <div
           className="menu-backdrop"
-          onClick={() => document.body.classList.remove("mobile-menu-visible")}
+          onClick={() =>
+            document.body.classList.remove("mobile-menu-visible")
+          }
         />
         <nav className="menu-box">
           <div className="nav-logo">
@@ -160,11 +160,10 @@ export default function Header1() {
                 data-bs-target="#popup_bid"
                 className="fw-7 font-2"
               >
-                Login
+                {t("login")}
               </a>
             </div>
             <MobileNav />
-
           </div>
         </nav>
       </div>
