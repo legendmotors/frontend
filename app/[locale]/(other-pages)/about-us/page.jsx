@@ -63,7 +63,7 @@ export default function page() {
       <div className="mt-5 pt-5"></div>
       {/* <Agents parentClass="tf-section3" /> */}
       <ChairmansMessage sectionsByKey={sectionsByKey} />
-      {/* <Partners /> */}
+      <Partners />
       {/* <Testimonials /> */}
       {/* <RecomandedCars /> */}
       

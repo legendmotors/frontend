@@ -104,7 +104,7 @@ export default function Features({ sectionsByKey }) {
 
 
 
-              {/* <div className="tf-icon-box-list">
+              <div className="tf-icon-box-list">
                 <div
                   className="tf-icon-box style-2 wow fadeInUpSmall"
                   data-wow-delay="0.2s"
@@ -137,11 +137,9 @@ export default function Features({ sectionsByKey }) {
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">New range rover, defender, discovery</a>
+                      <a href="#">{sectionsByKey.unmatched_expertise?.title}</a>
                     </h5>
-                    <p>
-                      Experience the joy of owning a brand new Range Rover,
-                      Defender or Discovery today!
+                    <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.unmatched_expertise?.content }}>
                     </p>
                   </div>
                 </div>
@@ -177,10 +175,9 @@ export default function Features({ sectionsByKey }) {
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">Pre-Owned vehicles</a>
+                      <a href="#">{sectionsByKey.world_class_vehicles?.title}</a>
                     </h5>
-                    <p>
-                      Legend Motors has a great selection of pre-owned vehicles.
+                    <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.world_class_vehicles?.content }}>
                     </p>
                   </div>
                 </div>
@@ -217,15 +214,13 @@ export default function Features({ sectionsByKey }) {
                   </div>
                   <div className="content">
                     <h5>
-                      <a href="#">Certified pre-owned vehicles</a>
+                      <a href="#">{sectionsByKey.commitment?.title}</a>
                     </h5>
-                    <p>
-                      Legend Motors Demo has a great selection of certified
-                      pre-owned vehicles.
+                    <p dangerouslySetInnerHTML={{ __html: sectionsByKey?.commitment?.content }}>
                     </p>
                   </div>
                 </div>
-                <div
+                {/* <div
                   className="tf-icon-box style-2 wow fadeInUpSmall"
                   data-wow-delay="0.5s"
                   data-wow-duration="1000ms"
@@ -267,8 +262,8 @@ export default function Features({ sectionsByKey }) {
                       Get approved today and drive off in a new or used vehicle.
                     </p>
                   </div>
-                </div>
-              </div> */}
+                </div> */}
+              </div>
             </div>
           </div>
         </div>
