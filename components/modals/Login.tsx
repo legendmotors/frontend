@@ -1,19 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import { GetUserLogin } from "@/services";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [clevertap, setClevertap] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [clevertap, setClevertap] = useState(null);
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -31,12 +33,12 @@ export default function Login() {
   }, []);
 
   // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoaded(true);
 
@@ -51,13 +53,13 @@ export default function Login() {
           window.location.replace("/");
         });
 
-        // ✅ Ensure CleverTap is available before using it
+        // Ensure CleverTap is available before using it
         if (clevertap) {
           clevertap.onUserLogin.push({
             Site: {
               Identity: user.email || `user_${Date.now()}`,
               Email: user.email,
-              Name: user.email ? user.email.split("@")[0] : "Unknown User",
+              Name: user.email ? user.email.split("@")[0] : t("unknown_user"),
               "MSG-email": true,
               "MSG-push": true,
               "MSG-sms": false,
@@ -71,15 +73,15 @@ export default function Login() {
       } else {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Please check your email & password",
+          title: t("oops"),
+          text: t("check_credentials"),
         });
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Login Error",
-        text: "An error occurred. Please try again.",
+        title: t("login_error"),
+        text: t("login_error_text"),
       });
     } finally {
       setIsLoaded(false);
@@ -96,51 +98,60 @@ export default function Login() {
           <div className="modal-body space-y-20 pd-40">
             <div className="wrap-modal flex">
               <div className="images flex-none">
-                <Image alt="Login Image" src="/assets/images/section/login.jpg" width={380} height={640} />
+                <Image 
+                  alt={t("login_image_alt")}
+                  src="/assets/images/section/login.jpg" 
+                  width={380} 
+                  height={640} 
+                />
               </div>
               <div className="content">
-                <h1 className="title-login">Login</h1>
+                <h1 className="title-login">{t("login")}</h1>
                 <div className="comments">
                   <div className="respond-comment">
                     <form onSubmit={handleSubmit} className="comment-form form-submit">
                       <fieldset>
-                        <label className="fw-6">Account</label>
+                        <label className="fw-6">{t("account")}</label>
                         <input
                           type="email"
                           id="email"
                           className="tb-my-input"
                           name="email"
-                          placeholder="Your email"
+                          placeholder={t("your_email")}
                           value={user.email}
                           onChange={handleChange}
                           required
                         />
                       </fieldset>
                       <fieldset className="style-wrap">
-                        <label className="fw-6">Password</label>
+                        <label className="fw-6">{t("password")}</label>
                         <input
                           type="password"
                           className="input-form password-input"
                           name="password"
-                          placeholder="Your password"
+                          placeholder={t("your_password")}
                           value={user.password}
                           onChange={handleChange}
                           required
                         />
                       </fieldset>
                       <div className="title-forgot">
-                        <a className="fs-14 fw-4">Forgot password</a>
+                        <a className="fs-14 fw-4">{t("forgot_password")}</a>
                       </div>
                       <button className="sc-button" name="submit" type="submit" disabled={isLoaded}>
-                        <span>{isLoaded ? "Signing in..." : "Login"}</span>
+                        <span>{isLoaded ? t("signing_in") : t("login")}</span>
                       </button>
                     </form>
                   </div>
                 </div>
                 <div className="text-box text-center fs-14">
-                  Don’t have an account?{" "}
-                  <a className="font-2 fw-7 fs-14 color-popup text-color-3" data-bs-toggle="modal" data-bs-target="#popup_bid2">
-                    Register
+                  {t("dont_have_account")}{" "}
+                  <a 
+                    className="font-2 fw-7 fs-14 color-popup text-color-3" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#popup_bid2"
+                  >
+                    {t("register")}
                   </a>
                 </div>
               </div>

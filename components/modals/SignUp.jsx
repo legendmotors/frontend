@@ -8,8 +8,9 @@ import IconLockDots from "@/components/icon/icon-lock-dots";
 import IconMail from "@/components/icon/icon-mail";
 import IconUser from "@/components/icon/icon-user";
 import { GetUserLogin } from "@/services";
+import { useTranslation } from "react-i18next";
 
-// Validation Schema
+// Validation Schema (you can later choose to translate these error messages as well)
 const validationSchema = Yup.object({
   firstName: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email format").required("Email is required"),
@@ -21,6 +22,7 @@ const validationSchema = Yup.object({
 
 export default function SignUp() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [otpSent, setOtpSent] = useState(false); // Track if OTP is sent
   const [email, setEmail] = useState(""); // Store email for OTP verification
   const [loadingOtp, setLoadingOtp] = useState(false); // Loading state for OTP request
@@ -30,7 +32,7 @@ export default function SignUp() {
   // Function to request OTP
   const handleRequestOtp = async () => {
     if (!email) {
-      alert("Please enter a valid email before requesting OTP.");
+      alert(t("enter_valid_email"));
       return;
     }
 
@@ -38,15 +40,15 @@ export default function SignUp() {
     try {
       const response = await GetUserLogin.requestOtp({ email });
       if (response.success) {
-        alert("OTP has been sent to your email.");
+        alert(t("otp_sent"));
         setOtpSent(true);
         setIsTimerActive(true);
         startTimer();
       } else {
-        alert(response.message || "Failed to send OTP");
+        alert(response.message || t("failed_to_send_otp"));
       }
     } catch (error) {
-      alert("Error sending OTP, please try again.");
+      alert(t("error_sending_otp"));
     }
     setLoadingOtp(false);
   };
@@ -82,14 +84,14 @@ export default function SignUp() {
             <div className="wrap-modal flex">
               <div className="images flex-none relative">
                 <Image
-                  alt="Register Image"
+                  alt={t("register_image_alt")}
                   src="/assets/images/section/register.jpg"
                   width={384}
                   height={854}
                 />
               </div>
               <div className="content">
-                <h1 className="title-login">Register</h1>
+                <h1 className="title-login">{t("register")}</h1>
                 <Formik
                   initialValues={{
                     firstName: "",
@@ -106,7 +108,7 @@ export default function SignUp() {
                         otp: values.otp,
                       });
                       if (!otpResponse.success) {
-                        alert("Invalid OTP. Please try again.");
+                        alert(t("invalid_otp"));
                         setSubmitting(false);
                         return;
                       }
@@ -114,13 +116,13 @@ export default function SignUp() {
                       // Step 2: Register user after OTP verification
                       const userResponse = await GetUserLogin.getUserRegister(values);
                       if (userResponse.success) {
-                        alert("Registration successful!");
+                        alert(t("registration_success"));
                         window.location.replace("/");
                       } else {
-                        alert(userResponse.message || "Failed to register");
+                        alert(userResponse.message || t("failed_to_register"));
                       }
                     } catch (error) {
-                      alert("Error registering user, please try again.");
+                      alert(t("error_registering"));
                     }
                     setSubmitting(false);
                   }}
@@ -128,14 +130,14 @@ export default function SignUp() {
                   {({ isSubmitting, setFieldValue }) => (
                     <Form className="space-y-5 dark:text-white">
                       <div>
-                        <label htmlFor="firstName">Name</label>
+                        <label htmlFor="firstName">{t("name")}</label>
                         <div className="relative text-white-dark">
                           <Field
                             id="firstName"
                             name="firstName"
                             type="text"
                             className="form-input ps-10 placeholder:text-white-dark"
-                            placeholder="Enter Name"
+                            placeholder={t("enter_name")}
                           />
                           <span className="absolute start-4 top-1/2 -translate-y-1/2">
                             <IconUser fill={true} />
@@ -146,14 +148,14 @@ export default function SignUp() {
 
                       {/* Email Input */}
                       <div>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">{t("email")}</label>
                         <div className="relative text-white-dark">
                           <Field
                             id="email"
                             name="email"
                             type="email"
                             className="form-input ps-10 placeholder:text-white-dark"
-                            placeholder="Enter Email"
+                            placeholder={t("enter_email")}
                             onChange={(e) => {
                               setEmail(e.target.value);
                               setFieldValue("email", e.target.value);
@@ -174,12 +176,14 @@ export default function SignUp() {
                             onClick={handleRequestOtp}
                             disabled={loadingOtp}
                           >
-                            {loadingOtp ? "Sending Welcome Code..." : "Welcome Code"}
+                            {loadingOtp ? t("sending_welcome_code") : t("welcome_code")}
                           </button>
                         )}
 
                         {otpSent && isTimerActive && (
-                          <p className="text-sm text-gray-400 mt-2">Resend Welcome Code in {timer} seconds</p>
+                          <p className="text-sm text-gray-400 mt-2">
+                            {t("resend_welcome_code_in", { timer })}
+                          </p>
                         )}
 
                         {!isTimerActive && otpSent && (
@@ -188,7 +192,7 @@ export default function SignUp() {
                             className="btn btn-outline-secondary mt-2 w-full"
                             onClick={handleRequestOtp}
                           >
-                            Resend Welcome Code
+                            {t("resend_welcome_code")}
                           </button>
                         )}
                       </div>
@@ -196,14 +200,14 @@ export default function SignUp() {
                       {/* OTP Input - Shown only after OTP is sent */}
                       {otpSent && (
                         <div>
-                          <label htmlFor="otp">Enter OTP</label>
+                          <label htmlFor="otp">{t("enter_otp")}</label>
                           <div className="relative text-white-dark">
                             <Field
                               id="otp"
                               name="otp"
                               type="text"
                               className="form-input ps-10 placeholder:text-white-dark"
-                              placeholder="Enter OTP"
+                              placeholder={t("enter_otp")}
                             />
                           </div>
                           <ErrorMessage name="otp" component="div" className="text-red-500 text-sm" />
@@ -212,14 +216,14 @@ export default function SignUp() {
 
                       {/* Password Input */}
                       <div>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">{t("password")}</label>
                         <div className="relative text-white-dark">
                           <Field
                             id="password"
                             name="password"
                             type="password"
                             className="form-input ps-10 placeholder:text-white-dark"
-                            placeholder="Enter Password"
+                            placeholder={t("enter_password")}
                           />
                           <span className="absolute start-4 top-1/2 -translate-y-1/2">
                             <IconLockDots fill={true} />
@@ -233,19 +237,19 @@ export default function SignUp() {
                         disabled={isSubmitting}
                         className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]"
                       >
-                        {isSubmitting ? "Submitting..." : "Sign Up"}
+                        {isSubmitting ? t("submitting") : t("sign_up")}
                       </button>
                     </Form>
                   )}
                 </Formik>
                 <div className="text-box text-center fs-14">
-                  Don’t you have an account?{" "}
+                  {t("dont_have_account")}{" "}
                   <a
                     className="font-2 fw-7 fs-14 color-popup text-color-3"
                     data-bs-toggle="modal"
                     data-bs-target="#popup_bid"
                   >
-                    Login
+                    {t("login")}
                   </a>
                 </div>
               </div>
