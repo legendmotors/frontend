@@ -5,8 +5,8 @@ import React from "react";
 import Link from "next/link";
 export const metadata = {
   title:
-    "Blog Grid || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-  description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+    "",
+  description: "",
 };
 export default function page() {
   return (

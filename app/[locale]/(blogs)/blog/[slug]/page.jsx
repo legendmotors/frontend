@@ -6,8 +6,8 @@ import Link from "next/link";
 import { allBlogs } from "@/data/blogs";
 export const metadata = {
   title:
-    "Blog Details || AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
-  description: "AutoDeal - Car Dealer, Rental & Listing React Nextjs Template",
+    "",
+  description: "",
 };
 export default function page({ params }) {
   const blogItem =
