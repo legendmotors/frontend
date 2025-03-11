@@ -61,5 +61,6 @@
   "otp_sent": "OTP has been sent to your email.",
   "failed_to_send_otp": "Failed to send OTP",
   "error_sending_otp": "Error sending OTP, please try again.",
-  "register_image_alt": "Register Image"
+  "register_image_alt": "Register Image",
+  "already_have_account": "Already have an account?"
 }

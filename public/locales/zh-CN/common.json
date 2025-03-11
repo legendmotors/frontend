@@ -61,5 +61,6 @@
   "otp_sent": "验证码已发送到您的邮箱。",
   "failed_to_send_otp": "发送验证码失败",
   "error_sending_otp": "发送验证码时出错，请重试。",
-  "register_image_alt": "注册图片"
+  "register_image_alt": "注册图片",
+   "already_have_account": "已经有账号了吗？"
 }

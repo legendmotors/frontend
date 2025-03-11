@@ -61,5 +61,6 @@
   "otp_sent": "تم إرسال رمز التحقق إلى بريدك الإلكتروني.",
   "failed_to_send_otp": "فشل في إرسال رمز الترحيب",
   "error_sending_otp": "حدث خطأ أثناء إرسال رمز الترحيب، حاول مرة أخرى.",
-  "register_image_alt": "صورة التسجيل"
+  "register_image_alt": "صورة التسجيل",
+  "already_have_account": "هل لديك حساب بالفعل؟"
 }

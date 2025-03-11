@@ -61,5 +61,6 @@
   "otp_sent": "OTP отправлен на ваш email.",
   "failed_to_send_otp": "Не удалось отправить OTP",
   "error_sending_otp": "Ошибка при отправке OTP, попробуйте еще раз.",
-  "register_image_alt": "Изображение регистрации"
+  "register_image_alt": "Изображение регистрации",
+  "already_have_account": "Уже есть аккаунт?"
 }

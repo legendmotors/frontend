@@ -139,15 +139,12 @@ export default function SignUp() {
                             className="form-input ps-10 placeholder:text-white-dark"
                             placeholder={t("enter_name")}
                           />
-                          <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                            <IconUser fill={true} />
-                          </span>
                         </div>
                         <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm" />
                       </div>
 
                       {/* Email Input */}
-                      <div>
+                      <div className="mt-3">
                         <label htmlFor="email">{t("email")}</label>
                         <div className="relative text-white-dark">
                           <Field
@@ -162,9 +159,6 @@ export default function SignUp() {
                             }}
                             disabled={otpSent}
                           />
-                          <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                            <IconMail fill={true} />
-                          </span>
                         </div>
                         <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
 
@@ -215,7 +209,7 @@ export default function SignUp() {
                       )}
 
                       {/* Password Input */}
-                      <div>
+                      <div className="mt-3">
                         <label htmlFor="password">{t("password")}</label>
                         <div className="relative text-white-dark">
                           <Field
@@ -235,7 +229,7 @@ export default function SignUp() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]"
+                        className="sc-button !mt-6 w-full border-0 mt-3 text-white"
                       >
                         {isSubmitting ? t("submitting") : t("sign_up")}
                       </button>
@@ -243,9 +237,9 @@ export default function SignUp() {
                   )}
                 </Formik>
                 <div className="text-box text-center fs-14">
-                  {t("dont_have_account")}{" "}
+                  {t("already_have_account")}
                   <a
-                    className="font-2 fw-7 fs-14 color-popup text-color-3"
+                    className="font-2 fw-7 fs-14 color-popup text-color-3 ms-2"
                     data-bs-toggle="modal"
                     data-bs-target="#popup_bid"
                   >
