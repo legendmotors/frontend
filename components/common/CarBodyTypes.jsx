@@ -7,12 +7,25 @@ import SpecificationService from "@/services/SpecificationService"; // adjust th
 
 // Mapping specification names to image filenames
 const imageMapping = {
-  Sedan: "sedan.png",
-  Hatchback: "hatchback.png",
-  SUV: "suv.png",
-  "Pickup Truck": "pickup.png",
-  Minivan: "minivan.png",
-  Crossover: "crossover.png",
+  "Cargo Van": "cargo-van.png",
+  "Commercial Van": "commercial-van.png",
+  "Convertible": "convertible.png",
+  "Coupe": "coupe.png",
+  "Crossover": "crossover.png",
+  "Fastback": "fastback.png",
+  "Hatchback": "hatchback.png",
+  "Hot Hatch": "hot-hatch.png",
+  "Luxury Sedan": "luxury-sedan.png",
+  "Luxury SUV": "luxury-suv.png",
+  "Minivan": "minivan.png",
+  "Off-Road SUV": "off-road-suv.png",
+  "Pickup Truck": "pickup-truck.png",
+  "Sedan": "sedan.png",
+  "Sports Car": "sports-car.png",
+  "Supercar": "supercar.png",
+  "SUV": "suv.png",
+  "Van": "van.png",
+  "Wagon": "wagon.png",
 };
 
 export default function CarBodyTypes({ title, specId }) {
@@ -26,7 +39,7 @@ export default function CarBodyTypes({ title, specId }) {
       disableOnInteraction: false,
     },
     speed: 10000,
-    loop: true,
+    loop: false,
     observer: true,
     observeParents: true,
     pagination: {
@@ -100,12 +113,11 @@ export default function CarBodyTypes({ title, specId }) {
                             alt={spec.name}
                             width={100}
                             height={100}
-                            className="w-50"
+                            className="w-100"
                           />
                         </div>
                         <div className="content center">
                           <div className="fs-16 fw-6 title text-color-2 font-2">{spec.name}</div>
-                          {/* <span className="sub-title fs-12 fw-4 font-2">{spec.count} Car</span> */}
                         </div>
                       </Link>
                     </SwiperSlide>
