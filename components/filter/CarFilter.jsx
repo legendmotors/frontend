@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import { AsyncPaginate } from "react-select-async-paginate";
 
@@ -7,7 +7,7 @@ import { GeBrandDetails, TrimService } from "@/services";
 import CarModelService from "@/services/CarModelService";
 import YearService from "@/services/YearService";
 import { useSearchParams, useRouter } from "next/navigation";
-import 'react-range-slider-input/dist/style.css';
+import "react-range-slider-input/dist/style.css";
 
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
@@ -202,48 +202,8 @@ const CarFilter = () => {
         }
     }, [searchParams, dispatch]);
 
-    // 4) Update URL whenever filters change (including sorting and tags).
-    useEffect(() => {
-        const params = new URLSearchParams();
-        if (filters.searchQuery.trim()) {
-            params.set("search", filters.searchQuery.trim());
-        }
-        // brandId, modelId, trimId, yearId
-        for (const key of FILTER_KEYS) {
-            const arr = filters[key];
-            if (arr && arr.length > 0) {
-                params.set(key, arr.join(","));
-            }
-        }
-        // specFilters
-        if (filters.specFilters) {
-            for (const key in filters.specFilters) {
-                const values = filters.specFilters[key];
-                if (values && values.length > 0) {
-                    params.set(key, values.join(","));
-                }
-            }
-        }
-        // Price filters
-        if (selectedPriceCurrency === "AED") {
-            if (filters.minPriceAED != null) params.set("minPriceAED", filters.minPriceAED.toString());
-            if (filters.maxPriceAED != null) params.set("maxPriceAED", filters.maxPriceAED.toString());
-        } else {
-            if (filters.minPriceUSD != null) params.set("minPriceUSD", filters.minPriceUSD.toString());
-            if (filters.maxPriceUSD != null) params.set("maxPriceUSD", filters.maxPriceUSD.toString());
-        }
-        // Sorting
-        if (filters.sortBy) params.set("sortBy", filters.sortBy);
-        if (filters.order) params.set("order", filters.order);
-        // Tag filters
-        if (filters.tagIds && filters.tagIds.length > 0) {
-            params.set("tags", filters.tagIds.join(","));
-        }
-
-        router.push(`?${params.toString()}`, { scroll: false });
-        dispatch(resetCars());
-        dispatch(fetchCarList({ page: 1 }));
-    }, [filters, selectedPriceCurrency, router, dispatch]);
+    // 4) Removed automatic URL update on filters change.
+    // The URL will now only update when the user clicks the "Find cars" button.
 
     // 5) Infinite scroll load more handler.
     const handleLoadMore = () => {
@@ -429,10 +389,48 @@ const CarFilter = () => {
     };
 
     // 9) Search & Reset
+    // When the user clicks the "Find cars" button, build the query string from the stored filter state and navigate.
     const handleSearch = () => {
-        dispatch(setSearchQuery(localSearch));
-        dispatch(resetCars());
-        dispatch(fetchCarList({ page: 1 }));
+        const params = new URLSearchParams();
+        if (filters.searchQuery.trim()) {
+            params.set("search", filters.searchQuery.trim());
+        }
+        // Add fixed filter keys
+        FILTER_KEYS.forEach((key) => {
+            if (filters[key] && filters[key].length > 0) {
+                params.set(key, filters[key].join(","));
+            }
+        });
+        // Add dynamic specification filters
+        if (filters.specFilters) {
+            for (const key in filters.specFilters) {
+                const values = filters.specFilters[key];
+                if (values && values.length > 0) {
+                    params.set(key, values.join(","));
+                }
+            }
+        }
+        // Add price filters based on selected currency
+        if (selectedPriceCurrency === "AED") {
+            if (filters.minPriceAED != null)
+                params.set("minPriceAED", filters.minPriceAED.toString());
+            if (filters.maxPriceAED != null)
+                params.set("maxPriceAED", filters.maxPriceAED.toString());
+        } else {
+            if (filters.minPriceUSD != null)
+                params.set("minPriceUSD", filters.minPriceUSD.toString());
+            if (filters.maxPriceUSD != null)
+                params.set("maxPriceUSD", filters.maxPriceUSD.toString());
+        }
+        // Sorting
+        if (filters.sortBy) params.set("sortBy", filters.sortBy);
+        if (filters.order) params.set("order", filters.order);
+        // Tag filters
+        if (filters.tagIds && filters.tagIds.length > 0) {
+            params.set("tags", filters.tagIds.join(","));
+        }
+        // Navigate to the car listing page (adjust the route if necessary)
+        router.push(`/cars/new-cars?${params.toString()}`);
     };
 
     const handleResetFilters = () => {
@@ -547,7 +545,10 @@ const CarFilter = () => {
     // 11) RENDER
     return (
         <div className="container mx-auto p-4">
-            <div className="form-sl d-md-block d-none" style={{ position: "sticky", top: "115px", backgroundColor: "white", zIndex: 1020 }}>
+            <div
+                className="form-sl d-md-block d-none"
+                style={{ position: "sticky", top: "115px", backgroundColor: "white", zIndex: 1020 }}
+            >
                 <div onSubmit={(e) => e.preventDefault()}>
                     <div className="wd-find-select flex gap-2 align-items-center">
                         <div className="inner-group gap-3">
@@ -617,17 +618,8 @@ const CarFilter = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="button-search sc-btn-top">
-                                                        <Link className="sc-button" href="/listing-g">
-                                                            <span>Find cars</span>
-                                                            <i className="far fa-search text-color-1" />
-                                                        </Link>
-                                                    </div> */}
                         <div className="form-group-2">
-                            <a
-                                className="icon-filter pull-right"
-                                onClick={() => setExpanded((prev) => !prev)}
-                            >
+                            <a className="icon-filter pull-right" onClick={() => setExpanded((prev) => !prev)}>
                                 <svg
                                     width={20}
                                     height={18}
@@ -643,29 +635,23 @@ const CarFilter = () => {
                                 <i className="icon-autodeal-plus search-icon fs-20" />
                             </a>
                         </div>
-                        <div className="features-wrap">
-                            <a
-                                className="tf-btn-arrow wow fadeInUpSmall clear-filter p-3 "
-                                onClick={handleResetFilters}
-                            >
-                                <i
-                                    className="icon-autodeal-plus m-0"
-                                    style={{ transform: "rotate(25deg)" }}
-                                />
+                        {/* <div className="features-wrap">
+                            <a className="tf-btn-arrow wow fadeInUpSmall clear-filter p-3" onClick={handleResetFilters}>
+                                <i className="icon-autodeal-plus m-0" style={{ transform: "rotate(25deg)" }} />
                             </a>
+                        </div> */}
+
+                    </div>
+                    <div className={!expanded ? "collapse show" : "collapse"}>
+                        <div className="button-search sc-btn-top flex justify-content-center mt-3">
+                            <button className="sc-button border-0" onClick={handleSearch}>
+                                <span>Find cars</span>
+                                <i className="far fa-search text-color-1" />
+                            </button>
                         </div>
                     </div>
-                    {/* <div className="d-flex justify-content-center gap-2 mb-3">
-                                                    <button onClick={() => setExpanded((prev) => !prev)} className="btn btn-primary">
-                                                        {expanded ? "Show Less Filters" : "Show More Filters"}
-                                                    </button>
-                                                    <button onClick={handleResetFilters} className="btn btn-secondary">
-                                                        Reset Filters
-                                                    </button>
-                                                </div> */}
                     <div className={expanded ? "collapse show" : "collapse"}>
                         <div className="row mt-3">
-                            {/* Specification Filters */}
                             {specifications.map((spec) => (
                                 <div key={spec.id} className="col-12 col-md-3 mb-3">
                                     <label className="form-label fw-bold mb-1">
@@ -711,25 +697,6 @@ const CarFilter = () => {
                                         <option value="USD">USD</option>
                                     </select>
                                 </label>
-                                {/* <RangeSlider
-                                    min={0}
-                                    max={500000}
-                                    step={1000}
-                                    value={localPriceRangeAED}
-                                    onChange={setLocalPriceRangeAED}
-                                    onChangeEnd={(value) => {
-                                        dispatch(setPriceRangeAED({ minPrice: value[0], maxPrice: value[1] }));
-                                    }}
-                                    className="mt-2"
-                                />
-                                <div className="d-flex justify-content-between mt-2">
-                                    <span className="badge bg-primary rounded-pill">
-                                        Min: {localPriceRangeAED[0]}
-                                    </span>
-                                    <span className="badge bg-primary rounded-pill ms-2">
-                                        Max: {localPriceRangeAED[1]}
-                                    </span>
-                                </div> */}
                                 <div className="d-flex gap-2 mt-3">
                                     <input
                                         type="number"
@@ -774,24 +741,6 @@ const CarFilter = () => {
                                         <option value="USD">USD</option>
                                     </select>
                                 </label>
-                                {/* <RangeSlider
-                                    min={0}
-                                    max={100000}
-                                    step={500}
-                                    value={localPriceRangeUSD}
-                                    onChange={setLocalPriceRangeUSD}
-                                    onChangeEnd={(value) => {
-                                        dispatch(setPriceRangeUSD({ minPrice: value[0], maxPrice: value[1] }));
-                                    }}
-                                />
-                                <div className="d-flex justify-content-between mt-2">
-                                    <span className="badge bg-primary rounded-pill">
-                                        Min: {localPriceRangeUSD[0]}
-                                    </span>
-                                    <span className="badge bg-primary rounded-pill ms-2">
-                                        Max: {localPriceRangeUSD[1]}
-                                    </span>
-                                </div> */}
                                 <div className="d-flex gap-2 mt-3">
                                     <input
                                         type="number"
@@ -821,11 +770,18 @@ const CarFilter = () => {
                                 </div>
                             </div>
                         )}
+
+                        <div className={expanded ? "collapse show" : "collapse"}>
+                            <div className="button-search sc-btn-top flex justify-content-center mt-3">
+                                <button className="sc-button border-0" onClick={handleSearch}>
+                                    <span>Find cars</span>
+                                    <i className="far fa-search text-color-1" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };

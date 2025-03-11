@@ -35,8 +35,8 @@ export default function Hero() {
   };
 
   // const t = useTranslations("HomePage");
-  const { i18n } = useTranslation();
-
+  const {i18n} = useTranslation();
+  
   // Car filter reducer/state
   const [state, dispatch] = useReducer(reducer, initialState);
   const [banners, setBanners] = useState([]);
@@ -163,7 +163,8 @@ export default function Hero() {
                       {/* Filter */}
                       <div className="flat-filter-search home9">
                         <div className="flat-tabs">
-                          <CarFilter />
+                        {/* <FlatFilter3 clearFilter={clearFilter} allProps={allProps} /> */}
+                          <CarFilter/>
                         </div>
                       </div>
                     </div>
