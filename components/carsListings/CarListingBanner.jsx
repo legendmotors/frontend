@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function CarListingBanner() {
     const [banner, setBanner] = useState(null);
-     const {i18n} = useTranslation();
+    const { i18n } = useTranslation();
     const [loading, setLoading] = useState(true);
     console.log(banner, "banner");
 
@@ -39,7 +39,7 @@ export default function CarListingBanner() {
     // Build image URL if media is available
     const imageUrl =
         banner.media &&
-        `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.original || banner.media.thumbnailPath
+        `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.webp || banner.media.thumbnailPath
         }`;
 
     return (
@@ -55,12 +55,10 @@ export default function CarListingBanner() {
                         <div className="content relative z-2">
                             <div className="heading">
                                 <h1 className="text-color-1">
-                                    Find Your Perfect New Car<br />
-                                    with Advanced Filtering!
+                                    {banner?.title}
                                 </h1>
                                 <p className="text-color-1 fs-18 fw-4 lh-22 font">
-                                    Explore our powerful new car filtering tool to discover models <br />
-                                    that match your preferences and budget effortlessly.
+                                    {banner?.description}
                                 </p>
                             </div>
                         </div>

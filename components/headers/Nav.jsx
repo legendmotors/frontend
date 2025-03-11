@@ -143,7 +143,7 @@ export default function Nav() {
       <li className={pathname === "/cars/new-cars" ? "current" : ""}>
         <Link className="p-2" href="/cars/new-cars">{t("explore_cars")}</Link>
       </li>
-      <li className="tfcl-mega-menu dropdown2">
+      {/* <li className="tfcl-mega-menu dropdown2">
         <Link className="p-2" href="/cars/new-cars">{t("explore_cars")}</Link>
         <ul className="dropdown-menu">
           <li className="dropdown-wrapper d-flex">
@@ -185,7 +185,7 @@ export default function Nav() {
             </div>
           </li>
         </ul>
-      </li>
+      </li> */}
 
       {/* <li className={`dropdown2  ${isActive(otherPages) ? "current" : ""} `}>
         <a href="#">Page</a>
