@@ -42,7 +42,7 @@ export default function Features({ sectionsByKey }) {
   // Build image URL if media is available
   const imageUrl =
     banner.media &&
-    `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.original || banner.media.thumbnailPath
+    `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${banner.media.webp || banner.media.thumbnailPath
     }`;
 
   return (
