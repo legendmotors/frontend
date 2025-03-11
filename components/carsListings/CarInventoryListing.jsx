@@ -855,7 +855,7 @@ const CarInventoryListing = () => {
                                                             className="form-control w-auto"
                                                         />
                                                         <button onClick={handleSearch} className="btn btn-success flex align-items-center gap-1">
-                                                        <i className="fas fa-search"></i> Search
+                                                            <i className="fas fa-search"></i> Search
                                                         </button>
                                                     </div>
                                                     <h5 className="fs-5 ms-4">Total Cars: {totalCars}</h5>
@@ -935,15 +935,25 @@ const CarInventoryListing = () => {
                                                                 <div className="col-lg-12">
                                                                     <div className="list-car-list-1 list-car-grid-1">
                                                                         {cars.map((car) => {
-                                                                            const exteriorImage = car.CarImages.find(
-                                                                                (img) => img.type === "exterior"
-                                                                            )?.FileSystem?.path;
-                                                                            const firstImage = car.CarImages[0]?.FileSystem?.webp;
+                                                                            // Sort exterior images by order and select the first one
+                                                                            const exteriorCarImage = car.CarImages
+                                                                                .filter((img) => img.type === "exterior")
+                                                                                .sort((a, b) => a.order - b.order)[0]; // Get the lowest order exterior image
+
+                                                                            const exteriorImage =
+                                                                                exteriorCarImage?.FileSystem?.thumbnailPath || exteriorCarImage?.FileSystem?.path;
+
+                                                                            // Fallback to first available image if no exterior image exists
+                                                                            const firstCarImage = car.CarImages[0];
+                                                                            const firstImage =
+                                                                                firstCarImage?.FileSystem?.thumbnailPath || firstCarImage?.FileSystem?.path;
+
+                                                                            // Determine the image path
                                                                             const imagePath = exteriorImage
                                                                                 ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${exteriorImage}`
                                                                                 : firstImage
                                                                                     ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${firstImage}`
-                                                                                    : "/placeholder-image.jpg";
+                                                                                    : "/assets/car-placeholder.webp";
                                                                             return (
                                                                                 <CarCardWithGridAndListing
                                                                                     key={car.id}
@@ -964,15 +974,25 @@ const CarInventoryListing = () => {
                                                                     <div className="col-lg-8">
                                                                         <div className="list-car-list-1 list-car-list-1 gap-4">
                                                                             {cars.map((car) => {
-                                                                                const exteriorImage = car.CarImages.find(
-                                                                                    (img) => img.type === "exterior"
-                                                                                )?.FileSystem?.path;
-                                                                                const firstImage = car.CarImages[0]?.FileSystem?.webp;
+                                                                                // Sort exterior images by order and select the first one
+                                                                                const exteriorCarImage = car.CarImages
+                                                                                    .filter((img) => img.type === "exterior")
+                                                                                    .sort((a, b) => a.order - b.order)[0]; // Get the lowest order exterior image
+
+                                                                                const exteriorImage =
+                                                                                    exteriorCarImage?.FileSystem?.thumbnailPath || exteriorCarImage?.FileSystem?.path;
+
+                                                                                // Fallback to first available image if no exterior image exists
+                                                                                const firstCarImage = car.CarImages[0];
+                                                                                const firstImage =
+                                                                                    firstCarImage?.FileSystem?.thumbnailPath || firstCarImage?.FileSystem?.path;
+
+                                                                                // Determine the image path
                                                                                 const imagePath = exteriorImage
                                                                                     ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${exteriorImage}`
                                                                                     : firstImage
                                                                                         ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${firstImage}`
-                                                                                        : "/placeholder-image.jpg";
+                                                                                        : "/assets/car-placeholder.webp";
                                                                                 return (
                                                                                     <CarCardWithGridAndListing
                                                                                         key={car.id}
