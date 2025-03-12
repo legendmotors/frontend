@@ -5,7 +5,7 @@ export const footerData = [
       { text: "About us", href: "/about-us" },
       { text: "Careers With Us", href: "/careers" },
 
-      { text: "FAQs", href: "/faq" },
+      // { text: "FAQs", href: "/faq" },
     ],
   },
   {
