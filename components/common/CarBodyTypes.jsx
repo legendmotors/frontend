@@ -26,6 +26,7 @@ const imageMapping = {
   "SUV": "suv.png",
   "Van": "van.png",
   "Wagon": "wagon.png",
+  
 };
 
 export default function CarBodyTypes({ title, specId }) {
