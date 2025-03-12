@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 
 import BannerService from "@/services/BannerService";
 

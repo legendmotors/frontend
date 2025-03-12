@@ -95,7 +95,7 @@ export default function CarBodyTypes({ title, specId }) {
               {specValues.length > 0 ? (
                 specValues.map((spec, index) => (
                   <SwiperSlide key={index}>
-                    <Link href={`/cars/new-cars?body_type=${spec.slug}`} className="partner-item style-2">
+                    <Link href={`/cars/new-cars?body_type=${spec.id}`} className="partner-item style-2">
                       <div className="icon d-flex align-items-center justify-content-center mb-0">
                         <img
                           src={`/assets/images/bodytypes/${allowedBodyTypes[spec.name]}`}

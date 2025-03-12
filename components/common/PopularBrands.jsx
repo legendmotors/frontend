@@ -65,7 +65,11 @@ export default function PopularBrands({ title }) {
               {brands.length > 0 ? (
                 brands.map((brand, i) => (
                   <SwiperSlide key={i} className="swiper-slide">
-                    <Link href={`/cars/new-cars?brandId=${brand.id}`} className="partner-item style-1">
+                    <Link href={{
+                      pathname: '/cars/new-cars',
+                      query: { brandId: brand.id }  // No mention of body_type here
+                    }}
+                      className="partner-item style-1">
                       <div className="image">
                         <Image
                           src={
