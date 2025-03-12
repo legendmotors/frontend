@@ -4,23 +4,23 @@ import React from "react";
 
 export default function CarInfo({ carResponse, currency, convertedPrice }) {
   // Extract additional details from the response if available.
-  const bodyTypeSpecification = carResponse.SpecificationValues.find(
+  const bodyTypeSpecification = carResponse?.SpecificationValues.find(
     (spec) => spec.Specification.key === "body_type"
   );
 
-  const fuelTypeSpecification = carResponse.SpecificationValues.find(
+  const fuelTypeSpecification = carResponse?.SpecificationValues.find(
     (spec) => spec.Specification.key === "fuel_type"
   );
 
-  const regionalSpecification = carResponse.SpecificationValues.find(
+  const regionalSpecification = carResponse?.SpecificationValues.find(
     (spec) => spec.Specification.key === "regional_specification"
   );
 
-  const steeringSideSpecification = carResponse.SpecificationValues.find(
+  const steeringSideSpecification = carResponse?.SpecificationValues.find(
     (spec) => spec.Specification.key === "steering_side"
   );
 
-  const transmission = carResponse.SpecificationValues.find(
+  const transmission = carResponse?.SpecificationValues.find(
     (spec) => spec.Specification.key === "transmission"
   );
 
@@ -38,7 +38,7 @@ export default function CarInfo({ carResponse, currency, convertedPrice }) {
       <div className="icon-box flex flex-wrap my-2">
         <div className="icons flex-three gap-1">
           <i className="fa fa-cogs" />
-          <span>{carResponse.engineSize} ltr</span>
+          <span>{carResponse?.engineSize} ltr</span>
         </div>
         <div className="icons flex-three gap-1">
           <i className="fa fa-gas-pump" />

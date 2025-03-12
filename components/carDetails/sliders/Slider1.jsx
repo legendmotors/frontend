@@ -25,9 +25,9 @@ export default function Slider1({ carResponse }) {
   const sliderRef = useRef(null);
 
   useEffect(() => {
-    if (carResponse && carResponse.CarImages) {
+    if (carResponse && carResponse?.CarImages) {
       const grouped = { exterior: [], interior: [], highlight: [] };
-      carResponse.CarImages.forEach((img) => {
+      carResponse?.CarImages.forEach((img) => {
         const type = img.type ? img.type.toLowerCase() : "exterior";
         if (grouped[type] !== undefined) {
           grouped[type].push(img);

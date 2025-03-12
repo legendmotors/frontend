@@ -851,7 +851,7 @@ const CarInventoryListing = () => {
                                                             type="text"
                                                             value={localSearch}
                                                             onChange={(e) => setLocalSearch(e.target.value)}
-                                                            placeholder="Search by Stock ID, brand, model, or keyword..."
+                                                            placeholder="Search by brand, model..."
                                                             className="form-control w-auto"
                                                         />
                                                         <button onClick={handleSearch} className="btn btn-success flex align-items-center gap-1">

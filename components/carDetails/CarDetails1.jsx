@@ -33,7 +33,7 @@ export default function CarDetails1({ carResponse }) {
   const carItem = carResponse;
 
   // Compute a title based on car details
-  const title = `${carItem.Brand?.name || ""} ${carItem.CarModel?.name || ""} ${carItem.Trim?.name || ""}`;
+  const title = `${carItem?.Brand?.name || ""} ${carItem?.CarModel?.name || ""} ${carItem?.Trim?.name || ""}`;
 
   const [loading, setLoading] = useState(true);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -132,7 +132,7 @@ export default function CarDetails1({ carResponse }) {
             <div className="col-lg-8">
               <div className="listing-detail-wrap">
                 {/* Pass car images to the slider component if needed */}
-                <Slider1 images={carItem.CarImages} carResponse={carItem} />
+                <Slider1 images={carItem?.CarImages} carResponse={carItem} />
                 <div className="row">
                   <div className="col-lg-12">
                     <div
@@ -152,7 +152,7 @@ export default function CarDetails1({ carResponse }) {
                       <div className="listing-line" />
 
                       {/* PDF Viewer Container */}
-                      <div className="flex justify-content-center">
+                      {carItem.brochureFile.webp && <><div className="flex justify-content-center">
                         <div
                           ref={pdfContainerRef}
                           style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}
@@ -163,13 +163,14 @@ export default function CarDetails1({ carResponse }) {
                           </div>
                           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                             <Viewer
-                              fileUrl="https://cdn.legendmotorsuae.com/brochure%20sample.pdf"
+                              fileUrl={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carItem.brochureFile.webp}
                               plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance, getFilePluginInstance]}
                             />
                           </Worker>
                         </div>
                       </div>
-                      <div className="listing-line" />
+                        <div className="listing-line" /></>}
+
 
                       <div className="listing-description mb-40">
                         <div className="tfcl-listing-header">
@@ -202,7 +203,7 @@ export default function CarDetails1({ carResponse }) {
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
                     <h2 className="title">
-                      {carItem?.additionalInfo ? <>{carItem?.additionalInfo}</> : <> {carItem.Year.year} {carItem.Brand.name} {carItem.CarModel.name} {carItem?.Trim?.name}</>}
+                      {carItem?.additionalInfo ? <>{carItem?.additionalInfo}</> : <> {carItem?.Year.year} {carItem?.Brand.name} {carItem?.CarModel.name} {carItem?.Trim?.name}</>}
                     </h2>
                     <CarInfo carResponse={carItem} currency={currency} convertedPrice={convertedPrice} />
                   </div>
