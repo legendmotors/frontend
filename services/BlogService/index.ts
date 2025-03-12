@@ -56,6 +56,30 @@ export const getBlogPostById = async (id: number, lang: string = 'en') => {
   }
 };
 
+/* Get Blog Post by Slug */
+export const getBlogPostBySlug = async (slug, lang = 'en') => {
+  try {
+    const response = await api.get(Apis.GetBlogPostBySlug, { params: { slug, lang } });
+    if (!response || !response.data.success) {
+      showNotification('Blog post not found.', 'error');
+      return null;
+    }
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching blog post by slug:', error.response?.data?.message);
+      showNotification(
+        error.response?.data?.message || 'Error fetching blog post.',
+        'error'
+      );
+    } else {
+      console.error('Unexpected error:', error);
+      showNotification('An unexpected error occurred.', 'error');
+    }
+    return null;
+  }
+};
+
 /* Add Blog Post */
 export const addBlogPost = async (payload: Record<string, any>) => {
   try {
@@ -146,6 +170,7 @@ export const bulkDeleteBlogPosts = async (ids: number[]) => {
 export default {
   listBlogPosts,
   getBlogPostById,
+  getBlogPostBySlug,
   addBlogPost,
   updateBlogPost,
   deleteBlogPost,

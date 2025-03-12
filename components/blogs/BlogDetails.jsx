@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import BlogCategories from "./BlogCategories";
 import FeaturedItems from "./FeaturedItems";
@@ -6,16 +7,44 @@ import NewsLetter from "./NewsLetter";
 import PopulerTags from "./PopulerTags";
 import CommentForm from "./CommentForm";
 import BlogSearch from "./BlogSearch";
-export default function BlogDetails({ blogItem }) {
+import { getBlogPostBySlug } from "@/services/BlogService"; // Adjust path as needed
+
+export default function BlogDetails({ slug }) {
+  const [blogItem, setBlogItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBlog() {
+      const response = await getBlogPostBySlug(slug);
+      // Service returns an object like { success: true, data: blogData }
+      if (response && response.success) {
+        setBlogItem(response.data);
+      }
+      setLoading(false);
+    }
+    if (slug) {
+      fetchBlog();
+    }
+  }, [slug]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!blogItem) {
+    return <div>Blog post not found.</div>;
+  }
+
   return (
     <section className="tf-section3 flat-blog-detail flat-property-detail">
       <div className="container">
         <div className="row">
-          {/* <div className="col-lg-12">
+          <div className="col-lg-12">
             <div className="post">
               <h1 className="title-heading">{blogItem.title}</h1>
               <div className="icon-boxs flex flex-wrap gap-20">
                 <div className="icon flex align-center">
+                  {/* Author Icon */}
                   <svg
                     width={16}
                     height={16}
@@ -31,10 +60,13 @@ export default function BlogDetails({ blogItem }) {
                     />
                   </svg>
                   <span className="fw-6 text-color-3 fs-16">
-                    Kathryn Murphy
+                    {blogItem.author
+                      ? `${blogItem.author.firstName} ${blogItem.author.lastName}`
+                      : "Unknown"}
                   </span>
                 </div>
                 <div className="icon flex align-center">
+                  {/* Category Icon */}
                   <svg
                     width={16}
                     height={16}
@@ -49,9 +81,12 @@ export default function BlogDetails({ blogItem }) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="fw-6 text-color-3 fs-16">Furniture</span>
+                  <span className="fw-6 text-color-3 fs-16">
+                    {blogItem.category ? blogItem.category.name : "Uncategorized"}
+                  </span>
                 </div>
                 <div className="icon flex align-center">
+                  {/* Comment Count and Date Icon */}
                   <svg
                     width={16}
                     height={16}
@@ -60,15 +95,18 @@ export default function BlogDetails({ blogItem }) {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M5.75 6.5C5.75 6.56631 5.72366 6.62989 5.67678 6.67678C5.62989 6.72366 5.5663 6.75 5.5 6.75C5.4337 6.75 5.37011 6.72366 5.32322 6.67678C5.27634 6.62989 5.25 6.56631 5.25 6.5C5.25 6.4337 5.27634 6.37011 5.32322 6.32322C5.37011 6.27634 5.4337 6.25 5.5 6.25C5.5663 6.25 5.62989 6.27634 5.67678 6.32322C5.72366 6.37011 5.75 6.4337 5.75 6.5ZM5.75 6.5H5.5M8.25 6.5C8.25 6.56631 8.22366 6.62989 8.17678 6.67678C8.12989 6.72366 8.0663 6.75 8 6.75C7.9337 6.75 7.87011 6.72366 7.82322 6.67678C7.77634 6.62989 7.75 6.56631 7.75 6.5C7.75 6.4337 7.77634 6.37011 7.82322 6.32322C7.87011 6.27634 7.9337 6.25 8 6.25C8.0663 6.25 8.12989 6.27634 8.17678 6.32322C8.22366 6.37011 8.25 6.4337 8.25 6.5ZM8.25 6.5H8M10.75 6.5C10.75 6.56631 10.7237 6.62989 10.6768 6.67678C10.6299 6.72366 10.5663 6.75 10.5 6.75C10.4337 6.75 10.3701 6.72366 10.3232 6.67678C10.2763 6.62989 10.25 6.56631 10.25 6.5C10.25 6.4337 10.2763 6.37011 10.3232 6.32322C10.3701 6.27634 10.4337 6.25 10.5 6.25C10.5663 6.25 10.6299 6.27634 10.6768 6.32322C10.7237 6.37011 10.75 6.4337 10.75 6.5ZM10.75 6.5H10.5M1.5 8.50667C1.5 9.57333 2.24867 10.5027 3.30467 10.658C4.02933 10.7647 4.76133 10.8467 5.5 10.904V14L8.28933 11.2113C8.42744 11.0738 8.61312 10.9945 8.808 10.99C10.1091 10.958 11.407 10.8471 12.6947 10.658C13.7513 10.5027 14.5 9.574 14.5 8.506V4.494C14.5 3.426 13.7513 2.49733 12.6953 2.342C11.1406 2.11381 9.57135 1.99951 8 2C6.40533 2 4.83733 2.11667 3.30467 2.342C2.24867 2.49733 1.5 3.42667 1.5 4.494V8.506V8.50667Z"
+                      d="M5.75 6.5C5.75 6.56631 5.72366 6.62989 5.67678 6.67678C5.62989 6.72366 5.5663 6.75 5.5 6.75C5.4337 6.75 5.37011 6.72366 5.32322 6.67678C5.27634 6.62989 5.25 6.56631 5.25 6.5C5.25 6.4337 5.27634 6.37011 5.32322 6.32322C5.37011 6.27634 5.4337 6.25 5.5 6.25C5.5663 6.25 5.62989 6.27634 5.67678 6.32322C5.72366 6.37011 5.75 6.4337 5.75 6.5ZM8.25 6.5C8.25 6.56631 8.22366 6.62989 8.17678 6.67678C8.12989 6.72366 8.0663 6.75 8 6.75C7.9337 6.75 7.87011 6.72366 7.82322 6.67678C7.77634 6.62989 7.75 6.56631 7.75 6.5C7.75 6.4337 7.77634 6.37011 7.82322 6.32322C7.87011 6.27634 7.9337 6.25 8 6.25C8.0663 6.25 8.12989 6.27634 8.17678 6.32322C8.22366 6.37011 8.25 6.4337 8.25 6.5ZM10.75 6.5C10.75 6.56631 10.7237 6.62989 10.6768 6.67678C10.6299 6.72366 10.5663 6.75 10.5 6.75C10.4337 6.75 10.3701 6.72366 10.3232 6.67678C10.2763 6.62989 10.25 6.56631 10.25 6.5C10.25 6.4337 10.2763 6.37011 10.3232 6.32322C10.3701 6.27634 10.4337 6.25 10.5 6.25C10.5663 6.25 10.6299 6.27634 10.6768 6.32322C10.7237 6.37011 10.75 6.4337 10.75 6.5ZM10.75 6.5H10.5M1.5 8.50667C1.5 9.57333 2.24867 10.5027 3.30467 10.658C4.02933 10.7647 4.76133 10.8467 5.5 10.904V14L8.28933 11.2113C8.42744 11.0738 8.61312 10.9945 8.808 10.99C10.1091 10.958 11.407 10.8471 12.6947 10.658C13.7513 10.5027 14.5 9.574 14.5 8.506V4.494C14.5 3.426 13.7513 2.49733 12.6953 2.342C11.1406 2.11381 9.57135 1.99951 8 2C6.40533 2 4.83733 2.11667 3.30467 2.342C2.24867 2.49733 1.5 3.42667 1.5 4.494V8.506V8.50667Z"
                       stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="fs-16">0 comment</span>
+                  <span className="fs-16">
+                    {blogItem.comments && blogItem.comments.length} comment
+                  </span>
                 </div>
                 <div className="icon flex align-center">
+                  {/* Date Icon */}
                   <svg
                     width={16}
                     height={16}
@@ -83,111 +121,45 @@ export default function BlogDetails({ blogItem }) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span className="fs-16">April 6, 2024</span>
+                  <span className="fs-16">
+                    {new Date(blogItem.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
               </div>
               <div className="texts-1 fs-16 fw-5 lh-22 text-color-2">
                 {blogItem.title}
               </div>
-              <div className="image">
-                <Image
-                  alt="images"
-                  src="/assets/images/blog/blogs-1.jpg"
-                  width={1260}
-                  height={710}
-                />
-              </div>
-              <h3>2024 BMW Skytop Concept</h3>
-              <p className="texts-2">
-                Much like last year's Touring Coupe unveiled at the Concorso
-                d'Eleganza Villa d'Este, the Skytop is just a one-off. However,
-                the German luxury brand might change its mind provided enough
-                people will be willing to pay an obscene amount of money for the
-                8 Series Convertible with a targa top. Speaking with Automotive
-                News, BMW Group design boss Adrian van Hooydonk said a
-                production version is being considered.
-              </p>
-              <p className="texts-2">
-                He believes anywhere between 20 to 25 cars could be built.
-                Pricing wasn't mentioned but Skytop would certainly command a
-                massive premium over the 8 Series Convertible donor car, priced
-                at $100,500. Since the concept had the most powerful V-8 ever
-                used by BMW, it was likely based on the M8 Convertible,
-                available from $148,800.
-              </p>
-              <div className="text-box">
-                <p className="texts fs-16 font text-color-3">
-                  “Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque dui dui, laoreet eget libero quis, maximus cursus
-                  metus. Integer id nibh sit amet purus congue mollis. ”
+              {blogItem.coverImage && blogItem.coverImage.original ? (
+                <div className="image">
+                  <Image
+                    alt={blogItem.title}
+                    src={blogItem.coverImage.original}
+                    width={1260}
+                    height={710}
+                  />
+                </div>
+              ) : null}
+              {/* Render blog content if available */}
+              <div className="blog-content">
+                <h3>{blogItem.title}</h3>
+                <p className="texts-2">
+                  {blogItem.content || "No content available."}
                 </p>
-                <span className="font fs-16 text-color-3 fw-5">
-                  said Mike Fratantoni, MBA’s chief economist.
-                </span>
               </div>
-              <div className="box-image">
-                <div className="overflow-hidden br-16">
-                  <Image
-                    alt="imag-blog"
-                    src="/assets/images/blog/blogs-2.jpg"
-                    width={615}
-                    height={410}
-                  />
-                </div>
-                <div className="overflow-hidden br-16">
-                  <Image
-                    alt="imag-blog"
-                    src="/assets/images/blog/blogs-3.jpg"
-                    width={615}
-                    height={410}
-                  />
-                </div>
-              </div>
-              <p className="texts-2">
-                For lots of BMW enthusiasts, money isn't really an issue. The
-                Munich-based marque reportedly charged roughly $750,000 for the
-                3.0 CSL, which was essentially a rebodied M4 CSL with a manual
-                gearbox and a bit more power. The regular CSL retailed for
-                $139,900, therefore making the retro-flavored 3.0 CSL nearly
-                five and a half times more expensive. The BMW Group is also
-                likely encouraged to give Skytop the green light by the success
-                Rolls-Royce has had with its coachbuilt cars, some of which were
-                allegedly sold for as much as $30 million.
-              </p>
-              <p className="texts-2">
-                Adrian van Hooydonk believes there is a market for Skytop based
-                on the amount of money people are willing to pay these days for
-                a Z8 from which the new concept takes inspiration. The gorgeous
-                roadster was far less exclusive, with 5,703 cars built from 1998
-                until 2003. The targa-topped 8 Series Convertible also takes
-                after the 503 and brings back the signature "sharknose" design
-                trait.
-              </p>
-              <p className="texts-2">
-                The 2023 Touring Coupe we mentioned earlier was also considered
-                for production at some point. Initially, the plan was to build
-                just nine but BMW brand design chief Domagoj Dukec wanted as
-                many as 1,000 units. Doing so would've been simpler to
-                homologate the Z4 M40i-based coupe that brought back the Clown
-                Shoe. However, it ultimately never happened as BMW pulled the
-                plug on the project.
-              </p>
-              <p className="texts-2">
-                BMW has a long history of debuting beautiful concepts at the
-                Concorso d'Eleganza Villa d’Este. Unfortunately, none of them
-                saw the light of production day. The 2008 M1 Hommage springs to
-                mind, but there were others, including the 2015 3.0 CSL Hommage,
-                the 2011 328 Hommage, and the 2013 Gran Lusso Coupe penned by
-                Pininfarina. Hopefully, the Skytop will break with tradition and
-                enter production, even if it'll be limited.
-              </p>
               <div className="tag-wrap flex flex-wrap justify-space align-center gap-8">
                 <div className="tags-box">
                   <div className="tags flex-three">
                     <p className="text-color-2 fw-5 font">Tags :</p>
                     <div className="flex fs-13 fw-6 link-style-1">
-                      <a href="#">Legend Motors</a>
-                      <a href="#">BMW</a>
+                      {blogItem.tags && blogItem.tags.length > 0 ? (
+                        blogItem.tags.map((tag) => (
+                          <a key={tag.id} href="#">
+                            {tag.name}
+                          </a>
+                        ))
+                      ) : (
+                        <span>No tags</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -209,10 +181,11 @@ export default function BlogDetails({ blogItem }) {
                   </div>
                 </div>
               </div>
-              
+              {/* Optional: Comment form */}
+              <CommentForm />
             </div>
-          </div> */}
-          {/* <div className="col-lg-4">
+          </div>
+          <div className="col-lg-4">
             <aside className="side-bar side-bar-1 side-blog">
               <div className="inner-side-bar">
                 <div className="widget-rent">
@@ -228,7 +201,7 @@ export default function BlogDetails({ blogItem }) {
                 <PopulerTags />
               </div>
             </aside>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>

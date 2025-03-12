@@ -1009,16 +1009,17 @@ const CarInventoryListing = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-lg-4">
-                                                                        <div className="sticky-top top-0 img-style z-0">
+                                                                        <div className="sticky-top img-style z-0" style={{ top: '207px' }}>
                                                                             <Image
                                                                                 className="lazyload"
                                                                                 alt="image"
-                                                                                src="/assets/skyskrapper.webp"
+                                                                                src="/assets/filter-ad-banner.jpg"
                                                                                 width={450}
                                                                                 height={338}
                                                                             />
                                                                         </div>
                                                                     </div>
+
                                                                 </>
                                                             )}
                                                         </div>

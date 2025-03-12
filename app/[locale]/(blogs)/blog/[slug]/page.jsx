@@ -3,15 +3,15 @@ import Footer1 from "@/components/footers/Footer1";
 import Header2 from "@/components/headers/Header2";
 import React from "react";
 import Link from "next/link";
-import { allBlogs } from "@/data/blogs";
+
 export const metadata = {
-  title:
-    "",
+  title: "",
   description: "",
 };
+
 export default function page({ params }) {
-  const blogItem =
-    allBlogs.filter((elm) => elm.id == params.id)[0] || allBlogs[0];
+  // Assume the URL includes a slug parameter, e.g., /blog/[slug]
+  const { slug } = params;
   return (
     <>
       <section className="flat-title mb-40">
@@ -30,8 +30,8 @@ export default function page({ params }) {
           </div>
         </div> */}
       </section>
-      <BlogDetails blogItem={blogItem} />
-      
+      <BlogDetails slug={slug} />
+      <Footer1 />
     </>
   );
 }

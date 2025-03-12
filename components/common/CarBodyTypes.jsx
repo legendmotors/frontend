@@ -31,6 +31,8 @@ const imageMapping = {
 export default function CarBodyTypes({ title, specId }) {
   const [specValues, setSpecValues] = useState([]);
 
+  console.log(specValues,"specValues");
+  
   const swiperOptions = {
     slidesPerView: 8,
     spaceBetween: 30,
@@ -106,7 +108,7 @@ export default function CarBodyTypes({ title, specId }) {
                   const imageFile = imageMapping[spec.name] || spec.icon || "default.png";
                   return (
                     <SwiperSlide key={index}>
-                      <Link href="/cars/new-cars" className="partner-item style-2">
+                      <Link href={`/cars/new-cars?body_type=${spec.id}`} className="partner-item style-2">
                         <div className="icon d-flex align-items-center justify-content-center mb-0">
                           <img
                             src={`/assets/images/bodytypes/${imageFile}`}
