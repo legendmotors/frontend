@@ -185,9 +185,9 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                 </button> */}
                             </div>
 
-                            <button className="btn btn-outline border fs-12 lh-16">
+                            {/* <button className="btn btn-outline border fs-12 lh-16">
                                 <i className="far fa-heart me-1"></i>   Wishlist
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
