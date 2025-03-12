@@ -152,7 +152,7 @@ export default function CarDetails1({ carResponse }) {
                       <div className="listing-line" />
 
                       {/* PDF Viewer Container */}
-                      {carItem.brochureFile.webp && <><div className="flex justify-content-center">
+                      {carItem.brochureFile && <><div className="flex justify-content-center">
                         <div
                           ref={pdfContainerRef}
                           style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}
