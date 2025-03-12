@@ -8,6 +8,7 @@ import PopulerTags from "./PopulerTags";
 import CommentForm from "./CommentForm";
 import BlogSearch from "./BlogSearch";
 import { getBlogPostBySlug } from "@/services/BlogService"; // Adjust path as needed
+import ShareButton from "../social/ShareButton";
 
 export default function BlogDetails({ slug }) {
   const [blogItem, setBlogItem] = useState(null);
@@ -133,7 +134,7 @@ export default function BlogDetails({ slug }) {
                 <div className="image">
                   <Image
                     alt={blogItem.title}
-                    src={blogItem.coverImage.original}
+                    src={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + blogItem.coverImage.webp}
                     width={1260}
                     height={710}
                   />
@@ -142,8 +143,8 @@ export default function BlogDetails({ slug }) {
               {/* Render blog content if available */}
               <div className="blog-content">
                 <h3>{blogItem.title}</h3>
-                <p className="texts-2">
-                  {blogItem.content || "No content available."}
+                <p className="texts-2" dangerouslySetInnerHTML={{ __html: blogItem?.content }}>
+
                 </p>
               </div>
               <div className="tag-wrap flex flex-wrap justify-space align-center gap-8">
@@ -163,7 +164,7 @@ export default function BlogDetails({ slug }) {
                     </div>
                   </div>
                 </div>
-                <div className="share-box flex-three">
+                {/* <div className="share-box flex-three">
                   <p className="text-color-2 fw-5 font">Share this post:</p>
                   <div className="icon-social">
                     <a href="#">
@@ -179,13 +180,14 @@ export default function BlogDetails({ slug }) {
                       <i className="icon-autodeal-instagram" />
                     </a>
                   </div>
-                </div>
+                </div> */}
+                <ShareButton/>
               </div>
               {/* Optional: Comment form */}
-              <CommentForm />
+              {/* <CommentForm /> */}
             </div>
           </div>
-          <div className="col-lg-4">
+          {/* <div className="col-lg-4">
             <aside className="side-bar side-bar-1 side-blog">
               <div className="inner-side-bar">
                 <div className="widget-rent">
@@ -201,7 +203,7 @@ export default function BlogDetails({ slug }) {
                 <PopulerTags />
               </div>
             </aside>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
