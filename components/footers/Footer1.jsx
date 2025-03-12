@@ -1,10 +1,21 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import emailjs from "@emailjs/browser";
 import Link from "next/link";
-import { footerData } from "@/data/footerLinks";
+import emailjs from "@emailjs/browser";
 import { useTranslation } from "react-i18next";
+
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+
+// Import your BrandService
+import BrandService from "@/services/BrandService";
+
+// Import your footer links data
+import { footerData } from "@/data/footerLinks";
 
 export default function Footer1() {
   const formRef = useRef();
@@ -12,6 +23,55 @@ export default function Footer1() {
   const [showMessage, setShowMessage] = useState(false);
   const { t } = useTranslation();
 
+  // -------------------------
+  // 1) STATE FOR POPULAR BRANDS
+  // -------------------------
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    async function fetchFeaturedBrands() {
+      try {
+        const params = { featured: true };
+        const res = await BrandService.listBrand(params);
+        if (res && res.data) {
+          setBrands(res.data);
+        }
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+      }
+    }
+    fetchFeaturedBrands();
+  }, []);
+
+  // -------------------------
+  // 2) SWIPER CONFIG
+  // -------------------------
+  const swiperOptions = {
+    slidesPerView: 6,
+    spaceBetween: 30,
+    observer: true,
+    observeParents: true,
+    breakpoints: {
+      0: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      600: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
+      992: {
+        slidesPerView: 4,
+      },
+      1440: {
+        slidesPerView: 6,
+      },
+    },
+  };
+
+  // -------------------------
+  // Newsletter submit handler
+  // -------------------------
   const handleShowMessage = () => {
     setShowMessage(true);
     setTimeout(() => {
@@ -40,9 +100,11 @@ export default function Footer1() {
       });
   };
 
+  // -------------------------
+  // Mobile heading collapse
+  // -------------------------
   useEffect(() => {
     const headings = document.querySelectorAll(".footer-heading-mobie");
-
     const toggleOpen = (event) => {
       const parent = event.target.closest(".footer-col-block");
       const content = parent.querySelector(".tf-collapse-content");
@@ -61,7 +123,6 @@ export default function Footer1() {
     headings.forEach((heading) => {
       heading.addEventListener("click", toggleOpen);
     });
-
     return () => {
       headings.forEach((heading) => {
         heading.removeEventListener("click", toggleOpen);
@@ -74,25 +135,56 @@ export default function Footer1() {
       <div className="container">
         <div className="footer-main">
           <div className="row">
-            {footerData.map((column, index) => (
-              <div className="col-lg-3 col-sm-6 col-12" key={index}>
-                <div className="widget widget-menu footer-col-block">
-                  <div className="footer-heading-desktop">
-                    <h4>{t(column.heading)}</h4>
+            {/* Loop through your footer data */}
+            {footerData.map((column, index) => {
+              // If this is the "Popular Cars" column (e.g., index === 1),
+              // replace it with a Popular Brands slider.
+              if (index === 1) {
+                return (
+                  <div className="col-lg-3 col-sm-6 col-12" key={index}>
+                    <div className="widget widget-menu footer-col-block">
+                      <div className="footer-heading-desktop">
+                        <h4>Popular Brands</h4>
+                      </div>
+                      <div className="footer-heading-mobie">
+                        <h4>Popular Brands</h4>
+                      </div>
+                      <ul className="box-menu tf-collapse-content">
+                        {brands.map((brand, i) => (
+                          <li key={i}>
+                            <Link href={`/cars/new-cars?brandId=${brand.id}`}>{brand.name}</Link>
+                          </li>
+                        ))}
+                      </ul>
+
+                    </div>
                   </div>
-                  <div className="footer-heading-mobie">
-                    <h4>{t(column.heading)}</h4>
+                );
+              } else {
+                // Otherwise, render the default footer column
+                return (
+                  <div className="col-lg-3 col-sm-6 col-12" key={index}>
+                    <div className="widget widget-menu footer-col-block">
+                      <div className="footer-heading-desktop">
+                        <h4>{t(column.heading)}</h4>
+                      </div>
+                      <div className="footer-heading-mobie">
+                        <h4>{t(column.heading)}</h4>
+                      </div>
+                      <ul className="box-menu tf-collapse-content">
+                        {column.menuItems.map((item, itemIndex) => (
+                          <li key={itemIndex}>
+                            <Link href={item.href}>{t(item.text)}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <ul className="box-menu tf-collapse-content">
-                    {column.menuItems.map((item, itemIndex) => (
-                      <li key={itemIndex}>
-                        <Link href={item.href}>{t(item.text)}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+                );
+              }
+            })}
+
+            {/* Fourth column - Newsletter */}
             <div className="col-lg-3 col-sm-6 col-12">
               <div className="widget widget-menu widget-form footer-col-block">
                 <div className="footer-heading-desktop">
@@ -103,9 +195,8 @@ export default function Footer1() {
                 </div>
                 <div className="tf-collapse-content">
                   <div
-                    className={`tfSubscribeMsg footer-sub-element ${
-                      showMessage ? "active" : ""
-                    }`}
+                    className={`tfSubscribeMsg footer-sub-element ${showMessage ? "active" : ""
+                      }`}
                   >
                     {success ? (
                       <p style={{ color: "rgb(52, 168, 83)" }}>
@@ -146,6 +237,7 @@ export default function Footer1() {
             </div>
           </div>
         </div>
+        {/* Footer bottom */}
         <div className="footer-bottom">
           <div className="row">
             <div className="col-lg-4 col-md-12">
