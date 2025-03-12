@@ -27,9 +27,11 @@ import { getFilePlugin } from "@react-pdf-viewer/get-file";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/full-screen/lib/styles/index.css";
+import { getCookie } from "@/utils/cookieFunction";
 
 export default function CarDetails1({ carResponse }) {
   // For easier usage we alias carResponse to carItem
+   const token = getCookie('token');
   const carItem = carResponse;
 
   // Compute a title based on car details
@@ -152,7 +154,7 @@ export default function CarDetails1({ carResponse }) {
                       <div className="listing-line" />
 
                       {/* PDF Viewer Container */}
-                      {carItem.brochureFile && <><div className="flex justify-content-center">
+                      {carItem?.brochureFile && <><div className="flex justify-content-center">
                         <div
                           ref={pdfContainerRef}
                           style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}

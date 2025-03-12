@@ -1,4 +1,5 @@
 import ShareButton from "@/components/social/ShareButton";
+import { getCookie } from "@/utils/cookieFunction";
 import { formatCurrency } from "@/utils/formatCurrency";
 import React from "react";
 
@@ -33,6 +34,7 @@ export default function CarInfo({ carResponse, currency, convertedPrice }) {
   const regionalSpecificationName = regionalSpecification?.name || "N/A";
   const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
   const displayPrice = carResponse?.CarPrices?.find(item => item.currency === currency);
+  const token = getCookie('token');
   return (
     <>
       <div className="icon-box flex flex-wrap my-2">
@@ -61,7 +63,13 @@ export default function CarInfo({ carResponse, currency, convertedPrice }) {
       </div>
 
       <div className="money text-color-3 font">
-        {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
+        {token ? <>{displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}</> : <small className="fs-6 text-black">
+          <a className="text-color-3" href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#popup_bid">Log in</a> or <a className="text-color-3" href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#popup_bid2">Register</a> to see the price</small>}
+        {/* {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)} */}
       </div>
 
       <ul className="action-icon flex flex-wrap">

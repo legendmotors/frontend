@@ -58,7 +58,7 @@
   "failed_to_register": "注册失败",
   "error_registering": "注册时出错，请重试。",
   "enter_valid_email": "请在请求验证码前输入有效的电子邮件。",
-  "otp_sent": "验证码已发送到您的邮箱。",
+  "otp_sent": "欢迎码已发送到您的邮箱。",
   "failed_to_send_otp": "发送验证码失败",
   "error_sending_otp": "发送验证码时出错，请重试。",
   "register_image_alt": "注册图片",

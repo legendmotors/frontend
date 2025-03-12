@@ -58,7 +58,7 @@
   "failed_to_register": "Error al registrarse",
   "error_registering": "Error al registrar el usuario, por favor intenta de nuevo.",
   "enter_valid_email": "Por favor ingresa un correo electrónico válido antes de solicitar el OTP.",
-  "otp_sent": "El OTP ha sido enviado a tu correo.",
+  "otp_sent": "El código de bienvenida ha sido enviado a tu correo electrónico.",
   "failed_to_send_otp": "Fallo al enviar el OTP",
   "error_sending_otp": "Error al enviar el OTP, por favor intenta de nuevo.",
   "register_image_alt": "Imagen de registro",

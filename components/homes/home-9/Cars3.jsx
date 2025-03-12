@@ -138,7 +138,7 @@ export default function Cars3({ title }) {
               </li>
             </ul>
           </div> */}
-          <ul className="change-heart flex">
+          {/* <ul className="change-heart flex">
             <li className="box-icon w-32">
               <a
                 data-bs-toggle="offcanvas"
@@ -163,7 +163,7 @@ export default function Cars3({ title }) {
                 </svg>
               </a>
             </li>
-          </ul>
+          </ul> */}
           <div className="img-style">
             <Image
               className="lazyload"
