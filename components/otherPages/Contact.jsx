@@ -1,12 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { branches } from "@/data/address";
 import MapAndAddress from "../contact/MapAndAddress";
+// Import the contact service method
+import { subscribeContact } from "@/services/ContactUsService";
+
 export default function Contact({ sectionsByKey }) {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -15,27 +18,38 @@ export default function Contact({ sectionsByKey }) {
     }, 2000);
   };
 
-  const sendMail = (e) => {
+  // New form submission handler using subscribeContact from ContactUsService
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm("service_noj8796", "template_fs3xchn", formRef.current, {
-        publicKey: "iG4SCmR-YtJagQ4gV",
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setSuccess(true);
-          handleShowMessage();
+    setIsSubmitting(true);
 
-          formRef.current.reset();
-        } else {
-          setSuccess(false);
-          handleShowMessage();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // Build payload from form values
+    const payload = {
+      name: e.target.name.value,
+      emailAddress: e.target.email.value,
+      phoneNumber: e.target.tel.value,
+      subject: e.target.subject.value,
+      message: e.target.message.value,
+    };
+
+    try {
+      const response = await subscribeContact(payload);
+      if (response) {
+        setSuccess(true);
+        handleShowMessage();
+        formRef.current.reset();
+      } else {
+        setSuccess(false);
+        handleShowMessage();
+      }
+    } catch (error) {
+      console.error("Error submitting contact enquiry:", error);
+      setSuccess(false);
+      handleShowMessage();
+    }
+    setIsSubmitting(false);
   };
+
   return (
     <>
       <section className="flat-property">
@@ -43,7 +57,9 @@ export default function Contact({ sectionsByKey }) {
           <div className="row">
             <div className="col-lg-12">
               <div className="inner-heading flex-two flex-wrap mb-2">
-                <h1 className="heading-listing">{sectionsByKey.drop_us_a_line?.title}</h1>
+                <h1 className="heading-listing">
+                  {sectionsByKey.drop_us_a_line?.title}
+                </h1>
                 <div className="social-listing flex-six flex-wrap">
                   <p>Share this page:</p>
                   <div className="icon-social style1">
@@ -72,13 +88,17 @@ export default function Contact({ sectionsByKey }) {
           <div className="row">
             <div className="col-md-8 contact-left">
               <div className="heading-section mb-30">
-                <div className="mt-12" dangerouslySetInnerHTML={{ __html: sectionsByKey.drop_us_a_line?.content }}>
-                </div>
+                <div
+                  className="mt-12"
+                  dangerouslySetInnerHTML={{
+                    __html: sectionsByKey.drop_us_a_line?.content,
+                  }}
+                />
               </div>
               <div id="comments" className="comments">
                 <div className="respond-comment">
                   <form
-                    onSubmit={sendMail}
+                    onSubmit={handleContactSubmit}
                     ref={formRef}
                     id="loan-calculator"
                     className="comment-form form-submit"
@@ -142,12 +162,12 @@ export default function Contact({ sectionsByKey }) {
                         placeholder="Your message"
                         aria-required="true"
                         required
-                        defaultValue={""}
                       />
                     </fieldset>
                     <div
-                      className={`tfSubscribeMsg  footer-sub-element ${showMessage ? "active" : ""
-                        }`}
+                      className={`tfSubscribeMsg footer-sub-element ${
+                        showMessage ? "active" : ""
+                      }`}
                     >
                       {success ? (
                         <p style={{ color: "rgb(52, 168, 83)" }}>
@@ -157,8 +177,22 @@ export default function Contact({ sectionsByKey }) {
                         <p style={{ color: "red" }}>Something went wrong</p>
                       )}
                     </div>
+                    {/* Loader indicator */}
+                    {isSubmitting && (
+                      <div
+                        className="loader"
+                        style={{ margin: "10px 0", fontWeight: "bold" }}
+                      >
+                        Loading...
+                      </div>
+                    )}
                     <div className="button-boxs">
-                      <button className="sc-button" name="submit" type="submit">
+                      <button
+                        className="sc-button"
+                        name="submit"
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
                         <span>Send</span>
                       </button>
                     </div>
@@ -172,32 +206,35 @@ export default function Contact({ sectionsByKey }) {
                 <div className="wrap-info">
                   <div className="box-info">
                     <h5>Head Office —</h5>
-                    <p>
-                      P.O.Box – 381203, Showroom # 46,
-                    </p>
-                    <p>
-                      Auto Market, Block 1, Ras-Al-khor,
-                    </p>
-                    <p>
-                      Al Aweer, Dubai, UAE
-                    </p>
+                    <p>P.O.Box – 381203, Showroom # 46,</p>
+                    <p>Auto Market, Block 1, Ras-Al-khor,</p>
+                    <p>Al Aweer, Dubai, UAE</p>
                   </div>
                   <ul className="list-unstyled mt-3">
                     <li className="mb-2">
                       <i className="bi bi-envelope-fill text-primary me-2"></i>
-                      <a href={`mailto:sales@legendmotorsuae.com`} className="text-decoration-none">
+                      <a
+                        href={`mailto:sales@legendmotorsuae.com`}
+                        className="text-decoration-none"
+                      >
                         sales@legendmotorsuae.com
                       </a>
                     </li>
                     <li className="mb-2">
                       <i className="bi bi-telephone-fill text-primary me-2"></i>
-                      <a href={`tel: +9714548563`} className="text-decoration-none">
+                      <a
+                        href={`tel: +9714548563`}
+                        className="text-decoration-none"
+                      >
                         +971 4 548 563
                       </a>
                     </li>
                     <li className="mb-2">
                       <i className="bi bi-telephone-fill text-primary me-2"></i>
-                      <a href={`tel: +971509660888`} className="text-decoration-none">
+                      <a
+                        href={`tel: +971509660888`}
+                        className="text-decoration-none"
+                      >
                         +971 50 966 0888
                       </a>
                     </li>
@@ -225,7 +262,7 @@ export default function Contact({ sectionsByKey }) {
           </div>
         </div>
         <div className="container py-5">
-          <div className="row"> {/* Row to enable grid layout */}
+          <div className="row">
             {branches.map((branch, index) => (
               <MapAndAddress key={index} details={branch} />
             ))}

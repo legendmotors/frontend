@@ -2,12 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import emailjs from "@emailjs/browser";
 import { useTranslation } from "react-i18next";
-
 
 // Import your BrandService
 import BrandService from "@/services/BrandService";
+
+// Import the subscribeNewsletter function from your NewsletterService
+import { subscribeNewsletter } from "@/services/NewsletterService";
 
 // Import your footer links data
 import { footerData } from "@/data/footerLinks";
@@ -16,6 +17,7 @@ export default function Footer1() {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
 
   // -------------------------
@@ -38,10 +40,8 @@ export default function Footer1() {
     fetchFeaturedBrands();
   }, []);
 
-  
-
   // -------------------------
-  // Newsletter submit handler
+  // Newsletter submit handler using NewsletterService
   // -------------------------
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -50,25 +50,28 @@ export default function Footer1() {
     }, 2000);
   };
 
-  const sendMail = (e) => {
+  const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm("service_noj8796", "template_fs3xchn", formRef.current, {
-        publicKey: "iG4SCmR-YtJagQ4gV",
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setSuccess(true);
-          handleShowMessage();
-          formRef.current.reset();
-        } else {
-          setSuccess(false);
-          handleShowMessage();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setIsSubmitting(true);
+    const email = e.target.email.value;
+    const payload = { email };
+
+    try {
+      const response = await subscribeNewsletter(payload);
+      if (response) {
+        setSuccess(true);
+        handleShowMessage();
+        formRef.current.reset();
+      } else {
+        setSuccess(false);
+        handleShowMessage();
+      }
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      setSuccess(false);
+      handleShowMessage();
+    }
+    setIsSubmitting(false);
   };
 
   // -------------------------
@@ -108,8 +111,8 @@ export default function Footer1() {
           <div className="row">
             {/* Loop through your footer data */}
             {footerData.map((column, index) => {
-              // If this is the "Popular Cars" column (e.g., index === 1),
-              // replace it with a Popular Brands slider.
+              // For the "Popular Brands" column (e.g., index === 1),
+              // render the popular brands list.
               if (index === 1) {
                 return (
                   <div className="col-lg-3 col-sm-6 col-12" key={index}>
@@ -127,7 +130,6 @@ export default function Footer1() {
                           </li>
                         ))}
                       </ul>
-
                     </div>
                   </div>
                 );
@@ -165,20 +167,15 @@ export default function Footer1() {
                   <h4>{t("newsletter")}</h4>
                 </div>
                 <div className="tf-collapse-content">
-                  <div
-                    className={`tfSubscribeMsg footer-sub-element ${showMessage ? "active" : ""
-                      }`}
-                  >
+                  <div className={`tfSubscribeMsg footer-sub-element ${showMessage ? "active" : ""}`}>
                     {success ? (
-                      <p style={{ color: "rgb(52, 168, 83)" }}>
-                        {t("subscription_success")}
-                      </p>
+                      <p style={{ color: "rgb(52, 168, 83)" }}>{t("subscription_success")}</p>
                     ) : (
                       <p style={{ color: "red" }}>{t("subscription_error")}</p>
                     )}
                   </div>
                   <form
-                    onSubmit={sendMail}
+                    onSubmit={handleNewsletterSubmit}
                     ref={formRef}
                     className="comment-form form-submit"
                     acceptCharset="utf-8"
@@ -195,10 +192,17 @@ export default function Footer1() {
                         />
                       </fieldset>
                     </div>
+                    {/* Loader indicator */}
+                    {isSubmitting && (
+                      <div className="loader" style={{ margin: "10px 0", fontWeight: "bold" }}>
+                        Loading...
+                      </div>
+                    )}
                     <button
                       name="submit"
                       type="submit"
                       className="button btn-submit-comment btn-1 btn-8"
+                      disabled={isSubmitting}
                     >
                       <span>{t("send")}</span>
                     </button>
@@ -227,9 +231,7 @@ export default function Footer1() {
             </div>
             <div className="col-lg-8 col-md-12">
               <div className="footer-bottom-right flex-six flex-wrap">
-                <div className="title-bottom center">
-                  {t("footer_copyright")}
-                </div>
+                <div className="title-bottom center">{t("footer_copyright")}</div>
                 <div className="icon-social box-3 text-color-1">
                   <a href="#">
                     <i className="icon-autodeal-facebook" />

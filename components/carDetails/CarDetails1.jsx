@@ -13,6 +13,8 @@ import Features from "./detailComponents/Features";
 import SidebarToggleButton from "./SidebarToggleButton";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
+// Import the CarEnquiryService (adjust the path as needed)
+import CarEnquiryService from "@/services/CarEnquiryService"; 
 
 // Dynamic imports for Next.js SSR compatibility
 const Viewer = dynamic(() => import("@react-pdf-viewer/core").then((mod) => mod.Viewer), { ssr: false });
@@ -31,7 +33,7 @@ import { getCookie } from "@/utils/cookieFunction";
 
 export default function CarDetails1({ carResponse }) {
   // For easier usage we alias carResponse to carItem
-   const token = getCookie('token');
+  const token = getCookie('token');
   const carItem = carResponse;
 
   // Compute a title based on car details
@@ -59,6 +61,7 @@ export default function CarDetails1({ carResponse }) {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -67,25 +70,37 @@ export default function CarDetails1({ carResponse }) {
     }, 2000);
   };
 
-  const sendMail = (e) => {
+  // Updated form submission function using CarEnquiryService and loader
+  const sendEnquiry = async (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm("service_noj8796", "template_fs3xchn", formRef.current, {
-        publicKey: "iG4SCmR-YtJagQ4gV",
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setSuccess(true);
-          handleShowMessage();
-          formRef.current.reset();
-        } else {
-          setSuccess(false);
-          handleShowMessage();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setIsSubmitting(true);
+    // Build payload using car details and form values
+    const payload = {
+      stockId: carItem?.stockId,
+      year: carItem?.Year?.year,
+      brand: carItem?.Brand?.name,
+      model: carItem?.CarModel?.name,
+      trim: carItem?.Trim?.name,
+      name: e.target.name.value,
+      phoneNumber: e.target.tel.value,
+      emailAddress: e.target.email.value,
+    };
+
+    try {
+      const response = await CarEnquiryService.addCarEnquiry(payload);
+      if (response) {
+        setSuccess(true);
+        handleShowMessage();
+        formRef.current.reset();
+      } else {
+        setSuccess(false);
+        handleShowMessage();
+      }
+    } catch (error) {
+      setSuccess(false);
+      handleShowMessage();
+    }
+    setIsSubmitting(false);
   };
 
   const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
@@ -154,25 +169,28 @@ export default function CarDetails1({ carResponse }) {
                       <div className="listing-line" />
 
                       {/* PDF Viewer Container */}
-                      {carItem?.brochureFile && <><div className="flex justify-content-center">
-                        <div
-                          ref={pdfContainerRef}
-                          style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}
-                        >
-                          <div className="flex justify-content-end">
-                            <EnterFullScreenButton />
-                            <DownloadButton />
+                      {carItem?.brochureFile && (
+                        <>
+                          <div className="flex justify-content-center">
+                            <div
+                              ref={pdfContainerRef}
+                              style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}
+                            >
+                              <div className="flex justify-content-end">
+                                <EnterFullScreenButton />
+                                <DownloadButton />
+                              </div>
+                              <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                                <Viewer
+                                  fileUrl={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carItem.brochureFile.webp}
+                                  plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance, getFilePluginInstance]}
+                                />
+                              </Worker>
+                            </div>
                           </div>
-                          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                            <Viewer
-                              fileUrl={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carItem.brochureFile.webp}
-                              plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance, getFilePluginInstance]}
-                            />
-                          </Worker>
-                        </div>
-                      </div>
-                        <div className="listing-line" /></>}
-
+                          <div className="listing-line" />
+                        </>
+                      )}
 
                       <div className="listing-description mb-40">
                         <div className="tfcl-listing-header">
@@ -205,7 +223,11 @@ export default function CarDetails1({ carResponse }) {
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
                     <h2 className="title">
-                      {carItem?.additionalInfo ? <>{carItem?.additionalInfo}</> : <> {carItem?.Year.year} {carItem?.Brand.name} {carItem?.CarModel.name} {carItem?.Trim?.name}</>}
+                      {carItem?.additionalInfo ? (
+                        <>{carItem?.additionalInfo}</>
+                      ) : (
+                        <> {carItem?.Year.year} {carItem?.Brand.name} {carItem?.CarModel.name} {carItem?.Trim?.name}</>
+                      )}
                     </h2>
                     <CarInfo carResponse={carItem} currency={currency} convertedPrice={convertedPrice} />
                   </div>
@@ -215,7 +237,7 @@ export default function CarDetails1({ carResponse }) {
                     <div className="respond-comment">
                       <h3 className="mb-2">Enquire Now</h3>
                       <form
-                        onSubmit={sendMail}
+                        onSubmit={sendEnquiry}
                         ref={formRef}
                         id="loan-calculator"
                         className="comment-form form-submit"
@@ -236,15 +258,22 @@ export default function CarDetails1({ carResponse }) {
                           </fieldset>
                         </div>
 
+                        {/* Loader indicator */}
+                        {isSubmitting && (
+                          <div className="loader" style={{ margin: "10px 0", fontWeight: "bold" }}>
+                            Loading...
+                          </div>
+                        )}
+
                         <div className={`tfSubscribeMsg footer-sub-element ${showMessage ? "active" : ""}`}>
                           {success ? (
-                            <p style={{ color: "rgb(52, 168, 83)" }}>Message has been sent successfully</p>
+                            <p style={{ color: "rgb(52, 168, 83)" }}>Enquiry submitted successfully!</p>
                           ) : (
                             <p style={{ color: "red" }}>Something went wrong</p>
                           )}
                         </div>
                         <div className="button-boxs">
-                          <button className="sc-button" name="submit" type="submit">
+                          <button className="sc-button" name="submit" type="submit" disabled={isSubmitting}>
                             <span>Send</span>
                           </button>
                         </div>
@@ -252,6 +281,7 @@ export default function CarDetails1({ carResponse }) {
                     </div>
                   </div>
                 </div>
+                {/* Uncomment below if you need recommended cars */}
                 {/* <div className="widget-listing box-sd">
                   <div className="listing-header mb-30">
                     <h3>Recommended Cars</h3>
