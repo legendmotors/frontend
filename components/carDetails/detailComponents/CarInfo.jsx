@@ -6,23 +6,24 @@ import React from "react";
 export default function CarInfo({ carResponse, currency, convertedPrice }) {
   // Extract additional details from the response if available.
   const bodyTypeSpecification = carResponse?.SpecificationValues.find(
-    (spec) => spec.Specification.key === "body_type"
+    (spec) => spec?.Specification?.key === "body_type"
   );
+  
 
   const fuelTypeSpecification = carResponse?.SpecificationValues.find(
-    (spec) => spec.Specification.key === "fuel_type"
+    (spec) => spec?.Specification?.key === "fuel_type"
   );
 
   const regionalSpecification = carResponse?.SpecificationValues.find(
-    (spec) => spec.Specification.key === "regional_specification"
+    (spec) => spec?.Specification?.key === "regional_specification"
   );
 
   const steeringSideSpecification = carResponse?.SpecificationValues.find(
-    (spec) => spec.Specification.key === "steering_side"
+    (spec) => spec?.Specification?.key === "steering_side"
   );
 
   const transmission = carResponse?.SpecificationValues.find(
-    (spec) => spec.Specification.key === "transmission"
+    (spec) => spec?.Specification?.key === "transmission"
   );
 
 

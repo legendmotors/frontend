@@ -61,7 +61,6 @@ export default function CarDetails1({ carResponse }) {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -70,12 +69,12 @@ export default function CarDetails1({ carResponse }) {
     }, 2000);
   };
 
-  // Updated form submission function using CarEnquiryService and loader
+  // Updated form submission function using CarEnquiryService
   const sendEnquiry = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     // Build payload using car details and form values
     const payload = {
+      // Ensure that stockId exists in carItem; otherwise, use an appropriate identifier.
       stockId: carItem?.stockId,
       year: carItem?.Year?.year,
       brand: carItem?.Brand?.name,
@@ -86,21 +85,15 @@ export default function CarDetails1({ carResponse }) {
       emailAddress: e.target.email.value,
     };
 
-    try {
-      const response = await CarEnquiryService.addCarEnquiry(payload);
-      if (response) {
-        setSuccess(true);
-        handleShowMessage();
-        formRef.current.reset();
-      } else {
-        setSuccess(false);
-        handleShowMessage();
-      }
-    } catch (error) {
+    const response = await CarEnquiryService.addCarEnquiry(payload);
+    if (response) {
+      setSuccess(true);
+      handleShowMessage();
+      formRef.current.reset();
+    } else {
       setSuccess(false);
       handleShowMessage();
     }
-    setIsSubmitting(false);
   };
 
   const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
@@ -258,13 +251,6 @@ export default function CarDetails1({ carResponse }) {
                           </fieldset>
                         </div>
 
-                        {/* Loader indicator */}
-                        {isSubmitting && (
-                          <div className="loader" style={{ margin: "10px 0", fontWeight: "bold" }}>
-                            Loading...
-                          </div>
-                        )}
-
                         <div className={`tfSubscribeMsg footer-sub-element ${showMessage ? "active" : ""}`}>
                           {success ? (
                             <p style={{ color: "rgb(52, 168, 83)" }}>Enquiry submitted successfully!</p>
@@ -273,7 +259,7 @@ export default function CarDetails1({ carResponse }) {
                           )}
                         </div>
                         <div className="button-boxs">
-                          <button className="sc-button" name="submit" type="submit" disabled={isSubmitting}>
+                          <button className="sc-button" name="submit" type="submit">
                             <span>Send</span>
                           </button>
                         </div>
