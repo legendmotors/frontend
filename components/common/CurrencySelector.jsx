@@ -41,8 +41,8 @@ export default function CurrencySelector() {
             </button>
             <ul className="dropdown-menu p-0" aria-labelledby="currencyDropdown">
                 {currencies.map((cur) => (
-                    <li key={cur.code} className="me-0 ms-0">
-                        <div onClick={() => handleCurrencyChange(cur.code)}>{cur.label}</div>
+                    <li key={cur.code} className="me-0 ms-0" onClick={() => handleCurrencyChange(cur.code)}>
+                        <div >{cur.label}</div>
                     </li>
                 ))}
             </ul>

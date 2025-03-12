@@ -72,9 +72,9 @@ export default function LanguageSelector() {
       </button>
       <ul className="dropdown-menu p-0" aria-labelledby="languageDropdown">
         {languages.map((lang) => (
-          <li key={lang.code} className="m-0 p-0">
+          <li key={lang.code} className="m-0 p-0"  onClick={() => handleLanguageChange(lang.code, lang.label)}>
             <div
-              onClick={() => handleLanguageChange(lang.code, lang.label)}
+             
               className="p-2"
             >
               {lang.label}

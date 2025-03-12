@@ -1,80 +1,18 @@
 "use client";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
-import FlatFilter3 from "@/components/common/FlatFilter3";
-import { initialState, reducer } from "@/reducer/carFilterReducer";
 import BannerService from "@/services/BannerService";
 import { useTranslation } from "react-i18next";
 import CarFilter from "@/components/filter/CarFilter";
 
 export default function Hero() {
-  // Swiper configuration
-  const swiperOptions = {
-    autoplay: {
-      delay: 6000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    slidesPerView: 1,
-    speed: 500,
-    effect: "fade",
-    fadeEffect: { crossFade: true },
-    navigation: { nextEl: ".snbn7", prevEl: ".snbp7" },
-    preventClicks: false,
-    simulateTouch: false,
-    preventClicksPropagation: false,
-    touchStartPreventDefault: false,
-    allowTouchMove: true,
-  };
-
   const { i18n } = useTranslation();
-
-  // Car filter reducer/state
-  const [state, dispatch] = useReducer(reducer, initialState);
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const swiperRef = useRef(null); // Swiper reference
 
-  // Expose filter state and setters (if needed)
-  const allProps = {
-    ...state,
-    setPrice: (value) => dispatch({ type: "SET_PRICE", payload: value }),
-    setYear: (value) => dispatch({ type: "SET_YEAR", payload: value }),
-    setModel: (value) => dispatch({ type: "SET_MODEL", payload: value }),
-    setKM: (value) => dispatch({ type: "SET_KM", payload: value }),
-    setBody: (value) => dispatch({ type: "SET_BODY", payload: value }),
-    setMake: (value) => dispatch({ type: "SET_MAKE", payload: value }),
-    setFuel: (value) => dispatch({ type: "SET_FUEL", payload: value }),
-    setTransmission: (value) =>
-      dispatch({ type: "SET_TRANSMISSION", payload: value }),
-    setLocation: (value) => dispatch({ type: "SET_LOCATION", payload: value }),
-    setDoor: (value) => dispatch({ type: "SET_DOOR", payload: value }),
-    setCylinder: (value) => dispatch({ type: "SET_CYLINDER", payload: value }),
-    setColor: (value) => dispatch({ type: "SET_COLOR", payload: value }),
-    setFeatures: (newFeature) => {
-      const updated = [...state.features].includes(newFeature)
-        ? [...state.features].filter((elm) => elm !== newFeature)
-        : [...state.features, newFeature];
-      dispatch({ type: "SET_FEATURES", payload: updated });
-    },
-    setSortingOption: (value) =>
-      dispatch({ type: "SET_SORTING_OPTION", payload: value }),
-    setCurrentPage: (value) =>
-      dispatch({ type: "SET_CURRENT_PAGE", payload: value }),
-    setItemPerPage: (value) => {
-      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 });
-      dispatch({ type: "SET_ITEM_PER_PAGE", payload: value });
-    },
-  };
-
-  const clearFilter = () => {
-    dispatch({ type: "CLEAR_FILTER" });
-  };
-
-  /**
-   * Fetch multiple banners by their identifiers on mount.
-   */
   useEffect(() => {
     const fetchBanners = async () => {
       try {
@@ -104,14 +42,27 @@ export default function Hero() {
   return (
     <div className="position-relative">
       <Swiper
-        {...swiperOptions}
+        ref={swiperRef}
+        autoplay={{
+          delay: 6000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        slidesPerView={1}
+        speed={500}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        navigation={{
+          nextEl: ".custom-next",
+          prevEl: ".custom-prev",
+        }}
         modules={[Autoplay, Navigation, Pagination, EffectFade]}
         className="swiper mainslider slider home9"
       >
         {!loading && banners.length > 0
           ? banners.map((banner, i) => (
               <SwiperSlide key={i} className="swiper-slide">
-                <div className="slider-item">
+                <div className="slider-item position-relative">
                   <div className="img-slider">
                     <Image
                       className="img-item lazyload"
@@ -152,16 +103,58 @@ export default function Hero() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Custom Swiper Navigation Buttons */}
+                  <button
+                    className="custom-prev"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "20px",
+                      transform: "translateY(-50%)",
+                      zIndex: 10,
+                      background: "rgba(0, 0, 0, 0.5)",
+                      color: "#fff",
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      border: "none",
+                    }}
+                    onClick={() => swiperRef.current?.swiper.slidePrev()}
+                  >
+                    <i className="fas fa-chevron-left"></i>
+                  </button>
+                  <button
+                    className="custom-next"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "20px",
+                      transform: "translateY(-50%)",
+                      zIndex: 10,
+                      background: "rgba(0, 0, 0, 0.5)",
+                      color: "#fff",
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      border: "none",
+                    }}
+                    onClick={() => swiperRef.current?.swiper.slideNext()}
+                  >
+                    <i className="fas fa-chevron-right"></i>
+                  </button>
                 </div>
               </SwiperSlide>
             ))
           : null}
-        <div className="swiper-button-next ">
-          <i className="fas fa-chevron-right"></i>
-        </div>
-        <div className="swiper-button-prev ">
-          <i className="fas fa-chevron-left"></i>
-        </div>
       </Swiper>
 
       {/* Overlay filter using Bootstrap classes */}
@@ -171,8 +164,6 @@ export default function Hero() {
       >
         <div className="flat-filter-search home9">
           <div className="flat-tabs">
-            {/* If needed, you can also use FlatFilter3 */}
-            {/* <FlatFilter3 clearFilter={clearFilter} allProps={allProps} /> */}
             <CarFilter />
           </div>
         </div>

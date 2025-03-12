@@ -163,7 +163,7 @@ export default function Header1() {
                 {t("login")}
               </a>
             </div>
-            <MobileNav />
+            {/* <MobileNav /> */}
           </div>
         </nav>
       </div>
