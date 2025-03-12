@@ -5,34 +5,19 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SpecificationService from "@/services/SpecificationService"; // adjust the import path as needed
 
-// Mapping specification names to image filenames
-const imageMapping = {
-  "Cargo Van": "cargo-van.png",
-  "Commercial Van": "commercial-van.png",
-  "Convertible": "convertible.png",
-  "Coupe": "coupe.png",
-  "Crossover": "crossover.png",
-  "Fastback": "fastback.png",
-  "Hatchback": "hatchback.png",
-  "Hot Hatch": "hot-hatch.png",
-  "Luxury Sedan": "luxury-sedan.png",
-  "Luxury SUV": "luxury-suv.png",
-  "Minivan": "minivan.png",
-  "Off-Road SUV": "off-road-suv.png",
-  "Pickup Truck": "pickup-truck.png",
+// Allowed body types and their corresponding image filenames
+const allowedBodyTypes = {
   "Sedan": "sedan.png",
-  "Sports Car": "sports-car.png",
-  "Supercar": "supercar.png",
+  "Hatchback": "hatchback.png",
   "SUV": "suv.png",
-  "Van": "van.png",
-  "Wagon": "wagon.png",
+  "Crossover": "crossover.png",
 };
 
 export default function CarBodyTypes({ title, specId }) {
   const [specValues, setSpecValues] = useState([]);
 
-  console.log(specValues,"specValues");
-  
+  console.log(specValues, "Filtered specValues"); // Debugging API response
+
   const swiperOptions = {
     slidesPerView: 8,
     spaceBetween: 30,
@@ -75,14 +60,19 @@ export default function CarBodyTypes({ title, specId }) {
       try {
         const params = { specificationId: specId };
         const response = await SpecificationService.listSpecificationValues(params);
-        // Assuming the API response contains the data array in response.data
+
         if (response.data) {
-          setSpecValues(response.data);
+          // Strictly filter response to only include allowed body types
+          const filteredSpecValues = response.data.filter((spec) =>
+            Object.keys(allowedBodyTypes).includes(spec.name)
+          );
+          setSpecValues(filteredSpecValues);
         }
       } catch (error) {
         console.error("Error fetching specification values:", error);
       }
     }
+
     if (specId) {
       fetchSpecValues();
     }
@@ -103,28 +93,24 @@ export default function CarBodyTypes({ title, specId }) {
           <div className="col-lg-12">
             <Swiper {...swiperOptions} modules={[Autoplay, Pagination]} className="swiper carousel-1 overflow-hidden">
               {specValues.length > 0 ? (
-                specValues.map((spec, index) => {
-                  // Use mapping to determine the image filename
-                  const imageFile = imageMapping[spec.name] || spec.icon || "default.png";
-                  return (
-                    <SwiperSlide key={index}>
-                      <Link href={`/cars/new-cars?body_type=${spec.id}`} className="partner-item style-2">
-                        <div className="icon d-flex align-items-center justify-content-center mb-0">
-                          <img
-                            src={`/assets/images/bodytypes/${imageFile}`}
-                            alt={spec.name}
-                            width={100}
-                            height={100}
-                            className="w-100"
-                          />
-                        </div>
-                        <div className="content center">
-                          <div className="fs-16 fw-6 title text-color-2 font-2">{spec.name}</div>
-                        </div>
-                      </Link>
-                    </SwiperSlide>
-                  );
-                })
+                specValues.map((spec, index) => (
+                  <SwiperSlide key={index}>
+                    <Link href={`/cars/new-cars?body_type=${spec.slug}`} className="partner-item style-2">
+                      <div className="icon d-flex align-items-center justify-content-center mb-0">
+                        <img
+                          src={`/assets/images/bodytypes/${allowedBodyTypes[spec.name]}`}
+                          alt={spec.name}
+                          width={100}
+                          height={100}
+                          className="w-100"
+                        />
+                      </div>
+                      <div className="content center">
+                        <div className="fs-16 fw-6 title text-color-2 font-2">{spec.name}</div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))
               ) : (
                 <p>No specification values found.</p>
               )}
