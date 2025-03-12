@@ -51,7 +51,7 @@ export default function PopularBrands({ title }) {
           <div className="col-lg-12">
             <div className="heading-section flex align-center justify-space flex-wrap gap-20">
               <h2>{title}</h2>
-              <Link href="#" className="tf-btn-arrow">
+              <Link href="/cars/new-cars" className="tf-btn-arrow">
                 View all <i className="icon-autodeal-btn-right" />
               </Link>
             </div>
