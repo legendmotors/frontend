@@ -86,6 +86,12 @@ const CarFilter = () => {
     const [selectedPriceCurrency, setSelectedPriceCurrency] = useState("AED");
     const [expanded, setExpanded] = useState(false);
 
+    useEffect(() => {
+        return () => {
+            dispatch(resetFilters());
+        };
+    }, [dispatch]);
+
     // 1) On mount, remove empty URL params for fixed filters.
     useEffect(() => {
         let changed = false;
