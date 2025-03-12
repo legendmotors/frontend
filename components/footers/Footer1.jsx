@@ -5,11 +5,6 @@ import Link from "next/link";
 import emailjs from "@emailjs/browser";
 import { useTranslation } from "react-i18next";
 
-// Swiper imports
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
 
 // Import your BrandService
 import BrandService from "@/services/BrandService";
@@ -43,31 +38,7 @@ export default function Footer1() {
     fetchFeaturedBrands();
   }, []);
 
-  // -------------------------
-  // 2) SWIPER CONFIG
-  // -------------------------
-  const swiperOptions = {
-    slidesPerView: 6,
-    spaceBetween: 30,
-    observer: true,
-    observeParents: true,
-    breakpoints: {
-      0: {
-        slidesPerView: 2,
-        spaceBetween: 20,
-      },
-      600: {
-        slidesPerView: 3,
-        spaceBetween: 20,
-      },
-      992: {
-        slidesPerView: 4,
-      },
-      1440: {
-        slidesPerView: 6,
-      },
-    },
-  };
+  
 
   // -------------------------
   // Newsletter submit handler
