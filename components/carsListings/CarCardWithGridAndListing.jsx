@@ -1,50 +1,51 @@
 "use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishlistSlice";
 import { getCookie } from "@/utils/cookieFunction";
 import { formatCurrency } from "@/utils/formatCurrency";
-import WIshlistService from "@/services/WishlistService";
+import WishlistService from "@/services/WishlistService";
 
 export default function CarCardWithGridAndListing({ car, imagePath }) {
-    const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
+    const [currency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
     const dispatch = useDispatch();
     const token = getCookie("token");
 
+    // Retrieve user data from cookie
     const cookieData = getCookie("userData");
     const userData = cookieData ? JSON.parse(cookieData) : null;
 
     const handleAddToWishlist = async () => {
         if (!userData || !userData.id) {
-            console.error("User not authenticated");
-            return;
+          console.error("User not authenticated");
+          return;
         }
         try {
-            // Call API to add wishlist item, passing both userId and carId
-            const response = await WIshlistService.addToWishlist({
-                userId: userData.id,
-                carId: car.id,
-            });
-            console.log("Wishlist add response:", response.data);
-            // Update the Redux state on success
-            dispatch(addToWishlist(car));
+          const response = await WishlistService.addToWishlist({
+            userId: userData.id,
+            carId: car.id,
+          });
+          console.log("Wishlist add response:", response.data);
+          // Update the Redux state on success
+          dispatch(addToWishlist(car));
+          // Dispatch a global event to notify that the wishlist has changed
+          window.dispatchEvent(new Event("wishlistChange"));
         } catch (error) {
-            console.error("Error adding wishlist item:", error);
+          console.error("Error adding wishlist item:", error);
         }
-    };
-
+      };
     // Compute the image path using your provided snippet
     const exteriorCarImage = car.CarImages
-        .filter((img) => img.type === "exterior")
+        ?.filter((img) => img.type === "exterior")
         .sort((a, b) => a.order - b.order)[0];
     const exteriorImage =
         exteriorCarImage?.FileSystem?.thumbnailPath ||
         exteriorCarImage?.FileSystem?.path;
-    const firstCarImage = car.CarImages[0];
+    const firstCarImage = car.CarImages?.[0];
     const firstImage =
         firstCarImage?.FileSystem?.thumbnailPath ||
         firstCarImage?.FileSystem?.path;
@@ -53,7 +54,6 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
         : firstImage
             ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${firstImage}`
             : "/assets/car-placeholder.webp";
-
 
     // Find specifications for display
     const bodyTypeSpecification = car.SpecificationValues.find(
@@ -79,6 +79,7 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
     const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
     const displayPrice = car?.CarPrices?.find((item) => item.currency === currency);
     const carName = `${car.Brand.name} - ${car.CarModel.name}`;
+
     return (
         <div>
             <div className="box-car-list style-2 hv-one mb-3">
@@ -109,7 +110,9 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                             </div>
                         </div>
                         <h5 className="link-style-1">
-                            <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
+                            <Link
+                                href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}
+                            >
                                 {car.additionalInfo ? (
                                     <>{car.additionalInfo}</>
                                 ) : (
@@ -144,19 +147,26 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                         <div className="money fs-20 text-color-3 mb-2 mt-2">
                             {token ? (
                                 <>
-                                    {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
+                                    {displayPrice?.currency}{" "}
+                                    {formatCurrency(displayPrice?.price, displayPrice?.currency)}
                                 </>
                             ) : (
                                 <small className="fs-6 text-black">
-                                    <a className="text-color-3" href="#"
+                                    <a
+                                        className="text-color-3"
+                                        href="#"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#popup_bid">
+                                        data-bs-target="#popup_bid"
+                                    >
                                         Log in
                                     </a>{" "}
                                     or{" "}
-                                    <a className="text-color-3" href="#"
+                                    <a
+                                        className="text-color-3"
+                                        href="#"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#popup_bid2">
+                                        data-bs-target="#popup_bid2"
+                                    >
                                         Register
                                     </a>{" "}
                                     to see the price

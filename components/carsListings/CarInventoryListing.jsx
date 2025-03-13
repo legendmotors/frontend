@@ -564,7 +564,7 @@ const CarInventoryListing = () => {
     // 11) RENDER
     return (
         <div className="container mx-auto p-4">
-            <div className="form-sl d-md-block d-none" style={{ position: "sticky", top: "115px", backgroundColor: "white", zIndex: 1020 }}>
+            <div className="form-sl d-md-block d-none" style={{ position: "sticky", top: "115px", backgroundColor: "white", zIndex: 10 }}>
                 <div onSubmit={(e) => e.preventDefault()}>
                     <div className="wd-find-select flex gap-2 align-items-center">
                         <div className="inner-group gap-3">
