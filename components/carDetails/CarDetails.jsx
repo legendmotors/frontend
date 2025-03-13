@@ -17,12 +17,15 @@ import SidebarToggleButton from "./SidebarToggleButton";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 // Import the CarEnquiryService (adjust the path as needed)
-import CarEnquiryService from "@/services/CarEnquiryService"; 
+import CarEnquiryService from "@/services/CarEnquiryService";
 
 // Dynamic imports for Next.js SSR compatibility
 const Viewer = dynamic(() => import("@react-pdf-viewer/core").then((mod) => mod.Viewer), { ssr: false });
 const Worker = dynamic(() => import("@react-pdf-viewer/core").then((mod) => mod.Worker), { ssr: false });
-const defaultLayoutPlugin = dynamic(() => import("@react-pdf-viewer/default-layout").then((mod) => mod.defaultLayoutPlugin), { ssr: false });
+const defaultLayoutPlugin = dynamic(
+  () => import("@react-pdf-viewer/default-layout").then((mod) => mod.defaultLayoutPlugin),
+  { ssr: false }
+);
 
 // Import Full-Screen and Get File (Download PDF) Plugins
 import { fullScreenPlugin } from "@react-pdf-viewer/full-screen";
@@ -37,10 +40,9 @@ import { getCookie } from "@/utils/cookieFunction";
 export default function CarDetails({ carResponse }) {
   const [loading, setLoading] = useState(true);
 
-
   console.log(carResponse, "carResponse");
 
-  const token = getCookie('token');
+  const token = getCookie("token");
 
   // Compute a title based on car details
   const title = `${carResponse?.Brand?.name || ""} ${carResponse?.CarModel?.name || ""} ${carResponse?.Trim?.name || ""}`;
@@ -169,19 +171,32 @@ export default function CarDetails({ carResponse }) {
                       {/* PDF Viewer Container */}
                       {carResponse?.brochureFile && (
                         <>
+                          {process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carResponse.brochureFile.originalPath}
                           <div className="flex justify-content-center">
+                            {/*
+                              Updated Container Style:
+                              Changed width from "90%" and height from "750px" to "100%" and "100vh" respectively.
+                              This ensures the PDF viewer can properly expand in full-screen mode.
+                            */}
                             <div
                               ref={pdfContainerRef}
-                              style={{ width: "90%", height: "750px", background: "#f8f9fa", padding: "10px" }}
+                              style={{ width: "100%", height: "100vh", background: "#f8f9fa", padding: "10px" }}
                             >
                               <div className="flex justify-content-end">
                                 <EnterFullScreenButton />
                                 <DownloadButton />
                               </div>
-                              <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                              <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                                 <Viewer
-                                  fileUrl={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carResponse.brochureFile.webp}
-                                  plugins={[defaultLayoutPluginInstance, fullScreenPluginInstance, getFilePluginInstance]}
+                                  fileUrl={
+                                    process.env.NEXT_PUBLIC_FILE_PREVIEW_URL +
+                                    carResponse.brochureFile.originalPath
+                                  }
+                                  plugins={[
+                                    defaultLayoutPluginInstance,
+                                    fullScreenPluginInstance,
+                                    getFilePluginInstance,
+                                  ]}
                                 />
                               </Worker>
                             </div>
@@ -224,7 +239,10 @@ export default function CarDetails({ carResponse }) {
                       {carResponse?.additionalInfo ? (
                         <>{carResponse?.additionalInfo}</>
                       ) : (
-                        <> {carResponse?.Year.year} {carResponse?.Brand.name} {carResponse?.CarModel.name} {carResponse?.Trim?.name}</>
+                        <>
+                          {carResponse?.Year.year} {carResponse?.Brand.name}{" "}
+                          {carResponse?.CarModel.name} {carResponse?.Trim?.name}
+                        </>
                       )}
                     </h2>
                     <CarInfo carResponse={carResponse} currency={currency} convertedPrice={convertedPrice} />
@@ -272,16 +290,18 @@ export default function CarDetails({ carResponse }) {
                     </div>
                   </div>
                 </div>
-                {/* Uncomment below if you need recommended cars */}
-                {/* <div className="widget-listing box-sd">
-                <div className="listing-header mb-30">
-                  <h3>Recommended Cars</h3>
-                </div>
-                <Recommended />
-                <a href="#" className="fs-16 fw-5 font text-color-3 lh-22">
-                  View more <i className="icon-autodeal-view-more" />
-                </a>
-              </div> */}
+                {/*
+                  Uncomment below if you need recommended cars
+                  <div className="widget-listing box-sd">
+                    <div className="listing-header mb-30">
+                      <h3>Recommended Cars</h3>
+                    </div>
+                    <Recommended />
+                    <a href="#" className="fs-16 fw-5 font text-color-3 lh-22">
+                      View more <i className="icon-autodeal-view-more" />
+                    </a>
+                  </div>
+                */}
               </div>
             </div>
           </div>

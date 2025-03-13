@@ -190,6 +190,7 @@ const logout = (next: () => void) => {
         eraseCookie('rolePermissions');
         eraseCookie('permissions');
         eraseCookie('userId');
+        eraseCookie('userData');
         eraseCookie('XSRF-token');
         window.location.reload();
     }

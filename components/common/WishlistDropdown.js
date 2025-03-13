@@ -13,13 +13,18 @@ export default function WishlistDropdown() {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items || []);
 
-  // Function to fetch wishlist items from the API and update Redux
+  
+
   const fetchWishlistFromApi = async () => {
-    try {
+    const cookieData = getCookie("userData");
+    if (cookieData === null) {
+      // If no userData, clear wishlist and do not fetch
+      dispatch(setWishlist( []));
+      return;
+    } else {
       const response = await WishlistService.listWishlist();
+      // Assuming your API returns the wishlist array in response.data
       dispatch(setWishlist(response.data || []));
-    } catch (error) {
-      console.error("Error fetching wishlist from API:", error);
     }
   };
 
@@ -62,7 +67,7 @@ export default function WishlistDropdown() {
     <div className="dropdown">
       {/* Dropdown Toggle */}
       <button
-        className="btn btn-light header-favorite flex items-center justify-center dropdown-toggle position-relative"
+        className="btn btn-light dropdown-toggle"
         type="button"
         id="wishlistDropdownButton"
         data-bs-toggle="dropdown"
@@ -85,7 +90,7 @@ export default function WishlistDropdown() {
         aria-labelledby="wishlistDropdownButton"
         style={{ width: "300px" }}
       >
-        <li className="dropdown-header">Wishlist</li>
+        <li className="m-0">Wishlist</li>
         {wishlist.length === 0 ? (
           <li className="dropdown-item text-muted">No items in wishlist</li>
         ) : (
