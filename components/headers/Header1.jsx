@@ -57,7 +57,7 @@ export default function Header1() {
                   <SearchBar />
                   <LanguageSelector />
                   <CurrencySelector />
-                  {/* <WishlistDropdown /> */}
+                  <WishlistDropdown />
                   {!token && (
                     <div className="register">
                       <ul className="flex align-center">

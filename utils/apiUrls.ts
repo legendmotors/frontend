@@ -238,6 +238,11 @@ const Apis: Record<string, string> = {
     GetPartnerLogoById: `${API_URL}partner/getById`,
     GetPartnerLogoByIdentifier: `${API_URL}partner/getByIdentifier`,
     BulkDeletePartnerLogos: `${API_URL}partner/bulk-delete`,
+
+    // wishlist endpoint
+    GetWishlist: `${API_URL}wishlist/list`,
+    AddToWishlist: `${API_URL}wishlist/create`,
+    DeleteWishlist: `${API_URL}wishlist/delete`,
 };
 
 export { API_URL, Apis };

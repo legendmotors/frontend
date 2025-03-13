@@ -9,10 +9,11 @@ import { GetUserLogin } from '@/services'; // Ensure this is imported if needed
 import { getCookie } from '@/utils/cookieFunction';
 
 export default function UserDropdown() {
-  const userData = JSON.parse(getCookie('userData'))
+  // Get the cookie as a string and parse it into an object
+  const cookieData = getCookie('userData');
+  const userData = cookieData ? JSON.parse(cookieData) : null;
 
   console.log(userData, "userData");
-
 
   return (
     <div className="dropdown">
@@ -46,19 +47,13 @@ export default function UserDropdown() {
               <h6 className="mb-0 text-start">
                 {userData?.firstName} {userData?.lastName}
               </h6>
-              <small className="text-muted">  {userData?.email}</small>
+              <small className="text-muted">{userData?.email}</small>
             </div>
           </button>
         </li>
-        {/* <li>
-          <Link href="/users/profile" className="">
-            <IconUser className="me-2" />
-            Profile
-          </Link>
-        </li> */}
         <li className='m-0'>
           <button
-            onClick={() => GetUserLogin.logout(() => { })}
+            onClick={() => GetUserLogin.logout(() => {})}
             className="btn text-danger w-full"
           >
             <IconLogout className="me-2 rotate-90" />

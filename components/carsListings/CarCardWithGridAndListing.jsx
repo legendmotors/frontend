@@ -8,58 +8,77 @@ import { useDispatch } from "react-redux";
 import { addToWishlist } from "@/store/wishlistSlice";
 import { getCookie } from "@/utils/cookieFunction";
 import { formatCurrency } from "@/utils/formatCurrency";
+import WIshlistService from "@/services/WishlistService";
 
 export default function CarCardWithGridAndListing({ car, imagePath }) {
     const [currency, setCurrency] = useState(Cookies.get("NEXT_CURRENCY") || "AED");
-    const [exchangeRate, setExchangeRate] = useState(1);
     const dispatch = useDispatch();
+    const token = getCookie("token");
 
-    const token = getCookie('token');
+    const cookieData = getCookie("userData");
+    const userData = cookieData ? JSON.parse(cookieData) : null;
 
-
-    const handleAddToWishlist = () => {
-        dispatch(addToWishlist(car)); // Dispatch the action to add the car to the wishlist
+    const handleAddToWishlist = async () => {
+        if (!userData || !userData.id) {
+            console.error("User not authenticated");
+            return;
+        }
+        try {
+            // Call API to add wishlist item, passing both userId and carId
+            const response = await WIshlistService.addToWishlist({
+                userId: userData.id,
+                carId: car.id,
+            });
+            console.log("Wishlist add response:", response.data);
+            // Update the Redux state on success
+            dispatch(addToWishlist(car));
+        } catch (error) {
+            console.error("Error adding wishlist item:", error);
+        }
     };
-    console.log(currency, "currency");
+
+    // Compute the image path using your provided snippet
+    const exteriorCarImage = car.CarImages
+        .filter((img) => img.type === "exterior")
+        .sort((a, b) => a.order - b.order)[0];
+    const exteriorImage =
+        exteriorCarImage?.FileSystem?.thumbnailPath ||
+        exteriorCarImage?.FileSystem?.path;
+    const firstCarImage = car.CarImages[0];
+    const firstImage =
+        firstCarImage?.FileSystem?.thumbnailPath ||
+        firstCarImage?.FileSystem?.path;
+    const computedImagePath = exteriorImage
+        ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${exteriorImage}`
+        : firstImage
+            ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${firstImage}`
+            : "/assets/car-placeholder.webp";
 
 
-    // Find the body type specification
+    // Find specifications for display
     const bodyTypeSpecification = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "body_type"
     );
-
     const fuelTypeSpecification = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "fuel_type"
     );
-
     const regionalSpecification = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "regional_specification"
     );
-
     const steeringSideSpecification = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "steering_side"
     );
-
     const transmission = car.SpecificationValues.find(
         (spec) => spec.Specification.key === "transmission"
     );
 
-
-
-    const engine = car.SpecificationValues.find(
-        (spec) => spec.Specification.key === "body_type"
-    );
-    // Extract the body type name if it exists
     const bodyTypeName = bodyTypeSpecification?.name || "N/A";
-
-    const fuelTypeName = fuelTypeSpecification?.name || "N/A"
+    const fuelTypeName = fuelTypeSpecification?.name || "N/A";
     const transmissionName = transmission?.name || "N/A";
     const regionalSpecificationName = regionalSpecification?.name || "N/A";
     const steeringSideSpecificationName = steeringSideSpecification?.name || "N/A";
-    const displayPrice = car?.CarPrices?.find(item => item.currency === currency);
-
-    console.log(displayPrice, "displayPrice");
-
+    const displayPrice = car?.CarPrices?.find((item) => item.currency === currency);
+    const carName = `${car.Brand.name} - ${car.CarModel.name}`;
     return (
         <div>
             <div className="box-car-list style-2 hv-one mb-3">
@@ -70,34 +89,12 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                 <li className="flag-tag success">Featured</li>
                             )}
                         </ul>
-                        {/* <div className="year flag-tag">{car.Year.year}</div> */}
                     </div>
-                    {/* <ul className="change-heart flex">
-                        <li className="box-icon w-32">
-                            <div onClick={handleAddToWishlist} className="icon">
-                                <svg
-                                    width={18}
-                                    height={16}
-                                    viewBox="0 0 18 16"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M16.5 4.875C16.5 2.80417 14.7508 1.125 12.5933 1.125C10.9808 1.125 9.59583 2.06333 9 3.4025C8.40417 2.06333 7.01917 1.125 5.40583 1.125C3.25 1.125 1.5 2.80417 1.5 4.875C1.5 10.8917 9 14.875 9 14.875C9 14.875 16.5 10.8917 16.5 4.875Z"
-                                        stroke="CurrentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </div>
-                        </li>
-                    </ul> */}
                     <div className="img-style">
                         <Image
-                            className="lazyload "
+                            className="lazyload"
                             alt="image"
-                            src={imagePath}
+                            src={computedImagePath}
                             width={450}
                             height={338}
                         />
@@ -113,8 +110,13 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                         </div>
                         <h5 className="link-style-1">
                             <Link href={`/cars/new-cars/${car.Brand.slug}/${car.CarModel.slug}/${car.Year.year}/${car.slug}`}>
-                                {car.additionalInfo ? <>{car.additionalInfo}</> : <> {car.Year.year} {car.Brand.name} {car.CarModel.name} {car?.Trim?.name}</>}
-
+                                {car.additionalInfo ? (
+                                    <>{car.additionalInfo}</>
+                                ) : (
+                                    <>
+                                        {car.Year.year} {car.Brand.name} {car.CarModel.name} {car?.Trim?.name}
+                                    </>
+                                )}
                             </Link>
                         </h5>
                         <div className="icon-box flex flex-wrap my-2">
@@ -130,7 +132,6 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                 <i className="fa fa-exchange-alt" />
                                 <span>{transmissionName}</span>
                             </div>
-
                             <div className="icons flex-three">
                                 <i className="fa fa-flag" />
                                 <span>{regionalSpecificationName}</span>
@@ -139,15 +140,28 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                 <i className="fa fa-steering-wheel" />
                                 <span>{steeringSideSpecificationName}</span>
                             </div>
-
                         </div>
                         <div className="money fs-20 text-color-3 mb-2 mt-2">
-                            {token ? <>{displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}</> : <small className="fs-6 text-black">
-                                <a className="text-color-3" href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#popup_bid">Log in</a> or <a className="text-color-3" href="#"
+                            {token ? (
+                                <>
+                                    {displayPrice?.currency} {formatCurrency(displayPrice?.price, displayPrice?.currency)}
+                                </>
+                            ) : (
+                                <small className="fs-6 text-black">
+                                    <a className="text-color-3" href="#"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#popup_bid2">Register</a> to see the price</small>}
+                                        data-bs-target="#popup_bid">
+                                        Log in
+                                    </a>{" "}
+                                    or{" "}
+                                    <a className="text-color-3" href="#"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#popup_bid2">
+                                        Register
+                                    </a>{" "}
+                                    to see the price
+                                </small>
+                            )}
                         </div>
                         <div className="flex gap-2">
                             <Link
@@ -157,14 +171,14 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                 View car
                                 <i className="icon-autodeal-btn-right" />
                             </Link>
-                            {/* <button
-                                href={`/listing-detail-v2/${car.id}`}
-                                className="view-car px-3"
+                            {/* Wishlist Button using provided markup */}
+                            <button
+                                onClick={handleAddToWishlist}
+                                className="btn btn-outline border fs-12 lh-16"
                             >
-                                Get Offer
-                            </button> */}
+                                <i className="far fa-heart me-1"></i> Wishlist
+                            </button>
                         </div>
-
                     </div>
                     <div className="inner2 ps-0 h-full">
                         <div className="days-box d-flex justify-content-center align-items-center h-100">
@@ -176,18 +190,7 @@ export default function CarCardWithGridAndListing({ car, imagePath }) {
                                     View car
                                     <i className="icon-autodeal-btn-right" />
                                 </Link>
-                                {/* <button
-                                    href={`/listing-detail-v2/${car.id}`}
-                                    className="view-car"
-                                >
-                                    View car
-                                    <i className="icon-autodeal-btn-right" />
-                                </button> */}
                             </div>
-
-                            {/* <button className="btn btn-outline border fs-12 lh-16">
-                                <i className="far fa-heart me-1"></i>   Wishlist
-                            </button> */}
                         </div>
                     </div>
                 </div>
