@@ -82,3 +82,28 @@
 .bg-3 {
   background-color: $color-3;
 }
+
+
+// Title
+
+.responsive-heading {
+  font-size: 2rem;
+}
+
+@media (min-width: 576px) {
+  .responsive-heading {
+    font-size: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-heading {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-heading {
+    font-size: 1.5rem;
+  }
+}

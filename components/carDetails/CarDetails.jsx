@@ -150,6 +150,7 @@ export default function CarDetails({ carResponse }) {
               <div className="listing-detail-wrap">
                 {/* Pass car images to the slider component if needed */}
                 <Slider1 images={carResponse?.CarImages} carResponse={carResponse} />
+                <div className="listing-line" />
                 <div className="row">
                   <div className="col-lg-12">
                     <div
@@ -234,7 +235,7 @@ export default function CarDetails({ carResponse }) {
               <div className="listing-sidebar">
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
-                    <h2 className="title">
+                  <h1 class="responsive-heading lh-sm">
                       {carResponse?.additionalInfo ? (
                         <>{carResponse?.additionalInfo}</>
                       ) : (
@@ -243,7 +244,7 @@ export default function CarDetails({ carResponse }) {
                           {carResponse?.CarModel.name} {carResponse?.Trim?.name}
                         </>
                       )}
-                    </h2>
+                    </h1>
                     <CarInfo carResponse={carResponse} currency={currency} convertedPrice={convertedPrice} />
                   </div>
                 </div>
