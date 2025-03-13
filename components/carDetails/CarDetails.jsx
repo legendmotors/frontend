@@ -171,7 +171,6 @@ export default function CarDetails({ carResponse }) {
                       {/* PDF Viewer Container */}
                       {carResponse?.brochureFile && (
                         <>
-                          {process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + carResponse.brochureFile.originalPath}
                           <div className="flex justify-content-center">
                             {/*
                               Updated Container Style:
