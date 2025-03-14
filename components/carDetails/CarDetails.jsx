@@ -38,12 +38,17 @@ import "@react-pdf-viewer/full-screen/lib/styles/index.css";
 import { getCookie } from "@/utils/cookieFunction";
 
 export default function CarDetails({ carResponse }) {
-  const [loading, setLoading] = useState(true);
-
-  console.log(carResponse, "carResponse");
-
+  // Retrieve token if needed
   const token = getCookie("token");
 
+  // Retrieve logged in user data from cookies
+  const cookieData = getCookie('userData');
+  const parsedData = cookieData ? JSON.parse(cookieData) : null;
+  const userData = parsedData
+    ? { name: parsedData.firstName + " " + parsedData?.lastName, email: parsedData.email, phone: parsedData.phone }
+    : { name: "", email: "", phone: "" };
+
+  console.log(cookieData,"userDatauserData");
   // Compute a title based on car details
   const title = `${carResponse?.Brand?.name || ""} ${carResponse?.CarModel?.name || ""} ${carResponse?.Trim?.name || ""}`;
 
@@ -81,7 +86,6 @@ export default function CarDetails({ carResponse }) {
     e.preventDefault();
     // Build payload using car details and form values
     const payload = {
-      // Ensure that stockId exists in carResponse; otherwise, use an appropriate identifier.
       stockId: carResponse?.stockId,
       year: carResponse?.Year?.year,
       brand: carResponse?.Brand?.name,
@@ -173,11 +177,6 @@ export default function CarDetails({ carResponse }) {
                       {carResponse?.brochureFile && (
                         <>
                           <div className="flex justify-content-center">
-                            {/*
-                              Updated Container Style:
-                              Changed width from "90%" and height from "750px" to "100%" and "100vh" respectively.
-                              This ensures the PDF viewer can properly expand in full-screen mode.
-                            */}
                             <div
                               ref={pdfContainerRef}
                               style={{ width: "100%", height: "100vh", background: "#f8f9fa", padding: "10px" }}
@@ -235,7 +234,7 @@ export default function CarDetails({ carResponse }) {
               <div className="listing-sidebar">
                 <div className="widget-listing mb-40">
                   <div className="heading-widget">
-                  <h1 class="responsive-heading lh-sm">
+                    <h1 className="responsive-heading lh-sm">
                       {carResponse?.additionalInfo ? (
                         <>{carResponse?.additionalInfo}</>
                       ) : (
@@ -262,15 +261,36 @@ export default function CarDetails({ carResponse }) {
                         <div>
                           <fieldset className="email-wrap style-text">
                             <label className="font-1 fs-14 fw-5">Name</label>
-                            <input type="text" className="tb-my-input" name="name" placeholder="Your name" required />
+                            <input
+                              type="text"
+                              className="tb-my-input"
+                              name="name"
+                              placeholder="Your name"
+                              required
+                              defaultValue={userData.name}
+                            />
                           </fieldset>
                           <fieldset className="email-wrap style-text">
                             <label className="font-1 fs-14 fw-5">Phone Numbers</label>
-                            <input type="tel" className="tb-my-input" name="tel" placeholder="Phone Numbers" required />
+                            <input
+                              type="tel"
+                              className="tb-my-input"
+                              name="tel"
+                              placeholder="Phone Numbers"
+                              required
+                              defaultValue={userData.phone}
+                            />
                           </fieldset>
                           <fieldset className="phone-wrap style-text">
                             <label className="font-1 fs-14 fw-5">Email address</label>
-                            <input type="email" className="tb-my-input" name="email" placeholder="Your email" required />
+                            <input
+                              type="email"
+                              className="tb-my-input"
+                              name="email"
+                              placeholder="Your email"
+                              required
+                              defaultValue={userData.email}
+                            />
                           </fieldset>
                         </div>
 
@@ -289,10 +309,8 @@ export default function CarDetails({ carResponse }) {
                       </form>
                     </div>
                   </div>
-                </div>
-                {/*
-                  Uncomment below if you need recommended cars
-                  <div className="widget-listing box-sd">
+                  {/* Uncomment below if you need recommended cars */}
+                  {/* <div className="widget-listing box-sd">
                     <div className="listing-header mb-30">
                       <h3>Recommended Cars</h3>
                     </div>
@@ -300,8 +318,8 @@ export default function CarDetails({ carResponse }) {
                     <a href="#" className="fs-16 fw-5 font text-color-3 lh-22">
                       View more <i className="icon-autodeal-view-more" />
                     </a>
-                  </div>
-                */}
+                  </div> */}
+                </div>
               </div>
             </div>
           </div>
