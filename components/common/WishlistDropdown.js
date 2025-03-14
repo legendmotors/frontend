@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import WishlistService from "@/services/WishlistService";
 import { setWishlist } from "@/store/wishlistSlice";
@@ -13,19 +13,18 @@ export default function WishlistDropdown() {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items || []);
 
-  
-
   const fetchWishlistFromApi = async () => {
     const cookieData = getCookie("userData");
-    if (cookieData === null) {
+    if (!cookieData) {
       // If no userData, clear wishlist and do not fetch
-      dispatch(setWishlist( []));
+      dispatch(setWishlist([]));
       return;
-    } else {
-      const response = await WishlistService.listWishlist();
-      // Assuming your API returns the wishlist array in response.data
-      dispatch(setWishlist(response.data || []));
     }
+    const userData = JSON.parse(cookieData);
+    // Pass userId to the wishlist API call
+    const response = await WishlistService.listWishlist({ userId: userData.id });
+    // Assuming your API returns the wishlist array in response.data
+    dispatch(setWishlist(response.data || []));
   };
 
   useEffect(() => {
@@ -44,9 +43,7 @@ export default function WishlistDropdown() {
   }, [dispatch]);
 
   // Remove a wishlist item using the API
-  // Pass both userId and carId (using car.id) as expected by your controller/service
   const handleRemove = async (e, carId) => {
-    // Prevent the click from closing the dropdown
     e.stopPropagation();
     try {
       const cookieData = getCookie("userData");
@@ -56,7 +53,6 @@ export default function WishlistDropdown() {
         return;
       }
       await WishlistService.removeFromWishlist({ userId: userData.id, carId });
-      // After removal, trigger the global event to refresh the wishlist
       window.dispatchEvent(new Event("wishlistChange"));
     } catch (error) {
       console.error("Error removing wishlist item:", error);
@@ -97,8 +93,6 @@ export default function WishlistDropdown() {
           wishlist.map((item) => {
             // Each wishlist item contains a nested "car" object.
             const car = item.car;
-
-            // Compute image path using your provided snippet
             const exteriorCarImage = car.CarImages
               ?.filter((img) => img.type === "exterior")
               .sort((a, b) => a.order - b.order)[0];
@@ -115,11 +109,9 @@ export default function WishlistDropdown() {
               ? `${process.env.NEXT_PUBLIC_FILE_PREVIEW_URL}${firstImage}`
               : "/assets/car-placeholder.webp";
 
-            // Compute display price (default AED)
             const displayPrice = car.CarPrices?.find(
               (price) => price.currency === "AED"
             );
-            // Use additionalInfo if available, otherwise fallback to composed name
             const carTitle =
               car.additionalInfo ||
               `${car.Brand?.name || ""} - ${car.CarModel?.name || ""}`;
@@ -159,7 +151,6 @@ export default function WishlistDropdown() {
                     )}
                   </div>
                 </Link>
-                {/* Removal button with Font Awesome cross icon */}
                 <button
                   className="btn btn-sm btn-link ms-auto text-danger"
                   onClick={(e) => handleRemove(e, car.id)}
