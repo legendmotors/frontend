@@ -3,6 +3,7 @@ import "../../public/assets/scss/app.scss";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
 import "photoswipe/style.css";
+import "swiper/css";
 
 // Styles for PDF Viewer
 

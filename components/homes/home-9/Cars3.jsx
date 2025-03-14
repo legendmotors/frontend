@@ -175,7 +175,7 @@ export default function Cars3({ title }) {
           </div>
         </div>
         <div className="content">
-        <div className="d-flex gap-8 mb-1">
+          <div className="d-flex gap-8 mb-1">
             {car.Tags &&
               car.Tags.map((tag) => <li className="badge bg-light text-dark">{tag.name}</li>
               )}
@@ -259,17 +259,22 @@ export default function Cars3({ title }) {
               </div>
               <div className="content-tab">
                 <div className="content-inner tab-content">
-                  <div className="list-car-grid-2">
-                    {cars.length > 0 ? (
-                      cars.map((car, i) => (
-                        <div key={i}>
-                          <CarCardV2 car={car} />
+                  <div className="container">
+                    <div className="row">
+                      {cars.length > 0 ? (
+                        cars.map((car, i) => (
+                          <div key={i} className="col-12 col-sm-6  mb-4">
+                            <CarCardV2 car={car} />
+                          </div>
+                        ))
+                      ) : (
+                        <div className="col-12">
+                          <p>No cars found in this price range.</p>
                         </div>
-                      ))
-                    ) : (
-                      <p>No cars found in this price range.</p>
-                    )}
+                      )}
+                    </div>
                   </div>
+
                 </div>
               </div>
             </div>
