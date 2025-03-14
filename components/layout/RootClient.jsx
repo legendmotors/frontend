@@ -24,21 +24,21 @@ export default function RootClient({ children }) {
 
 
 
-  useEffect(() => {
-    if (token) {
-      GetUserDetails.getUserById(userId)
-        .then((response) => {
-          console.log("User response:", response);
-          if (response) {
-            // Save user details as a JSON string in a cookie for 60 minutes.
-            setCookie("userData", JSON.stringify(response), 60);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching user details:", err);
-        });
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   if (token) {
+  //     GetUserDetails.getUserById(userId)
+  //       .then((response) => {
+  //         console.log("User response:", response);
+  //         if (response) {
+  //           // Save user details as a JSON string in a cookie for 60 minutes.
+  //           setCookie("userData", JSON.stringify(response), 60);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error("Error fetching user details:", err);
+  //       });
+  //   }
+  // }, [userId]);
 
 
   const [clevertapModule, setClevertapModule] = useState(null);

@@ -115,9 +115,12 @@ export default function SignUp() {
 
                       // Step 2: Register user after OTP verification
                       const userResponse = await GetUserLogin.getUserRegister(values);
-                      if (userResponse.success) {
+                      if (userResponse.success && userResponse.token && userResponse.user) {
+                        // Authenticate immediately to set cookies including userData
+                        GetUserLogin.authenticate(userResponse, () => {
+                          window.location.reload()
+                        });
                         alert(t("registration_success"));
-                        window.location.replace("/");
                       } else {
                         alert(userResponse.message || t("failed_to_register"));
                       }
@@ -126,6 +129,7 @@ export default function SignUp() {
                     }
                     setSubmitting(false);
                   }}
+
                 >
                   {({ isSubmitting, setFieldValue }) => (
                     <Form className="space-y-5 dark:text-white">

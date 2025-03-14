@@ -50,7 +50,7 @@ export default function Login() {
 
       if (response) {
         GetUserLogin.authenticate(response, () => {
-          window.location.replace("/");
+          window.location.reload()
         });
 
         // Ensure CleverTap is available before using it
@@ -98,11 +98,11 @@ export default function Login() {
           <div className="modal-body space-y-20 pd-40">
             <div className="wrap-modal flex">
               <div className="images flex-none">
-                <Image 
+                <Image
                   alt={t("login_image_alt")}
-                  src="/assets/images/section/login.jpg" 
-                  width={380} 
-                  height={640} 
+                  src="/assets/images/section/login.jpg"
+                  width={380}
+                  height={640}
                 />
               </div>
               <div className="content">
@@ -146,9 +146,9 @@ export default function Login() {
                 </div>
                 <div className="text-box text-center fs-14">
                   {t("dont_have_account")}{" "}
-                  <a 
-                    className="font-2 fw-7 fs-14 color-popup text-color-3" 
-                    data-bs-toggle="modal" 
+                  <a
+                    className="font-2 fw-7 fs-14 color-popup text-color-3"
+                    data-bs-toggle="modal"
                     data-bs-target="#popup_bid2"
                   >
                     {t("register")}

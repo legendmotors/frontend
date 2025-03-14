@@ -5,7 +5,17 @@ import { eraseCookie, getCookie, setCookie } from '@/utils/cookieFunction';
 import { Apis } from '@/utils/apiUrls';
 import { jwtDecode } from 'jwt-decode';
 
-
+interface AuthenticateResponse {
+    token: string;
+    user: {
+      id: number;
+      firstName: string;
+      lastName?: string;
+      email?: string;
+      [key: string]: any;
+    };
+  }
+  
 
 // Show notification
 const showTopCenterNotification = (message: string) => {
@@ -151,34 +161,34 @@ const getDeleteUserList = async (id: string) => {
 };
 
 // 🔹 Authenticate User (Set Cookies)
-const authenticate = (user: { token: string }, next: () => void) => {
+export const authenticate = (response: AuthenticateResponse, next: () => void): void => {
     if (typeof window !== 'undefined') {
-        setCookie('token', user.token, 10080); // 7 days expiry
+        setCookie('token', response.token, 10080); // 7 days expiry
 
-        // Decode the token to extract details
-        const decoded: any = jwtDecode(user.token); // Decoding the token
+        const decoded: any = jwtDecode(response.token);
+
         if (decoded) {
-            // Save roleId from the token
             if (decoded.roleId) {
-                setCookie('roleId', decoded.roleId, 30);
+                setCookie('roleId', decoded.roleId, 10080);
             }
-
-            // Save permissions as a comma-separated string
             if (decoded.permissions) {
-                setCookie('permissions', decoded.permissions.join(','), 30);
+                setCookie('permissions', decoded.permissions.join(','), 10080);
+            }
+            if (decoded.sub) {
+                setCookie('userId', decoded.sub, 10080);
             }
 
-            // Save any additional fields if required
-            if (decoded.sub) {
-                setCookie('userId', decoded.sub, 30); // Save userId (sub field)
+            if (response.user) {
+                setCookie('userData', JSON.stringify(response.user), 10080); // 7 days expiry
             }
         } else {
-            console.warn('Token payload is invalid or missing required fields');
+            console.warn('Token payload invalid or missing fields');
         }
 
         next();
     }
 };
+
 
 
 
