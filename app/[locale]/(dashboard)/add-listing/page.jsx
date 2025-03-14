@@ -13,9 +13,6 @@ export default function page() {
     <>
       <Sidebar />
       <div id="wrapper-dashboard">
-        <div id="pagee" className="clearfix">
-          <Header4 />
-        </div>
         <div id="themesflat-content"></div>
         <div className="dashboard-toggle">Show DashBoard</div>
         <AddListing />

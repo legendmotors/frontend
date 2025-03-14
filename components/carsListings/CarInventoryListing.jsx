@@ -977,7 +977,7 @@ const CarInventoryListing = () => {
                                                                 </div>
                                                             ) : (
                                                                 <>
-                                                                    <div className="col-lg-8">
+                                                                    <div className="col-lg-9">
                                                                         <div className="list-car-list-1 list-car-list-1 gap-4">
                                                                             {cars.map((car) => {
                                                                                 // Sort exterior images by order and select the first one
@@ -1014,7 +1014,7 @@ const CarInventoryListing = () => {
                                                                                 ))}
                                                                         </div>
                                                                     </div>
-                                                                    <div className="col-lg-4">
+                                                                    <div className="col-lg-3">
                                                                         <div className="sticky-top img-style z-0" style={{ top: '207px' }}>
                                                                             <Image
                                                                                 className="lazyload"

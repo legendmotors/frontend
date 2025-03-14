@@ -330,7 +330,7 @@ export default function DashBoard() {
                           </div>
                           <div className="themesflat-pagination clearfix mt-40">
                             <ul>
-                              <Pagination2 />
+                              {/* <Pagination2 /> */}
                             </ul>
                           </div>
                         </div>
