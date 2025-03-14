@@ -53,7 +53,7 @@ export default function Header1() {
                     </Link>
                   </div>
                 </div>
-                <div className="header-account flex align-center">
+                <div className="header-account align-center d-md-flex d-none">
                   <SearchBar />
                   <LanguageSelector />
                   <CurrencySelector />
@@ -100,7 +100,7 @@ export default function Header1() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-12">
+            <div className="col-lg-12 d-md-block d-none">
               <div className="d-flex justify-content-center align-items-center border-top border-grey">
                 <div className="nav-outer flex align-center">
                   {/* Main Menu */}
@@ -142,28 +142,41 @@ export default function Header1() {
           <div className="nav-logo">
             <Link href={`/`}>
               <Image
-                className="lazyload"
-                data-src="/assets/images/logo/legend-motors-logo.png"
-                alt=""
-                width={197}
-                height={48}
-                src="/assets/images/logo/legend-motors-logo.png"
+                className="lazyload img-none"
+                data-src={t("logo_header")}
+                alt="Logo"
+                width={130}
+                height={40}
+                src={t("logo_header")}
               />
             </Link>
           </div>
           <div className="bottom-canvas">
-            <div className="login-box flex align-center">
-              <i className="icon-autodeal-user fs-20" />
-              <a
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#popup_bid"
-                className="fw-7 font-2"
-              >
-                {t("login")}
-              </a>
-            </div>
-            {/* <MobileNav /> */}
+            {!token && (
+              <div className="login-box flex align-center">
+                <i className="icon-autodeal-user fs-20" />
+
+                <div className="register">
+                  <ul className="flex align-center">
+                    <li>
+                      <i className="icon-autodeal-user fs-20" />
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#popup_bid"
+                      >
+                        {t("login")}
+                      </a>
+                    </li>
+
+                  </ul>
+                </div>
+
+              </div>
+            )}
+            <MobileNav />
           </div>
         </nav>
       </div>
