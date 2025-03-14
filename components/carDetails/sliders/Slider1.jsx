@@ -36,7 +36,6 @@ const ThumbnailNextArrow = (props) => {
 };
 
 export default function Slider1({ carResponse }) {
-  // Group images by category (type) and sort by order
   const [imagesByCategory, setImagesByCategory] = useState({
     exterior: [],
     interior: [],
@@ -44,13 +43,23 @@ export default function Slider1({ carResponse }) {
   });
   const [selectedCategory, setSelectedCategory] = useState("exterior");
   const [currentIndex, setCurrentIndex] = useState(0);
-  // startingSlideIndex determines which slide to show when switching categories.
   const [startingSlideIndex, setStartingSlideIndex] = useState(0);
+
+  // Slider instance states
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
 
   // References for the two sliders
   const mainSliderRef = useRef(null);
   const thumbSliderRef = useRef(null);
 
+  // Set slider instances once the component mounts
+  useEffect(() => {
+    setNav1(mainSliderRef.current);
+    setNav2(thumbSliderRef.current);
+  }, []);
+
+  // Group images by category and sort them
   useEffect(() => {
     if (carResponse && carResponse?.CarImages) {
       const grouped = { exterior: [], interior: [], highlight: [] };
@@ -60,7 +69,6 @@ export default function Slider1({ carResponse }) {
           grouped[type].push(img);
         }
       });
-      // Sort each category by the "order" field (if available)
       Object.keys(grouped).forEach((key) => {
         grouped[key].sort((a, b) => (a.order || 0) - (b.order || 0));
       });
@@ -68,30 +76,30 @@ export default function Slider1({ carResponse }) {
     }
   }, [carResponse]);
 
-  // Compute available categories (only those with images)
+  const categoryOrder = ["exterior", "interior", "highlight"];
   const availableCategories = categoryOrder.filter(
     (cat) => imagesByCategory[cat] && imagesByCategory[cat].length > 0
   );
 
-  // If the selectedCategory is not available, switch to the first available category.
   useEffect(() => {
-    if (availableCategories.length > 0 && !availableCategories.includes(selectedCategory)) {
+    if (
+      availableCategories.length > 0 &&
+      !availableCategories.includes(selectedCategory)
+    ) {
       setSelectedCategory(availableCategories[0]);
     }
   }, [availableCategories, selectedCategory]);
 
-  // When the category changes, force the main slider to go to the starting slide index
-  // and reset the current index so the first image is active.
   useEffect(() => {
-    if (mainSliderRef.current) {
-      mainSliderRef.current.slickGoTo(startingSlideIndex, true);
+    if (nav1) {
+      nav1.slickGoTo(startingSlideIndex, true);
       setCurrentIndex(startingSlideIndex);
       setStartingSlideIndex(0);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, nav1]);
 
+  // Initialize PhotoSwipe lightbox (code unchanged)
   useEffect(() => {
-    // Initialize PhotoSwipe lightbox
     const lightbox = new PhotoSwipeLightbox({
       gallery: "#my-gallery",
       children: ".image",
@@ -103,27 +111,22 @@ export default function Slider1({ carResponse }) {
     };
   }, []);
 
-  // Prepare images array for the current category
   const images = imagesByCategory[selectedCategory] || [];
+  const computedSlidesToShow = images.length > 0 ? Math.min(5, images.length) : 1;
 
-  // Main slider settings
   const mainSettings = {
     dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false, // We'll use custom navigation buttons
-    asNavFor: thumbSliderRef.current, // Link to thumbnail slider
+    arrows: false,
+    asNavFor: nav2, // use the slider instance state
     afterChange: (index) => {
       setCurrentIndex(index);
     },
   };
 
-  // Determine the number of thumbnails to show (responsive)
-  const computedSlidesToShow = images.length > 0 ? Math.min(5, images.length) : 1;
-
-  // Thumbnail slider settings
   const thumbSettings = {
     dots: false,
     infinite: false,
@@ -132,7 +135,7 @@ export default function Slider1({ carResponse }) {
     slidesToScroll: 1,
     arrows: true,
     focusOnSelect: true,
-    asNavFor: mainSliderRef.current, // Link to main slider
+    asNavFor: nav1, // use the slider instance state
     nextArrow: <ThumbnailNextArrow slidesToShow={computedSlidesToShow} />,
     prevArrow: <ThumbnailPrevArrow />,
     responsive: [
@@ -151,24 +154,21 @@ export default function Slider1({ carResponse }) {
     ],
   };
 
-  // Custom next button handler for the main slider
+  // Navigation handlers remain the same
   const handleNext = () => {
     if (currentIndex === images.length - 1) {
-      // At the end of the current category. Check if a next category exists.
       const currentCatIndex = availableCategories.indexOf(selectedCategory);
       if (currentCatIndex < availableCategories.length - 1) {
-        setStartingSlideIndex(0); // start at the first slide of the next category
+        setStartingSlideIndex(0);
         setSelectedCategory(availableCategories[currentCatIndex + 1]);
       }
     } else {
-      mainSliderRef.current.slickNext();
+      nav1.slickNext();
     }
   };
 
-  // Custom previous button handler for the main slider
   const handlePrev = () => {
     if (currentIndex === 0) {
-      // At the beginning of the current category. Check if a previous category exists.
       const currentCatIndex = availableCategories.indexOf(selectedCategory);
       if (currentCatIndex > 0) {
         const prevCategory = availableCategories[currentCatIndex - 1];
@@ -177,10 +177,9 @@ export default function Slider1({ carResponse }) {
         setSelectedCategory(prevCategory);
       }
     } else {
-      mainSliderRef.current.slickPrev();
+      nav1.slickPrev();
     }
   };
-
   return (
     <div>
       {/* Global CSS */}
@@ -249,6 +248,11 @@ export default function Slider1({ carResponse }) {
         .next-button {
           right: 10px;
         }
+          .thumbnail img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
         /* Thumbnail Slider */
         .thumbnail {
@@ -256,6 +260,9 @@ export default function Slider1({ carResponse }) {
           opacity: 0.6;
           border: 2px solid transparent;
           padding: 2px;
+          width:160px;
+          height: 110px;
+          overflow: hidden;
         }
         .thumbnail.active {
           opacity: 1;

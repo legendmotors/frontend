@@ -49,7 +49,7 @@
   "sending_welcome_code": "جاري إرسال رمز الترحيب...",
   "resend_welcome_code_in": "أعد إرسال رمز الترحيب خلال {{timer}} ثانية",
   "resend_welcome_code": "أعد إرسال رمز الترحيب",
-  "enter_otp": "أدخل رمز التحقق",
+  "enter_welcome_code": "أدخل رمز الترحيب",
   "enter_password": "أدخل كلمة المرور",
   "submitting": "جاري الإرسال...",
   "sign_up": "تسجيل",

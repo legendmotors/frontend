@@ -20,7 +20,7 @@ export default function TranslationsProvider({ children, locale, namespaces }) {
   }, [locale, namespaces]);
 
   if (!i18n) {
-    return <div>Loading translations...</div>;
+    return <div></div>;
   }
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;

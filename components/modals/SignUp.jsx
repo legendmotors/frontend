@@ -198,14 +198,14 @@ export default function SignUp() {
                       {/* OTP Input - Shown only after OTP is sent */}
                       {otpSent && (
                         <div>
-                          <label htmlFor="otp">{t("enter_otp")}</label>
+                          <label htmlFor="otp">{t("enter_welcome_code")}</label>
                           <div className="relative text-white-dark">
                             <Field
                               id="otp"
                               name="otp"
                               type="text"
                               className="form-input ps-10 placeholder:text-white-dark"
-                              placeholder={t("enter_otp")}
+                              placeholder={t("enter_welcome_code")}
                             />
                           </div>
                           <ErrorMessage name="otp" component="div" className="text-red-500 text-sm" />

@@ -49,7 +49,7 @@
   "sending_welcome_code": "Отправка кода приветствия...",
   "resend_welcome_code_in": "Повторная отправка кода приветствия через {{timer}} секунд",
   "resend_welcome_code": "Повторно отправить код приветствия",
-  "enter_otp": "Введите OTP",
+  "enter_welcome_code": "Введите код приветствия",
   "enter_password": "Введите пароль",
   "submitting": "Отправка...",
   "sign_up": "Зарегистрироваться",

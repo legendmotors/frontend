@@ -49,7 +49,7 @@
   "sending_welcome_code": "Enviando código de bienvenida...",
   "resend_welcome_code_in": "Reenviar código de bienvenida en {{timer}} segundos",
   "resend_welcome_code": "Reenviar código de bienvenida",
-  "enter_otp": "Ingresa el OTP",
+  "enter_welcome_code": "Ingrese el código de bienvenida",
   "enter_password": "Ingresa tu contraseña",
   "submitting": "Enviando...",
   "sign_up": "Registrarse",

@@ -49,7 +49,7 @@
   "sending_welcome_code": "正在发送欢迎码...",
   "resend_welcome_code_in": "{{timer}}秒后重新发送欢迎码",
   "resend_welcome_code": "重新发送欢迎码",
-  "enter_otp": "请输入验证码",
+  "enter_welcome_code": "输入欢迎码",
   "enter_password": "请输入密码",
   "submitting": "提交中...",
   "sign_up": "注册",
