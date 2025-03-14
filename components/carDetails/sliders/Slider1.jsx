@@ -341,9 +341,9 @@ export default function Slider1({ carResponse }) {
                 {/* Wrap your Image in .main-slider-image to restrict its height on mobile */}
                 <div className="main-slider-image">
                   <a
-                    href={imgUrl}
-                    data-pswp-width="1245"
-                    data-pswp-height="701"
+                    href={process.env.NEXT_PUBLIC_FILE_PREVIEW_URL + imgUrl}
+                    data-pswp-width="1600"
+                    data-pswp-height="900"
                     className="image"
                     onClick={(e) => e.preventDefault()}
                   >
@@ -355,6 +355,7 @@ export default function Slider1({ carResponse }) {
                       style={{ objectFit: "cover", width: "100%", height: "100%" }}
                     />
                   </a>
+
                 </div>
               </div>
             );
