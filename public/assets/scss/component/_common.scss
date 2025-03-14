@@ -107,16 +107,3 @@
     font-size: 1.5rem;
   }
 }
-
-
-.logo img {
-  width: 160px;
-  height: 40px;
-}
-
-@media (max-width: 768px) {
-  .logo img {
-    width: 120px !important;
-    height: 50px !important;
-  }
-}
